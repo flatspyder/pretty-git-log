@@ -1,0 +1,18 @@
+
+export interface GitCommit {
+  hash: string;
+  treeHash: string;
+  parentHashes: string[];
+  author: {
+    name: string;
+    email: string;
+    date: Date;
+  };
+  committer: {
+    name: string;
+    email: string;
+    date: Date;
+  };
+  subject: string;
+  refs: string;
+}

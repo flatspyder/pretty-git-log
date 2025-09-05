@@ -1,0 +1,5 @@
+{
+  "name": "Git Log Pretty Format Simulator",
+  "description": "A web application to visualize the effect of Git's 'log --pretty=format:<string>' command. Enter a format string and see how it styles synthetic Git log data in real-time.",
+  "requestFramePermissions": []
+}
