@@ -23,7 +23,7 @@ const sampleCommit: GitCommit = {
     date: new Date('2023-02-02T00:00:00Z'),
   },
   subject: 'Initial commit',
-  refs: 'HEAD -> main',
+  refs: ' (HEAD -> main)',
 };
 
 test('formats placeholders', () => {
@@ -56,6 +56,7 @@ test('formats placeholders', () => {
     ['%ch', 'Thu, 02 Feb 2023 00:00:00 GMT'],
     ['%s', sampleCommit.subject],
     ['%d', sampleCommit.refs],
+    ['%D', 'HEAD -> main'],
     ['%n', '\n'],
     ['%as', sampleCommit.author.date.toISOString().slice(0, 10)],
     ['%cs', sampleCommit.committer.date.toISOString().slice(0, 10)],
@@ -65,5 +66,41 @@ test('formats placeholders', () => {
 
   for (const [fmt, expected] of cases) {
     assert.equal(formatGitLog(fmt, [sampleCommit])[0], expected);
+  }
+});
+
+test('formats message and body placeholders', () => {
+  const commitWithBody: GitCommit = {
+    hash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    treeHash: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+    parentHashes: [
+      'cccccccccccccccccccccccccccccccccccccccc',
+      'dddddddddddddddddddddddddddddddddddddddd',
+    ],
+    author: {
+      name: 'Alice',
+      email: 'alice@example.com',
+      date: new Date('2023-01-01T12:34:56Z'),
+    },
+    committer: {
+      name: 'Bob',
+      email: 'bob@example.com',
+      date: new Date('2023-02-02T00:00:00Z'),
+    },
+    subject: 'feat: This is a test commit with /slashes/',
+    body: 'This is the first line of the body.\n\nThis is the second, after a blank line.',
+    refs: 'HEAD -> main',
+    encoding: 'UTF-8',
+  };
+
+  const cases: [string, string][] = [
+    ['%f', 'feat-This-is-a-test-commit-with-slashes'],
+    ['%b', commitWithBody.body!],
+    ['%B', `${commitWithBody.subject}\n\n${commitWithBody.body}`],
+    ['%e', commitWithBody.encoding!],
+  ];
+
+  for (const [fmt, expected] of cases) {
+    assert.equal(formatGitLog(fmt, [commitWithBody])[0], expected);
   }
 });

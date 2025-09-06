@@ -14,5 +14,7 @@ export interface GitCommit {
     date: Date;
   };
   subject: string;
+  body?: string;
   refs: string;
+  encoding?: string;
 }
