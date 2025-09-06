@@ -88,7 +88,12 @@ function formatCommitLine(format: string, commit: GitCommit): string {
     '%ct': () => Math.floor(commit.committer.date.getTime() / 1000).toString(),
     '%cr': () => timeAgo(commit.committer.date),
     '%s': () => commit.subject,
+    '%f': () => commit.subject.replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
+    '%b': () => commit.body || '',
+    '%B': () => `${commit.subject}\n\n${commit.body || ''}`,
+    '%e': () => commit.encoding || '',
     '%d': () => commit.refs,
+    '%D': () => commit.refs.replace(/^\s*\((.*)\)\s*$/, '$1'),
     '%n': () => '\n', // Added newline placeholder
   };
 

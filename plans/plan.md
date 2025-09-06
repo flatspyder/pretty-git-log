@@ -13,7 +13,7 @@ same semantics as `git log --pretty=format:"..."`.
 - `%cn` / `%ce` – committer name / email
 - `%cd` / `%cr` – committer date / relative committer date
 - `%s` – subject line
-- `%d` – ref names
+- `%d` / `%D` – ref names / ref names without wrapping
 - `%n` – newline
 - `%as` / `%cs` – author/committer date, short (`YYYY-MM-DD`)
 - `%at` / `%ct` – author/committer date, UNIX timestamp
@@ -23,6 +23,7 @@ same semantics as `git log --pretty=format:"..."`.
 - `%cN` / `%cE` – committer name / email (mailmap)
 - `%cl` / `%cL` – committer email local-part
 - `%ci` / `%cI` / `%ch` – committer date ISO-like / strict ISO / human
+- Message/body fields: `%f`, `%b`, `%B`, `%e`
 
 ## Planned Additions
 The reference (`reference/git_pretty_reference.html`) documents many more
@@ -31,8 +32,7 @@ fields, signature indicators, and other advanced features.
 
 ## Not Yet Implemented / Tracked
 These placeholders exist in the reference but are not yet handled:
-- Message/body fields: `%f`, `%b`, `%B`, `%e`
-- Decoration fields: `%D`, `%gD`, `%gN`, `%g*`
+- Decoration fields: `%gD`, `%gN`, `%g*` (Note: requires reflog data)
 - GPG/signature fields: `%G*`, `%GF`, `%GG`, `%GP`, `%GS`, `%GT`
 - Notes and refs: `%N`, `%S`
 - Formatting helpers: `%C(color)`, `%Creset`, `%m`, `%w(...)`, `%xNN` for hex
