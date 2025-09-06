@@ -18,3 +18,6 @@ format string which is displayed in a read-only textarea.
 - [x] Provide a small helper function to convert a chip sequence to a format
       string and test it with Node's `test` runner.
 - [x] Ensure existing tests continue to pass.
+- [x] Replace placeholder labels with human-readable names.
+- [x] Expand chip palette to include all supported format elements grouped by type.
+- [x] Remove the unused `group` field from `FormatChip` and update tests.
