@@ -26,6 +26,26 @@ function timeAgo(date: Date): string {
   return Math.floor(seconds) + " seconds ago";
 }
 
+function pad(num: number): string {
+  return num.toString().padStart(2, '0');
+}
+
+function timezoneOffset(date: Date): string {
+  const offset = -date.getTimezoneOffset();
+  const sign = offset >= 0 ? '+' : '-';
+  const abs = Math.abs(offset);
+  return `${sign}${pad(Math.floor(abs / 60))}${pad(abs % 60)}`;
+}
+
+function formatIsoLike(date: Date): string {
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())} ${timezoneOffset(date)}`;
+}
+
+function formatStrictIso(date: Date): string {
+  const tz = timezoneOffset(date);
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}${tz.slice(0, 3)}:${tz.slice(3)}`;
+}
+
 /**
  * Replaces Git log format placeholders in a string with data from a commit object.
  * This function handles data replacement, not color parsing.
@@ -42,14 +62,28 @@ function formatCommitLine(format: string, commit: GitCommit): string {
     '%P': () => commit.parentHashes.join(' '),
     '%p': () => commit.parentHashes.map(h => h.substring(0, 7)).join(' '),
     '%an': () => commit.author.name,
+    '%aN': () => commit.author.name,
     '%ae': () => commit.author.email,
+    '%aE': () => commit.author.email,
+    '%al': () => commit.author.email.split('@')[0],
+    '%aL': () => commit.author.email.split('@')[0],
     '%ad': () => commit.author.date.toString(),
+    '%ai': () => formatIsoLike(commit.author.date),
+    '%aI': () => formatStrictIso(commit.author.date),
+    '%ah': () => commit.author.date.toUTCString(),
     '%as': () => commit.author.date.toISOString().slice(0, 10),
     '%at': () => Math.floor(commit.author.date.getTime() / 1000).toString(),
     '%ar': () => timeAgo(commit.author.date),
     '%cn': () => commit.committer.name,
+    '%cN': () => commit.committer.name,
     '%ce': () => commit.committer.email,
+    '%cE': () => commit.committer.email,
+    '%cl': () => commit.committer.email.split('@')[0],
+    '%cL': () => commit.committer.email.split('@')[0],
     '%cd': () => commit.committer.date.toString(),
+    '%ci': () => formatIsoLike(commit.committer.date),
+    '%cI': () => formatStrictIso(commit.committer.date),
+    '%ch': () => commit.committer.date.toUTCString(),
     '%cs': () => commit.committer.date.toISOString().slice(0, 10),
     '%ct': () => Math.floor(commit.committer.date.getTime() / 1000).toString(),
     '%cr': () => timeAgo(commit.committer.date),
