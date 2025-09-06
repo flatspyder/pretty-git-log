@@ -88,8 +88,16 @@ const STYLE_GROUPS: ChipGroup[] = [
   {
     title: 'Colors',
     chips: [
-      { id: 'C-yellow', label: 'Color: yellow', value: '%C(yellow)' },
+      { id: 'C-normal', label: 'Color: normal', value: '%C(normal)' },
+      { id: 'C-black', label: 'Color: black', value: '%C(black)' },
+      { id: 'C-red', label: 'Color: red', value: '%C(red)' },
       { id: 'C-green', label: 'Color: green', value: '%C(green)' },
+      { id: 'C-yellow', label: 'Color: yellow', value: '%C(yellow)' },
+      { id: 'C-blue', label: 'Color: blue', value: '%C(blue)' },
+      { id: 'C-magenta', label: 'Color: magenta', value: '%C(magenta)' },
+      { id: 'C-cyan', label: 'Color: cyan', value: '%C(cyan)' },
+      { id: 'C-white', label: 'Color: white', value: '%C(white)' },
+      { id: 'C-default', label: 'Color: default', value: '%C(default)' },
       { id: 'C-reset', label: 'Reset color', value: '%C(reset)' },
     ],
   },
