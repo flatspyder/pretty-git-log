@@ -1,14 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import LogDisplay from './components/LogDisplay';
-import { DEFAULT_FORMAT, SYNTHETIC_LOG_DATA } from './constants';
+import FormatBuilder from './components/FormatBuilder';
+import { SYNTHETIC_LOG_DATA } from './constants';
 import { formatGitLog } from './services/gitFormatter';
 
 const App: React.FC = () => {
-  const [formatString, setFormatString] = useState<string>(DEFAULT_FORMAT);
-
-  const handleFormatChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFormatString(event.target.value);
-  };
+  const [formatString, setFormatString] = useState<string>('');
 
   const formattedLines = useMemo(() => {
     if (!formatString.trim()) {
@@ -34,23 +31,23 @@ const App: React.FC = () => {
       </header>
 
       <main className="w-full max-w-4xl">
+        <FormatBuilder onChange={setFormatString} />
         <div className="flex flex-col">
-          <label htmlFor="format-input" className="mb-2 text-sm font-medium text-slate-400">
-            Enter your format string:
+          <label htmlFor="format-output" className="mb-2 text-sm font-medium text-slate-400">
+            Current format string:
           </label>
           <textarea
-            id="format-input"
+            id="format-output"
             value={formatString}
-            onChange={handleFormatChange}
-            className="w-full h-28 p-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-200 font-mono text-sm focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-shadow duration-200"
-            placeholder="e.g., %h - %s"
+            readOnly
+            className="w-full h-28 p-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-200 font-mono text-sm"
             spellCheck="false"
           />
         </div>
-        
+
         <LogDisplay lines={formattedLines} />
       </main>
-      
+
       <footer className="mt-12 text-center text-slate-500 text-sm">
         <p>Common placeholders: %h, %H, %s, %an, %ar, %d, %n, %C(yellow), %C(reset)</p>
         <p>&copy; {new Date().getFullYear()} - Built for demonstration.</p>

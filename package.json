@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "rm -rf dist && tsc tests/gitFormatter.test.ts services/gitFormatter.ts types.ts --outDir dist --module es2022 --target ES2022 --esModuleInterop --moduleResolution bundler --skipLibCheck && node dist/tests/gitFormatter.test.js"
+    "test": "rm -rf dist && tsc tests/gitFormatter.test.ts tests/chipFormatter.test.ts services/gitFormatter.ts services/chipFormatter.ts types.ts --outDir dist --module es2022 --target ES2022 --esModuleInterop --moduleResolution bundler --skipLibCheck && node dist/tests/gitFormatter.test.js && node dist/tests/chipFormatter.test.js"
   },
   "dependencies": {
     "react": "^19.1.1",
