@@ -9,6 +9,7 @@ interface LogDisplayProps {
 const COLOR_MAP: { [key: string]: string } = {
   normal: '',
   reset: '',
+  default: '',
   black: 'text-slate-500',
   red: 'text-red-500',
   green: 'text-green-500',

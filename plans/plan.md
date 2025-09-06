@@ -24,6 +24,7 @@ same semantics as `git log --pretty=format:"..."`.
 - `%cl` / `%cL` – committer email local-part
 - `%ci` / `%cI` / `%ch` – committer date ISO-like / strict ISO / human
 - Message/body fields: `%f`, `%b`, `%B`, `%e`
+- Color directives: `%C(<color>)`, `%C(reset)` (normal, black, red, green, yellow, blue, magenta, cyan, white, default)
 
 ## Planned Additions
 The reference (`reference/git_pretty_reference.html`) documents many more
@@ -35,7 +36,7 @@ These placeholders exist in the reference but are not yet handled:
 - Decoration fields: `%gD`, `%gN`, `%g*` (Note: requires reflog data)
 - GPG/signature fields: `%G*`, `%GF`, `%GG`, `%GP`, `%GS`, `%GT`
 - Notes and refs: `%N`, `%S`
-- Formatting helpers: `%C(color)`, `%Creset`, `%m`, `%w(...)`, `%xNN` for hex
+- Formatting helpers: `%m`, `%w(...)`, `%xNN` for hex
 
 These items remain TODO and should be implemented or explicitly scoped out in
 future iterations.
