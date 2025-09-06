@@ -46,33 +46,33 @@ const App: React.FC = () => {
         </header>
 
         <main className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 flex flex-col gap-8">
+            <div>
               <label className="mb-2 block text-sm font-medium text-slate-400">
-                  Format String Builder
+                Format String Builder
               </label>
               <ChipEditor chips={activeChips} setChips={setActiveChips} />
+            </div>
 
-              <div className="mt-4">
-                  <label className="mb-2 block text-sm font-medium text-slate-400">
-                      Generated Format String
-                  </label>
-                  <input
-                      type="text"
-                      readOnly
-                      value={formatString}
-                      className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-200 font-mono text-sm"
-                  />
-              </div>
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-400">
+                Generated Format String
+              </label>
+              <input
+                type="text"
+                readOnly
+                value={formatString}
+                className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-200 font-mono text-sm"
+              />
+            </div>
+
+            <LogDisplay lines={formattedLines} />
           </div>
 
           <div className="md:col-span-1">
             <ChipPalette />
           </div>
         </main>
-
-        <div className="w-full max-w-6xl mt-8">
-          <LogDisplay lines={formattedLines} />
-        </div>
 
         <footer className="mt-12 text-center text-slate-500 text-sm">
           <p>Built with React, TypeScript, and Tailwind CSS. Drag and drop functionality coming soon!</p>
