@@ -1,4 +1,4 @@
-import { GitCommit } from '../types';
+import { GitCommit } from '../types.js';
 
 /**
  * Calculates a human-readable "time ago" string for a given date.

@@ -1,5 +1,9 @@
 import { GitCommit } from './types';
 
+export const ItemTypes = {
+  CHIP: 'chip',
+};
+
 export const DEFAULT_FORMAT = "%C(yellow)%h%C(reset) -%C(auto)%d%C(reset) %s%n  %C(green)(%ar)%C(reset) %C(bold blue)<%an>%C(reset)";
 
 export const SYNTHETIC_LOG_DATA: GitCommit[] = [
