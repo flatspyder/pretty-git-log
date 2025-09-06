@@ -18,3 +18,10 @@ export interface GitCommit {
   refs: string;
   encoding?: string;
 }
+
+export interface FormatChip {
+  id: string;
+  label: string;
+  value: string;
+  group: 'element' | 'style';
+}
