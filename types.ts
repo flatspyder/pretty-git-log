@@ -23,4 +23,5 @@ export interface FormatChip {
   id: string;
   label: string;
   value: string;
+  className?: string;
 }
