@@ -204,3 +204,36 @@ export const STYLE_CHIPS: ChipGroup = {
     { id: 'C-reset', label: 'Reset color', value: '%C(reset)' },
   ],
 };
+
+const spaceChip: FormatChip = { id: 'space', label: ' ', value: ' ' };
+
+export const PRESET_FORMATS: { [key: string]: FormatChip[] } = {
+  oneline: [
+    { ...HASH_CHIPS.chips.find(c => c.id === 'h')! },
+    spaceChip,
+    { ...SUBJECT_BODY_CHIPS.chips.find(c => c.id === 's')! },
+  ],
+  short: [
+    { id: 'literal-commit', label: 'commit ', value: 'commit ' },
+    { ...HASH_CHIPS.chips.find(c => c.id === 'h')! },
+    spaceChip,
+    { id: 'literal-author', label: 'Author: ', value: 'Author: ' },
+    { ...AUTHOR_CHIPS.chips.find(c => c.id === 'an')! },
+    spaceChip,
+    { ...SUBJECT_BODY_CHIPS.chips.find(c => c.id === 's')! },
+  ],
+  medium: [
+    { id: 'literal-commit', label: 'commit ', value: 'commit ' },
+    { ...HASH_CHIPS.chips.find(c => c.id === 'h')! },
+    spaceChip,
+    { id: 'literal-author', label: 'Author: ', value: 'Author: ' },
+    { ...AUTHOR_CHIPS.chips.find(c => c.id === 'an')! },
+    spaceChip,
+    { id: 'literal-date', label: 'Date: ', value: 'Date: ' },
+    { ...AUTHOR_CHIPS.chips.find(c => c.id === 'ad')! },
+    { ...MISC_CHIPS.chips.find(c => c.id === 'n')! },
+    { ...SUBJECT_BODY_CHIPS.chips.find(c => c.id === 's')! },
+    { ...MISC_CHIPS.chips.find(c => c.id === 'n')! },
+    { ...SUBJECT_BODY_CHIPS.chips.find(c => c.id === 'b')! },
+  ],
+};
