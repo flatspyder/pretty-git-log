@@ -1,9 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 // @ts-ignore
-import { chipsToFormatString } from '../services/chipFormatter.js';
+import { chipsToFormatString } from '../src/services/chipFormatter.js';
 // @ts-ignore
-import { FormatChip } from '../types.js';
+import { FormatChip } from '../src/types.js';
 
 test('converts chips to format string', () => {
   const chips: FormatChip[] = [

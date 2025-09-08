@@ -1,9 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 // @ts-ignore
-import { formatGitLog } from '../services/gitFormatter.js';
+import { formatGitLog } from '../src/services/gitFormatter.js';
 // @ts-ignore
-import { GitCommit } from '../types.js';
+import { GitCommit } from '../src/types.js';
 
 const sampleCommit: GitCommit = {
   hash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',

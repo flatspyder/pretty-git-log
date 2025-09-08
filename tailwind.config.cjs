@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './index.html',
-    './**/*.{ts,tsx}'
+    './src/index.html', // remains for the root html file
+    './src/**/*.{ts,tsx}', // scans only inside the src folder
   ],
   theme: {
     extend: {

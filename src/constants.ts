@@ -1,4 +1,4 @@
-import { GitCommit } from './types';
+import { GitCommit } from './types.ts';
 import { nanoid } from 'nanoid';
 
 export const DEFAULT_FORMAT = "%C(yellow)%h%C(reset) -%C(auto)%d%C(reset) %s%n  %C(green)(%ar)%C(reset) %C(bold blue)<%an>%C(reset)";
@@ -108,7 +108,7 @@ export const SYNTHETIC_LOG_DATA: GitCommit[] = [
   },
 ];
 
-import { ChipGroup, FormatChip } from './types';
+import { ChipGroup, FormatChip } from './types.ts';
 
 const createElementChip = (chip: Omit<FormatChip, 'type'>): FormatChip => ({ ...chip, type: 'element' });
 const createStyleChip = (chip: Omit<FormatChip, 'type'>): FormatChip => ({ ...chip, type: 'style' });
