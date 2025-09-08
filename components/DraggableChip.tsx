@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
 import { FormatChip, ChipGroup } from '../types';
-import { colorMap, getContrastingTextColor } from '../services/colorUtils';
+import { colorMap } from '../services/colorUtils';
 
 const ITEM_TYPE = 'chip';
 
@@ -36,6 +36,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
   const ref = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [inputValue, setInputValue] = useState(chip.value);
 
   const [, drop] = useDrop<DragItem, void, unknown>({
     accept: ITEM_TYPE,
@@ -86,19 +87,18 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
 
   const opacity = isDragging ? 0 : 1;
 
-  const getColorStyle = () => {
+  const getColorClassName = () => {
+    if (chip.type !== 'style') return 'bg-surface-hover';
     const colorMatch = chip.value.match(/%C\(([^)]+)\)/);
     if (colorMatch && colorMatch[1] !== 'reset' && colorMatch[1] !== 'normal' && colorMatch[1] !== 'default') {
       const color = colorMatch[1];
-      const backgroundColor = colorMap[color] || color;
-      const textColor = getContrastingTextColor(color);
-      return { backgroundColor, color: textColor };
+      return colorMap[color] || 'bg-surface-hover';
     }
-    return {};
+    return 'bg-surface-hover';
   };
 
   const findChipGroup = () => {
-    if (chip.id.startsWith('literal-') || chip.id === 'space') return null;
+    if (chip.type === 'text' || chip.id === 'space') return null;
     return chipGroups.find(group => group.chips.some(c => c.id === chip.id));
   };
 
@@ -107,21 +107,39 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
     setEditing(null);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputBlur = () => {
+    updateChip(index, { ...chip, value: inputValue });
+    setEditing(null);
+  };
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleInputBlur();
+    }
+  };
+
   const chipGroup = findChipGroup();
 
   const getChipParts = () => {
+    if (chip.type === 'text') {
+      return { type: 'Text', variant: chip.value };
+    }
     if (chip.id.startsWith('literal-')) {
       return { type: 'Literal', variant: chip.label };
     }
     if (chip.id === 'space') {
       return { type: 'Space', variant: '' };
     }
-    if (chip.label.includes(': ')) {
+    if (chip.label && chip.label.includes(': ')) {
       const parts = chip.label.split(': ');
       return { type: parts[0], variant: parts[1] || '' };
     }
-    const parts = chip.label.split(' ');
-    const type = parts[0];
+    const parts = chip.label ? chip.label.split(' ') : [];
+    const type = parts[0] || '';
     const variant = parts.slice(1).join(' ');
     return { type, variant };
   };
@@ -129,7 +147,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
   const { type, variant } = getChipParts();
 
   return (
-    <div className="relative" ref={ref}>
+    <div className="relative" ref={ref} data-testid={`chip-${chip.id}`}>
       <div
         style={{ opacity }}
           className="flex items-center bg-surface text-light rounded text-sm overflow-hidden border border-border"
@@ -138,11 +156,23 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
           {type}
         </div>
         <div
-          style={getColorStyle()}
-          className="px-2 py-1 bg-surface-hover border-l border-r border-border"
-          onClick={() => chipGroup && setEditing(index)}
+          className={`px-2 py-1 border-l border-r border-border ${getColorClassName()}`}
+          onClick={() => (chipGroup || chip.type === 'text') && setEditing(index)}
         >
-          {variant}
+          {isEditing && chip.type === 'text' ? (
+            <input
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              onBlur={handleInputBlur}
+              onKeyDown={handleInputKeyDown}
+              className="bg-transparent text-light outline-none"
+              autoFocus
+              data-testid="text-chip-input"
+            />
+          ) : (
+            variant
+          )}
         </div>
         <button onClick={() => removeChip(index)} className="px-2 py-1 text-danger hover:bg-surface-muted">
           &times;
