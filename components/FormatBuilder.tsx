@@ -36,16 +36,16 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
   return (
     <div className="w-full max-w-4xl mb-8">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold text-cyan-400">2. Build Your Format</h2>
+          <h2 className="text-xl font-bold text-accent">2. Build Your Format</h2>
         <div className="text-sm">
-          <span className="text-slate-400 mr-2">Examples:</span>
-          <button onClick={() => applyPreset('oneline')} className="text-cyan-400 hover:underline mr-2">oneline</button>
-          <button onClick={() => applyPreset('short')} className="text-cyan-400 hover:underline mr-2">short</button>
-          <button onClick={() => applyPreset('medium')} className="text-cyan-400 hover:underline">medium</button>
+            <span className="text-secondary mr-2">Examples:</span>
+            <button onClick={() => applyPreset('oneline')} className="text-accent hover:underline mr-2">oneline</button>
+            <button onClick={() => applyPreset('short')} className="text-accent hover:underline mr-2">short</button>
+            <button onClick={() => applyPreset('medium')} className="text-accent hover:underline">medium</button>
         </div>
       </div>
       <div className="flex-1">
-        <div className="flex flex-wrap gap-2 p-2 bg-slate-800 border border-slate-700 rounded min-h-[42px]">
+          <div className="flex flex-wrap gap-2 p-2 bg-surface border border-border rounded min-h-[42px]">
           {chips.map((chip, idx) => (
             <DraggableChip
               key={chip.id + idx}

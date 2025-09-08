@@ -10,23 +10,23 @@ const COLOR_MAP: { [key: string]: string } = {
   normal: '',
   reset: '',
   default: '',
-  black: 'text-slate-500',
+  black: 'text-muted',
   red: 'text-red-500',
   green: 'text-green-500',
   yellow: 'text-yellow-400',
   blue: 'text-blue-400',
   magenta: 'text-pink-500',
-  cyan: 'text-cyan-400',
-  white: 'text-slate-200',
-  'bold black': 'text-slate-400 font-bold',
+  cyan: 'text-accent',
+  white: 'text-light',
+  'bold black': 'text-secondary font-bold',
   'bold red': 'text-red-400 font-bold',
   'bold green': 'text-green-400 font-bold',
   'bold yellow': 'text-yellow-300 font-bold',
   'bold blue': 'text-blue-300 font-bold',
   'bold magenta': 'text-pink-400 font-bold',
-  'bold cyan': 'text-cyan-300 font-bold',
-  'bold white': 'text-slate-50 font-bold',
-  auto: 'text-cyan-400 font-bold', // %C(auto) is used for refs, we'll make it cyan.
+  'bold cyan': 'text-accent font-bold',
+  'bold white': 'text-white font-bold',
+  auto: 'text-accent font-bold', // %C(auto) is used for refs, we'll make it cyan.
 };
 
 /**
@@ -68,8 +68,8 @@ const parseLineToJsx = (line: string): JSX.Element[] => {
 
 const LogDisplay: React.FC<LogDisplayProps> = ({ lines }) => {
   return (
-    <div className="bg-slate-800 border border-slate-700 rounded-lg shadow-lg mt-6 w-full max-w-4xl mx-auto">
-      <div className="bg-slate-700/50 px-4 py-2 rounded-t-lg text-xs text-slate-400 font-sans">
+    <div className="bg-surface border border-border rounded-lg shadow-lg mt-6 w-full max-w-4xl mx-auto">
+      <div className="bg-surface-muted/50 px-4 py-2 rounded-t-lg text-xs text-secondary font-sans">
         Formatted Git Log Output
       </div>
       <pre className="p-4 text-sm font-mono overflow-x-auto">

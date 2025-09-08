@@ -18,7 +18,7 @@ const TextChip: React.FC<TextChipProps> = ({ onSelect }) => {
     <button
       type="button"
       onClick={handleClick}
-      className="px-3 py-1 rounded-md border border-slate-600 bg-slate-700 text-sm font-medium text-slate-200 hover:bg-slate-600"
+        className="px-3 py-1 rounded-md border border-surface-hover bg-surface-muted text-sm font-medium text-light hover:bg-surface-hover"
     >
       Text
     </button>
