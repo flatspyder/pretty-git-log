@@ -34,6 +34,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
   chipGroups,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [, drop] = useDrop<DragItem, void, unknown>({
@@ -62,6 +63,9 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
     }),
   });
 
+  drag(dragRef);
+  drop(ref);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -81,7 +85,6 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
   }, [isEditing, setEditing]);
 
   const opacity = isDragging ? 0 : 1;
-  drag(drop(ref));
 
   const getColorStyle = () => {
     const colorMatch = chip.value.match(/%C\(([^)]+)\)/);
@@ -106,16 +109,36 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
 
   const chipGroup = findChipGroup();
 
+  const getChipParts = () => {
+    if (chip.id.startsWith('literal-')) {
+      return { type: 'Literal', variant: chip.label };
+    }
+    if (chip.id === 'space') {
+      return { type: 'Space', variant: '' };
+    }
+    const parts = chip.label.split(': ');
+    return { type: parts[0], variant: parts[1] || '' };
+  };
+
+  const { type, variant } = getChipParts();
+
   return (
-    <div className="relative">
+    <div className="relative" ref={ref}>
       <div
-        ref={ref}
-        style={{ ...getColorStyle(), opacity }}
-        className="bg-slate-700 text-slate-200 px-2 py-1 rounded text-sm cursor-move"
-        onClick={() => chipGroup && setEditing()}
+        style={{ opacity }}
+        className="flex items-center bg-slate-800 text-slate-200 rounded text-sm overflow-hidden border border-slate-700"
       >
-        <span>{chip.label}</span>
-        <button onClick={() => removeChip(index)} className="ml-2 text-red-500 hover:text-red-400">
+        <div ref={dragRef} className="px-2 py-1 cursor-move bg-slate-700">
+          {type}
+        </div>
+        <div
+          style={getColorStyle()}
+          className="px-2 py-1 bg-slate-600 border-l border-r border-slate-700"
+          onClick={() => chipGroup && setEditing()}
+        >
+          {variant}
+        </div>
+        <button onClick={() => removeChip(index)} className="px-2 py-1 text-red-500 hover:bg-slate-700">
           &times;
         </button>
       </div>
