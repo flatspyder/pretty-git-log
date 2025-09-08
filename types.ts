@@ -20,8 +20,9 @@ export interface GitCommit {
 }
 
 export interface FormatChip {
-  id:string;
-  label: string;
+  id: string;
+  type: 'element' | 'style' | 'text';
+  label?: string;
   value: string;
 }
 
