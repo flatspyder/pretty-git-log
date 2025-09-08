@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { FormatChip } from '../types';
 import DraggableChip from './DraggableChip';
-import { PRESET_FORMATS, ELEMENT_CHIP_GROUPS } from '../constants';
+import { PRESET_FORMATS, ELEMENT_CHIP_GROUPS, STYLE_CHIPS } from '../constants';
 
 interface FormatBuilderProps {
   chips: FormatChip[];
@@ -55,8 +55,8 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
               removeChip={removeChip}
               updateChip={updateChip}
               isEditing={editingChipIndex === idx}
-              setEditing={() => setEditingChipIndex(idx)}
-              chipGroups={ELEMENT_CHIP_GROUPS}
+              setEditing={setEditingChipIndex}
+              chipGroups={[...ELEMENT_CHIP_GROUPS, STYLE_CHIPS]}
             />
           ))}
         </div>

@@ -13,7 +13,7 @@ interface DraggableChipProps {
   removeChip: (index: number) => void;
   updateChip: (index: number, newChip: FormatChip) => void;
   isEditing: boolean;
-  setEditing: () => void;
+  setEditing: (index: number | null) => void;
   chipGroups: ChipGroup[];
 }
 
@@ -116,8 +116,14 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
     if (chip.id === 'space') {
       return { type: 'Space', variant: '' };
     }
-    const parts = chip.label.split(': ');
-    return { type: parts[0], variant: parts[1] || '' };
+    if (chip.label.includes(': ')) {
+      const parts = chip.label.split(': ');
+      return { type: parts[0], variant: parts[1] || '' };
+    }
+    const parts = chip.label.split(' ');
+    const type = parts[0];
+    const variant = parts.slice(1).join(' ');
+    return { type, variant };
   };
 
   const { type, variant } = getChipParts();
@@ -134,7 +140,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
         <div
           style={getColorStyle()}
           className="px-2 py-1 bg-slate-600 border-l border-r border-slate-700"
-          onClick={() => chipGroup && setEditing()}
+          onClick={() => chipGroup && setEditing(index)}
         >
           {variant}
         </div>
