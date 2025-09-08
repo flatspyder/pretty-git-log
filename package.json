@@ -10,7 +10,10 @@
     "test": "rm -rf dist && tsc tests/gitFormatter.test.ts tests/chipFormatter.test.ts services/gitFormatter.ts services/chipFormatter.ts types.ts --outDir dist --module es2022 --target ES2022 --esModuleInterop --moduleResolution bundler --skipLibCheck && node dist/tests/gitFormatter.test.js && node dist/tests/chipFormatter.test.js"
   },
   "dependencies": {
+    "@types/react-dnd": "^2.0.36",
     "react": "^19.1.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.1.1"
   },
   "devDependencies": {

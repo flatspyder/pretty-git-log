@@ -106,3 +106,101 @@ export const SYNTHETIC_LOG_DATA: GitCommit[] = [
     refs: '',
   },
 ];
+
+import { ChipGroup, FormatChip } from './types';
+
+export const HASH_CHIPS: ChipGroup = {
+  title: 'Hash',
+  chips: [
+    { id: 'H', label: 'Hash: full', value: '%H' },
+    { id: 'h', label: 'Hash: short', value: '%h' },
+    { id: 'T', label: 'Tree hash: full', value: '%T' },
+    { id: 't', label: 'Tree hash: short', value: '%t' },
+    { id: 'P', label: 'Parent hashes: full', value: '%P' },
+    { id: 'p', label: 'Parent hashes: short', value: '%p' },
+  ],
+};
+
+export const AUTHOR_CHIPS: ChipGroup = {
+  title: 'Author',
+  chips: [
+    { id: 'an', label: 'Author name', value: '%an' },
+    { id: 'ae', label: 'Author email', value: '%ae' },
+    { id: 'al', label: 'Author local-part', value: '%al' },
+    { id: 'ad', label: 'Author date', value: '%ad' },
+    { id: 'ai', label: 'Author date ISO-like', value: '%ai' },
+    { id: 'aI', label: 'Author date strict ISO', value: '%aI' },
+    { id: 'ah', label: 'Author date human', value: '%ah' },
+    { id: 'as', label: 'Author date short', value: '%as' },
+    { id: 'at', label: 'Author date UNIX', value: '%at' },
+    { id: 'ar', label: 'Author date relative', value: '%ar' },
+  ],
+};
+
+export const COMMITTER_CHIPS: ChipGroup = {
+  title: 'Committer',
+  chips: [
+    { id: 'cn', label: 'Committer name', value: '%cn' },
+    { id: 'ce', label: 'Committer email', value: '%ce' },
+    { id: 'cl', label: 'Committer local-part', value: '%cl' },
+    { id: 'cd', label: 'Committer date', value: '%cd' },
+    { id: 'ci', label: 'Committer date ISO-like', value: '%ci' },
+    { id: 'cI', label: 'Committer date strict ISO', value: '%cI' },
+    { id: 'ch', label: 'Committer date human', value: '%ch' },
+    { id: 'cs', label: 'Committer date short', value: '%cs' },
+    { id: 'ct', label: 'Committer date UNIX', value: '%ct' },
+    { id: 'cr', label: 'Committer date relative', value: '%cr' },
+  ],
+};
+
+export const SUBJECT_BODY_CHIPS: ChipGroup = {
+  title: 'Subject & Body',
+  chips: [
+    { id: 's', label: 'Subject', value: '%s' },
+    { id: 'f', label: 'Subject sanitized', value: '%f' },
+    { id: 'b', label: 'Body', value: '%b' },
+    { id: 'B', label: 'Subject and body', value: '%B' },
+  ],
+};
+
+export const REFS_CHIPS: ChipGroup = {
+  title: 'Refs',
+  chips: [
+    { id: 'd', label: 'Decorations', value: '%d' },
+    { id: 'D', label: 'Decorations (plain)', value: '%D' },
+  ],
+};
+
+export const MISC_CHIPS: ChipGroup = {
+  title: 'Misc',
+  chips: [
+    { id: 'e', label: 'Encoding', value: '%e' },
+    { id: 'n', label: 'Newline', value: '%n' },
+  ],
+};
+
+export const ELEMENT_CHIP_GROUPS: ChipGroup[] = [
+  HASH_CHIPS,
+  AUTHOR_CHIPS,
+  COMMITTER_CHIPS,
+  SUBJECT_BODY_CHIPS,
+  REFS_CHIPS,
+  MISC_CHIPS,
+];
+
+export const STYLE_CHIPS: ChipGroup = {
+  title: 'Colors',
+  chips: [
+    { id: 'C-normal', label: 'Color: normal', value: '%C(normal)' },
+    { id: 'C-black', label: 'Color: black', value: '%C(black)' },
+    { id: 'C-red', label: 'Color: red', value: '%C(red)' },
+    { id: 'C-green', label: 'Color: green', value: '%C(green)' },
+    { id: 'C-yellow', label: 'Color: yellow', value: '%C(yellow)' },
+    { id: 'C-blue', label: 'Color: blue', value: '%C(blue)' },
+    { id: 'C-magenta', label: 'Color: magenta', value: '%C(magenta)' },
+    { id: 'C-cyan', label: 'Color: cyan', value: '%C(cyan)' },
+    { id: 'C-white', label: 'Color: white', value: '%C(white)' },
+    { id: 'C-default', label: 'Color: default', value: '%C(default)' },
+    { id: 'C-reset', label: 'Reset color', value: '%C(reset)' },
+  ],
+};
