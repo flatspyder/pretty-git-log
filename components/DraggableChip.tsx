@@ -132,33 +132,33 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
     <div className="relative" ref={ref}>
       <div
         style={{ opacity }}
-        className="flex items-center bg-slate-800 text-slate-200 rounded text-sm overflow-hidden border border-slate-700"
+          className="flex items-center bg-surface text-light rounded text-sm overflow-hidden border border-border"
       >
-        <div ref={dragRef} className="px-2 py-1 cursor-move bg-slate-700">
+        <div ref={dragRef} className="px-2 py-1 cursor-move bg-surface-muted">
           {type}
         </div>
         <div
           style={getColorStyle()}
-          className="px-2 py-1 bg-slate-600 border-l border-r border-slate-700"
+          className="px-2 py-1 bg-surface-hover border-l border-r border-border"
           onClick={() => chipGroup && setEditing(index)}
         >
           {variant}
         </div>
-        <button onClick={() => removeChip(index)} className="px-2 py-1 text-red-500 hover:bg-slate-700">
+        <button onClick={() => removeChip(index)} className="px-2 py-1 text-danger hover:bg-surface-muted">
           &times;
         </button>
       </div>
       {isEditing && chipGroup && (
         <div
           ref={dropdownRef}
-          className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+          className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-surface-muted ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
         >
           <div className="py-1">
             {chipGroup.chips.map(groupChip => (
               <a
                 href="#"
                 key={groupChip.id}
-                className="text-slate-200 block px-4 py-2 text-sm hover:bg-slate-600"
+                className="text-light block px-4 py-2 text-sm hover:bg-surface-hover"
                 onClick={(e) => {
                   e.preventDefault();
                   handleChipSelect(groupChip);

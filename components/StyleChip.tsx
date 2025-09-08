@@ -35,14 +35,14 @@ const StyleChip: React.FC<StyleChipProps> = ({ chips, onSelect }) => {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="relative inline-flex items-center px-3 py-1 rounded-l-md border border-slate-600 bg-slate-700 text-sm font-medium text-slate-200 hover:bg-slate-600 focus:z-10 focus:outline-none focus:ring-1 focus:ring-slate-500"
+            className="relative inline-flex items-center px-3 py-1 rounded-l-md border border-surface-hover bg-surface-muted text-sm font-medium text-light hover:bg-surface-hover focus:z-10 focus:outline-none focus:ring-1 focus:ring-muted"
         >
           Style
         </button>
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="relative inline-flex items-center px-2 py-1 rounded-r-md border border-l-0 border-slate-600 bg-slate-700 text-sm font-medium text-slate-200 hover:bg-slate-600 focus:z-10 focus:outline-none focus:ring-1 focus:ring-slate-500"
+            className="relative inline-flex items-center px-2 py-1 rounded-r-md border border-l-0 border-surface-hover bg-surface-muted text-sm font-medium text-light hover:bg-surface-hover focus:z-10 focus:outline-none focus:ring-1 focus:ring-muted"
           aria-haspopup="true"
           aria-expanded={isOpen}
         >
@@ -64,7 +64,7 @@ const StyleChip: React.FC<StyleChipProps> = ({ chips, onSelect }) => {
 
       {isOpen && (
         <div
-          className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+            className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-surface-muted ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
@@ -74,7 +74,7 @@ const StyleChip: React.FC<StyleChipProps> = ({ chips, onSelect }) => {
               <a
                 href="#"
                 key={chip.id}
-                className="text-slate-200 block px-4 py-2 text-sm hover:bg-slate-600"
+                  className="text-light block px-4 py-2 text-sm hover:bg-surface-hover"
                 role="menuitem"
                 onClick={(e) => {
                   e.preventDefault();

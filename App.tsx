@@ -41,12 +41,12 @@ const App: React.FC = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen bg-slate-900 text-slate-300 font-sans p-4 sm:p-8 flex flex-col items-center">
+      <div className="min-h-screen bg-background text-primary font-sans p-4 sm:p-8 flex flex-col items-center">
         <header className="text-center mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold text-cyan-400 tracking-tight">
+          <h1 className="text-4xl sm:text-5xl font-bold text-accent tracking-tight">
             Git Log Pretty Format Simulator
           </h1>
-          <p className="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-secondary max-w-2xl mx-auto">
             Experiment with <code>--pretty=format:&lt;string&gt;</code> placeholders and see the output in real-time.
           </p>
         </header>
@@ -55,19 +55,19 @@ const App: React.FC = () => {
           <SelectComponents onSelect={addChip} />
           <FormatBuilder chips={chips} setChips={setChips} updateChip={updateChip} />
           <div className="w-full max-w-4xl mb-8">
-            <h2 className="text-xl font-bold text-cyan-400 mb-4">3. Formatted String</h2>
+            <h2 className="text-xl font-bold text-accent mb-4">3. Formatted String</h2>
             <div className="flex flex-col relative">
               <TextareaAutosize
                 id="format-output"
                 value={formatString}
                 readOnly
-                className="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-200 font-mono text-sm pr-24"
+                className="w-full p-3 bg-surface border border-border rounded-lg text-light font-mono text-sm pr-24"
                 spellCheck="false"
                 minRows={1}
               />
               <button
                 onClick={() => navigator.clipboard.writeText(formatString)}
-                className="absolute top-2 right-2 bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-1 px-3 rounded text-sm"
+                className="absolute top-2 right-2 bg-accent-dark hover:bg-accent-darker text-white font-bold py-1 px-3 rounded text-sm"
               >
                 Copy
               </button>
@@ -75,12 +75,12 @@ const App: React.FC = () => {
           </div>
 
           <div className="w-full max-w-4xl">
-            <h2 className="text-xl font-bold text-cyan-400 mb-4">4. Example Output</h2>
+            <h2 className="text-xl font-bold text-accent mb-4">4. Example Output</h2>
             <LogDisplay lines={formattedLines} />
           </div>
         </main>
 
-        <footer className="mt-12 text-center text-slate-500 text-sm">
+        <footer className="mt-12 text-center text-muted text-sm">
           <p>Common placeholders: %h, %H, %s, %an, %ar, %d, %n, %C(yellow), %C(reset)</p>
           <p>&copy; {new Date().getFullYear()} - Built for demonstration.</p>
         </footer>
