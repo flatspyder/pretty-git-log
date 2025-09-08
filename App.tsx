@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -10,7 +10,16 @@ import { formatGitLog } from './services/gitFormatter';
 import { chipsToFormatString } from './services/chipFormatter';
 import { FormatChip } from './types';
 
-const App: React.FC = () => {
+interface AppProps {
+  defaultTheme: 'light' | 'dark';
+}
+
+const App: React.FC<AppProps> = ({ defaultTheme }) => {
+  const [theme, setTheme] = useState<'light' | 'dark'>(defaultTheme);
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
   const [chips, setChips] = useState<FormatChip[]>([]);
 
   const formatString = useMemo(() => chipsToFormatString(chips), [chips]);
@@ -42,7 +51,14 @@ const App: React.FC = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="min-h-screen bg-background text-primary font-sans p-4 sm:p-8 flex flex-col items-center">
-        <header className="text-center mb-8">
+        <header className="text-center mb-8 relative">
+          <button
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            className="absolute top-0 right-0 px-3 py-1 rounded bg-surface border border-border text-primary"
+            aria-label="Toggle theme"
+          >
+            {theme === 'light' ? 'Dark' : 'Light'} Mode
+          </button>
           <h1 className="text-4xl sm:text-5xl font-bold text-accent tracking-tight">
             Git Log Pretty Format Simulator
           </h1>
