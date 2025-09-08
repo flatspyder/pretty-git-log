@@ -1,48 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FormatChip } from '../types';
+import { colorMap, getContrastingTextColor } from '../services/colorUtils';
 
 interface StyleChipProps {
   chips: FormatChip[];
   onSelect: (chip: FormatChip) => void;
 }
 
-const colorMap: { [key: string]: string } = {
-  black: '#000000',
-  red: '#ff0000',
-  green: '#008000',
-  yellow: '#ffff00',
-  blue: '#0000ff',
-  magenta: '#ff00ff',
-  cyan: '#00ffff',
-  white: '#ffffff',
-};
-
-const getContrastingTextColor = (color: string): string => {
-  const hex = colorMap[color] || color;
-  if (!hex.startsWith('#')) {
-    return '#ffffff';
-  }
-
-  const r = parseInt(hex.substr(1, 2), 16);
-  const g = parseInt(hex.substr(3, 2), 16);
-  const b = parseInt(hex.substr(5, 2), 16);
-  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-  return (yiq >= 128) ? '#000000' : '#ffffff';
-};
-
 const StyleChip: React.FC<StyleChipProps> = ({ chips, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleSelect = (chip: FormatChip) => {
     onSelect(chip);
-    const colorMatch = chip.value.match(/%C\(([^)]+)\)/);
-    if (colorMatch && colorMatch[1] !== 'reset' && colorMatch[1] !== 'normal' && colorMatch[1] !== 'default') {
-      setSelectedColor(colorMatch[1]);
-    } else {
-      setSelectedColor(null);
-    }
     setIsOpen(false);
   };
 
@@ -59,9 +29,6 @@ const StyleChip: React.FC<StyleChipProps> = ({ chips, onSelect }) => {
     };
   }, []);
 
-  const textColor = selectedColor ? getContrastingTextColor(selectedColor) : '#ffffff';
-  const buttonStyle = selectedColor ? { backgroundColor: colorMap[selectedColor] || selectedColor, color: textColor } : {};
-
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
       <div className="flex rounded-md shadow-sm">
@@ -69,7 +36,6 @@ const StyleChip: React.FC<StyleChipProps> = ({ chips, onSelect }) => {
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           className="relative inline-flex items-center px-3 py-1 rounded-l-md border border-slate-600 bg-slate-700 text-sm font-medium text-slate-200 hover:bg-slate-600 focus:z-10 focus:outline-none focus:ring-1 focus:ring-slate-500"
-          style={buttonStyle}
         >
           Style
         </button>
@@ -79,7 +45,6 @@ const StyleChip: React.FC<StyleChipProps> = ({ chips, onSelect }) => {
           className="relative inline-flex items-center px-2 py-1 rounded-r-md border border-l-0 border-slate-600 bg-slate-700 text-sm font-medium text-slate-200 hover:bg-slate-600 focus:z-10 focus:outline-none focus:ring-1 focus:ring-slate-500"
           aria-haspopup="true"
           aria-expanded={isOpen}
-          style={selectedColor ? { ...buttonStyle, borderLeftColor: textColor } : {}}
         >
           <svg
             className="h-5 w-5"
