@@ -20,7 +20,12 @@ export interface GitCommit {
 }
 
 export interface FormatChip {
-  id: string;
+  id:string;
   label: string;
   value: string;
+}
+
+export interface ChipGroup {
+  title: string;
+  chips: FormatChip[];
 }
