@@ -2,6 +2,7 @@ import React from 'react';
 import { FormatChip } from '../types';
 import SplitChip from './SplitChip';
 import StyleChip from './StyleChip';
+import TextChip from './TextChip';
 import { ELEMENT_CHIP_GROUPS, STYLE_CHIPS } from '../constants';
 
 interface SelectComponentsProps {
@@ -26,6 +27,7 @@ const SelectComponents: React.FC<SelectComponentsProps> = ({ onSelect }) => {
             chips={STYLE_CHIPS.chips}
             onSelect={onSelect}
           />
+          <TextChip onSelect={onSelect} />
         </div>
       </div>
     </div>

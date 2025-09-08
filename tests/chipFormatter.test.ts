@@ -13,3 +13,11 @@ test('converts chips to format string', () => {
   ];
   assert.equal(chipsToFormatString(chips), '%h%C(yellow)%s');
 });
+
+test('includes plain text chips', () => {
+  const chips: FormatChip[] = [
+    { id: 'text-1', label: 'hello', value: 'hello' },
+    { id: 'h', label: 'Hash: short', value: '%h' },
+  ];
+  assert.equal(chipsToFormatString(chips), 'hello%h');
+});
