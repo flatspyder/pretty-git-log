@@ -199,7 +199,7 @@ export const ELEMENT_CHIP_GROUPS: ChipGroup[] = [
   MISC_CHIPS,
 ];
 
-export const STYLE_CHIPS: ChipGroup = {
+export const COLOR_CHIPS: ChipGroup = {
   title: 'Colors',
   chips: [
     createStyleChip({ id: 'C-normal', label: 'Color: normal', value: '%C(normal)' }),
@@ -215,6 +215,33 @@ export const STYLE_CHIPS: ChipGroup = {
     createStyleChip({ id: 'C-reset', label: 'Reset color', value: '%C(reset)' }),
   ],
 };
+
+export const EFFECT_CHIPS: ChipGroup = {
+  title: 'Effects',
+  chips: [
+    createStyleChip({ id: 'C-bold', label: 'Bold', value: '%C(bold)' }),
+    createStyleChip({ id: 'C-dim', label: 'Dim', value: '%C(dim)' }),
+    createStyleChip({ id: 'C-ul', label: 'Underline', value: '%C(ul)' }),
+    createStyleChip({ id: 'C-blink', label: 'Blink', value: '%C(blink)' }),
+    createStyleChip({ id: 'C-reverse', label: 'Reverse', value: '%C(reverse)' }),
+    createStyleChip({ id: 'C-italic', label: 'Italic', value: '%C(italic)' }),
+    createStyleChip({ id: 'C-strike', label: 'Strike', value: '%C(strike)' }),
+  ],
+};
+
+export const SIZING_CHIPS: ChipGroup = {
+  title: 'Sizing',
+  chips: [
+    createStyleChip({ id: 'C-truncate', label: 'Truncate', value: '%<|(20)' }),
+    createStyleChip({ id: 'C-padding', label: 'Padding', value: '%>|(20)' }),
+  ],
+};
+
+export const STYLE_CHIPS: ChipGroup[] = [
+  COLOR_CHIPS,
+  EFFECT_CHIPS,
+  SIZING_CHIPS,
+];
 
 const spaceChip: FormatChip = createTextChip(' ');
 

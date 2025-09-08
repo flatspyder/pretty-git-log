@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FormatChip } from '../types';
-import { colorMap, getContrastingTextColor } from '../services/colorUtils';
+import StyleChipDropdown from './StyleChipDropdown';
 
 interface StyleChipProps {
-  chips: FormatChip[];
   onSelect: (chip: FormatChip) => void;
 }
 
-const StyleChip: React.FC<StyleChipProps> = ({ chips, onSelect }) => {
+const StyleChip: React.FC<StyleChipProps> = ({ onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -63,29 +62,7 @@ const StyleChip: React.FC<StyleChipProps> = ({ chips, onSelect }) => {
       </div>
 
       {isOpen && (
-        <div
-            className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-surface-muted ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
-          role="menu"
-          aria-orientation="vertical"
-          aria-labelledby="menu-button"
-        >
-          <div className="py-1" role="none">
-            {chips.map(chip => (
-              <a
-                href="#"
-                key={chip.id}
-                  className="text-light block px-4 py-2 text-sm hover:bg-surface-hover"
-                role="menuitem"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleSelect(chip);
-                }}
-              >
-                {chip.label}
-              </a>
-            ))}
-          </div>
-        </div>
+        <StyleChipDropdown onSelect={handleSelect} />
       )}
     </div>
   );

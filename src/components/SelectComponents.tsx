@@ -24,7 +24,6 @@ const SelectComponents: React.FC<SelectComponentsProps> = ({ onSelect }) => {
             />
           ))}
           <StyleChip
-            chips={STYLE_CHIPS.chips}
             onSelect={onSelect}
           />
           <TextChip onSelect={onSelect} />
