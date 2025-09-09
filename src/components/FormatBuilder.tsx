@@ -56,7 +56,7 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
               updateChip={updateChip}
               isEditing={editingChipIndex === idx}
               setEditing={setEditingChipIndex}
-              chipGroups={[...ELEMENT_CHIP_GROUPS, STYLE_CHIPS]}
+              chipGroups={[...ELEMENT_CHIP_GROUPS, ...STYLE_CHIPS]}
             />
           ))}
         </div>
