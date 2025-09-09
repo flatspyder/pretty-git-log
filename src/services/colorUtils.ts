@@ -8,3 +8,14 @@ export const colorMap: { [key: string]: string } = {
   cyan: 'bg-cyan-200 text-cyan-800',
   white: 'bg-white text-gray-800',
 };
+
+export const colorSwatch: { [key: string]: string } = {
+  black: 'bg-gray-700',
+  red: 'bg-red-400',
+  green: 'bg-green-400',
+  yellow: 'bg-yellow-400',
+  blue: 'bg-blue-400',
+  magenta: 'bg-purple-400',
+  cyan: 'bg-cyan-400',
+  white: 'bg-white',
+};

@@ -47,7 +47,8 @@ const App: React.FC = () => {
             Git Log Pretty Format Simulator
           </h1>
           <p className="mt-4 text-lg text-secondary max-w-2xl mx-auto">
-            Experiment with <code>--pretty=format:&lt;string&gt;</code> placeholders and see the output in real-time.
+            Craft your perfect Git Log <code>--pretty=format:&lt;string&gt;</code>.
+            <br />Click to add components, drag to re-order and see the result instantly.
           </p>
         </header>
 

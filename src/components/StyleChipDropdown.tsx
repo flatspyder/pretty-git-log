@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormatChip } from '../types';
-import { colorMap } from '../services/colorUtils';
+import { colorMap, colorSwatch } from '../services/colorUtils';
 import { COLOR_CHIPS, EFFECT_CHIPS, SIZING_CHIPS } from '../constants';
 
 interface StyleChipDropdownProps {
@@ -31,7 +31,7 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect }) => {
             <button
               key={chip.id}
               onClick={() => handleSelect(chip)}
-              className={`w-10 h-10 rounded-md border border-surface-hover ${colorMap[chip.label.split(': ')[1].toLowerCase()]}`}
+              className={`w-10 h-10 rounded-md border border-surface-hover ${colorSwatch[chip.label.split(': ')[1].toLowerCase()]}`}
             >
               &nbsp;
             </button>

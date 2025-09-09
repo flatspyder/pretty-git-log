@@ -178,7 +178,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
               data-testid="text-chip-input"
             />
           ) : (
-            variant
+            variant || <>&nbsp;</>
           )}
         </div>
         <button onClick={() => removeChip(index)} className="px-2 py-1 text-danger hover:bg-surface-muted">
