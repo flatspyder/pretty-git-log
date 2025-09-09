@@ -18,15 +18,17 @@ const COLOR_MAP: { [key: string]: string } = {
   magenta: 'text-pink-500',
   cyan: 'text-accent',
   white: 'text-light',
-  'bold black': 'text-secondary font-bold',
-  'bold red': 'text-red-400 font-bold',
-  'bold green': 'text-green-400 font-bold',
-  'bold yellow': 'text-yellow-300 font-bold',
-  'bold blue': 'text-blue-300 font-bold',
-  'bold magenta': 'text-pink-400 font-bold',
-  'bold cyan': 'text-accent font-bold',
-  'bold white': 'text-white font-bold',
   auto: 'text-accent font-bold', // %C(auto) is used for refs, we'll make it cyan.
+};
+
+const STYLE_MAP: { [key: string]: string } = {
+  bold: 'font-bold',
+  dim: 'opacity-50',
+  ul: 'underline',
+  italic: 'italic',
+  strike: 'line-through',
+  blink: 'animate-pulse',
+  reverse: 'bg-light text-surface',
 };
 
 /**
@@ -36,28 +38,46 @@ const COLOR_MAP: { [key: string]: string } = {
  * @returns An array of React fragments and spans for rendering.
  */
 const parseLineToJsx = (line: string): JSX.Element[] => {
-  // Split the string by color directives, keeping the directives in the array.
-  const parts = line.split(/(%C\(.*?\)|\%C\(reset\))/g).filter(Boolean);
+  const parts = line.split(/(%C\(.*?\)|\%<\|.*?\(.*?\)|\%>\|.*?\(.*?\))/g).filter(Boolean);
   
-  let currentClasses: string[] = [];
+  let currentClasses: Set<string> = new Set();
   const elements: JSX.Element[] = [];
+  let sizing: { width: number; type: 'truncate' | 'pad_left' | 'pad_right' } | null = null;
 
   parts.forEach((part, index) => {
     if (part.startsWith('%C(') && part.endsWith(')')) {
-      if (part === '%C(reset)') {
-        currentClasses = []; // Reset all styles
-      } else {
-        const colorKey = part.substring(3, part.length - 1);
-        if (COLOR_MAP[colorKey] !== undefined) {
-          // In real git, colors stack. Here we simplify to one color class at a time for clarity.
-          currentClasses = COLOR_MAP[colorKey].split(' ');
-        }
+      const key = part.substring(3, part.length - 1);
+      if (key === 'reset') {
+        currentClasses.clear();
+      } else if (COLOR_MAP[key]) {
+        // Remove other color classes before adding a new one
+        Object.values(COLOR_MAP).forEach(c => {
+          if (c) c.split(' ').forEach(cl => currentClasses.delete(cl));
+        });
+        COLOR_MAP[key].split(' ').forEach(c => currentClasses.add(c));
+      } else if (STYLE_MAP[key]) {
+        currentClasses.add(STYLE_MAP[key]);
+      }
+    } else if (part.startsWith('%<|(') || part.startsWith('%>|(')) {
+      const match = part.match(/([<>])\|.*?\((\d+)\)/);
+      if (match) {
+        const type = match[1] === '<' ? 'truncate' : 'pad_left';
+        const width = parseInt(match[2], 10);
+        sizing = { width, type };
       }
     } else {
-      // It's a regular text part, apply the current style.
+      let text = part;
+      if (sizing) {
+        if (sizing.type === 'truncate') {
+          text = text.slice(0, sizing.width);
+        } else if (sizing.type === 'pad_left') {
+          text = text.padStart(sizing.width);
+        }
+        sizing = null;
+      }
       elements.push(
-        <span key={index} className={currentClasses.join(' ')}>
-          {part}
+        <span key={index} className={Array.from(currentClasses).join(' ')}>
+          {text}
         </span>
       );
     }

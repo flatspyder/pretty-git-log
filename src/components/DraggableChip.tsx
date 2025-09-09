@@ -3,6 +3,8 @@ import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
 import { FormatChip, ChipGroup } from '../types';
 import { colorMap } from '../services/colorUtils';
+import StyleChipDropdown from './StyleChipDropdown';
+import SizingEditor from './SizingEditor';
 
 const ITEM_TYPE = 'chip';
 
@@ -125,6 +127,11 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
   const chipGroup = findChipGroup();
 
   const getChipParts = () => {
+    if (chip.id === 'C-truncate' || chip.id === 'C-padding') {
+      const match = chip.value.match(/\((\d+)\)/);
+      const value = match ? match[1] : '';
+      return { type: chip.label, variant: value };
+    }
     if (chip.type === 'text') {
       return { type: 'Text', variant: chip.value };
     }
@@ -178,7 +185,15 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
           &times;
         </button>
       </div>
-      {isEditing && chipGroup && (
+      {isEditing && (chip.id === 'C-truncate' || chip.id === 'C-padding') ? (
+        <div ref={dropdownRef} className="absolute left-0 mt-2 z-10">
+          <SizingEditor chip={chip} onUpdate={(newChip) => updateChip(index, newChip)} />
+        </div>
+      ) : isEditing && chip.type === 'style' ? (
+        <div ref={dropdownRef}>
+          <StyleChipDropdown onSelect={handleChipSelect} />
+        </div>
+      ) : isEditing && chipGroup && chip.type === 'element' ? (
         <div
           ref={dropdownRef}
           className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-surface-muted ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
@@ -199,7 +214,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
             ))}
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };
