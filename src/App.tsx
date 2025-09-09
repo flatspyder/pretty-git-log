@@ -1,19 +1,23 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import TextareaAutosize from 'react-textarea-autosize';
-import LogDisplay from './components/LogDisplay';
+import toast, { Toaster } from 'react-hot-toast';
+import CommandBar from './components/CommandBar';
+import TerminalPreview from './components/TerminalPreview';
 import FormatBuilder from './components/FormatBuilder';
 import SelectComponents from './components/SelectComponents';
-import { SYNTHETIC_LOG_DATA } from './constants';
+import Header from './components/Header';
+import { SYNTHETIC_LOG_DATA, PRESET_FORMATS } from './constants';
 import { formatGitLog } from './services/gitFormatter';
 import { chipsToFormatString } from './services/chipFormatter';
 import { FormatChip } from './types';
+import SectionHeading from './components/SectionHeading';
 
 const App: React.FC = () => {
-  const [chips, setChips] = useState<FormatChip[]>([]);
+  const [chips, setChips] = useState<FormatChip[]>(PRESET_FORMATS['medium']);
 
   const formatString = useMemo(() => chipsToFormatString(chips), [chips]);
+  const gitCommand = useMemo(() => `git log --pretty=format:"${formatString}"`, [formatString]);
 
   const formattedLines = useMemo(() => {
     if (!formatString.trim()) {
@@ -28,7 +32,8 @@ const App: React.FC = () => {
   }, [formatString]);
 
   const addChip = useCallback((chip: FormatChip) => {
-    setChips(prev => [...prev, chip]);
+    const newId = `${chip.id}-${Date.now()}`;
+    setChips(prev => [...prev, { ...chip, id: newId }]);
   }, []);
 
   const updateChip = useCallback((index: number, newChip: FormatChip) => {
@@ -39,52 +44,68 @@ const App: React.FC = () => {
     });
   }, []);
 
+  const handleReset = () => {
+    setChips([]);
+    toast('Format reset.');
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(gitCommand);
+    toast.success('Command copied to clipboard!');
+  };
+
+  const handleSelectPreset = (presetChips: FormatChip[]) => {
+    const newChips = presetChips.map(chip => ({ ...chip, id: `${chip.id}-${Date.now()}` }));
+    setChips(newChips);
+    toast.success('Preset loaded!');
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen bg-background text-primary font-sans p-4 sm:p-8 flex flex-col items-center">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold text-accent tracking-tight">
-            Git Log Pretty Format Simulator
-          </h1>
-          <p className="mt-4 text-lg text-secondary max-w-2xl mx-auto">
-            Craft your perfect Git Log <code>--pretty=format:&lt;string&gt;</code>.
-            <br />Click to add components, drag to re-order and see the result instantly.
-          </p>
-        </header>
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          className: '',
+          style: {
+            margin: '10px',
+            background: '#333',
+            color: '#fff',
+            border: '1px solid #555',
+          },
+          success: {
+            style: {
+              background: 'linear-gradient(to right, #4f46e5, #a855f7)',
+              color: 'white',
+            },
+          },
+        }}
+      />
+      <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 text-slate-600 dark:text-slate-300">
+        <Header onCopy={handleCopy} onReset={handleReset} onSelectPreset={handleSelectPreset} />
 
-        <main className="w-full max-w-4xl">
-          <SelectComponents onSelect={addChip} />
-          <FormatBuilder chips={chips} setChips={setChips} updateChip={updateChip} />
-          <div className="w-full max-w-4xl mb-8">
-            <h2 className="text-xl font-bold text-accent mb-4">3. Formatted String</h2>
-            <div className="flex flex-col relative">
-              <TextareaAutosize
-                id="format-output"
-                value={formatString}
-                readOnly
-                className="w-full p-3 bg-surface border border-border rounded-lg text-light font-mono text-sm pr-24"
-                spellCheck="false"
-                minRows={1}
-              />
-              <button
-                onClick={() => navigator.clipboard.writeText(formatString)}
-                className="absolute top-2 right-2 bg-accent-dark hover:bg-accent-darker text-white font-bold py-1 px-3 rounded text-sm"
-              >
-                Copy
-              </button>
+        <main className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+            {/* Left Column: Builder */}
+            <div className="lg:col-span-7 space-y-6">
+              <SelectComponents onSelect={addChip} />
+              <FormatBuilder chips={chips} setChips={setChips} updateChip={updateChip} />
             </div>
-          </div>
 
-          <div className="w-full max-w-4xl">
-            <h2 className="text-xl font-bold text-accent mb-4">4. Example Output</h2>
-            <LogDisplay lines={formattedLines} />
+            {/* Right Column: Preview */}
+            <div className="lg:col-span-5 space-y-6">
+              <div>
+                <SectionHeading className="mb-4">Command</SectionHeading>
+                <CommandBar command={gitCommand} />
+              </div>
+              <div>
+                <SectionHeading className="mb-4">Preview</SectionHeading>
+                <TerminalPreview lines={formattedLines} />
+              </div>
+            </div>
+
           </div>
         </main>
-
-        <footer className="mt-12 text-center text-muted text-sm">
-          <p>Common placeholders: %h, %H, %s, %an, %ar, %d, %n, %C(yellow), %C(reset)</p>
-          <p>&copy; {new Date().getFullYear()} - Built for demonstration.</p>
-        </footer>
       </div>
     </DndProvider>
   );
