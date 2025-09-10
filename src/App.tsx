@@ -18,10 +18,12 @@ import {
   CardTitle,
 } from './components/ui/Card';
 import { Button } from './components/ui/Button';
+import { motion } from 'framer-motion';
 
 
 const App: React.FC = () => {
   const [chips, setChips] = useState<FormatChip[]>([]);
+  const [isCopied, setIsCopied] = useState(false);
 
   const formatString = useMemo(() => chipsToFormatString(chips), [chips]);
 
@@ -49,10 +51,16 @@ const App: React.FC = () => {
     });
   }, []);
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(formatString);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="min-h-screen flex flex-col">
-        <Header />
+        <Header onCopy={handleCopy} isCopied={isCopied} />
         <main className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 flex-grow">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* --- Builder Column --- */}
@@ -88,12 +96,20 @@ const App: React.FC = () => {
                       minRows={1}
                     />
                     <Button
-                      onClick={() => navigator.clipboard.writeText(formatString)}
+                      onClick={handleCopy}
                       variant="default"
                       size="sm"
-                      className="absolute top-2 right-2"
+                      className="absolute top-2 right-2 w-20"
                     >
-                      Copy
+                      <motion.span
+                        key={isCopied ? 'copied' : 'copy'}
+                        initial={{ y: -20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 20, opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                      >
+                        {isCopied ? 'Copied!' : 'Copy'}
+                      </motion.span>
                     </Button>
                   </div>
                 </CardContent>

@@ -10,10 +10,12 @@
     "test": "rm -rf dist && tsc tests/gitFormatter.test.ts tests/chipFormatter.test.ts src/services/gitFormatter.ts src/services/chipFormatter.ts src/types.ts --outDir dist --module es2022 --target ES2022 --esModuleInterop --moduleResolution bundler --skipLibCheck && node dist/tests/gitFormatter.test.js && node dist/tests/chipFormatter.test.js"
   },
   "dependencies": {
+    "@radix-ui/react-popover": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.3",
     "@types/react-dnd": "^2.0.36",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.23.12",
     "lucide-react": "^0.543.0",
     "react": "^19.1.1",
     "react-dnd": "^16.0.1",

@@ -1,8 +1,14 @@
 import { Github } from 'lucide-react';
 import { ThemeToggle } from '../ThemeToggle';
 import { Button } from '../ui/Button';
+import { motion } from 'framer-motion';
 
-export function Header() {
+interface HeaderProps {
+  onCopy: () => void;
+  isCopied: boolean;
+}
+
+export function Header({ onCopy, isCopied }: HeaderProps) {
   return (
     <header className="w-full container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-4">
       <div className="flex items-center justify-between">
@@ -17,7 +23,17 @@ export function Header() {
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm">Presets</Button>
           <Button variant="outline" size="sm">Reset</Button>
-          <Button size="sm">Copy Command</Button>
+          <Button size="sm" onClick={onCopy} className="w-28">
+            <motion.span
+              key={isCopied ? 'copied' : 'copy'}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 20, opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              {isCopied ? 'Copied!' : 'Copy Command'}
+            </motion.span>
+          </Button>
           <ThemeToggle />
           <Button asChild variant="ghost" size="icon">
             <a
