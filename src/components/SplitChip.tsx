@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormatChip } from '../types';
 import { Button } from './ui/Button';
-import { User, GitCommit, Calendar, PlusCircle } from 'lucide-react';
+import { User, GitCommit, Calendar, PlusCircle, FileText } from 'lucide-react';
 import { Chip } from './ui/Chip';
 import {
   DropdownMenu,
@@ -22,6 +22,7 @@ const ICONS: { [key: string]: React.ElementType } = {
   Author: User,
   Commit: GitCommit,
   Date: Calendar,
+  'Subject & Body': FileText,
 };
 
 const SplitChip: React.FC<SplitChipProps> = ({ title, chips, onSelect }) => {

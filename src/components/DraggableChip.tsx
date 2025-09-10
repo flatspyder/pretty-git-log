@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
 import { motion } from 'framer-motion';
+import { clsx } from 'clsx';
 import { FormatChip, ChipGroup } from '../types';
 import { Chip } from './ui/Chip';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/Popover';
@@ -100,12 +101,12 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
       <motion.div
         ref={ref}
         data-testid={`chip-${chip.id}`}
-        animate={{
-          scale: isDragging ? 1.05 : 1,
-          boxShadow: isDragging ? '0 0 0 2px #6366f1' : '0 0 0 0px #6366f1',
-        }}
+        animate={{ scale: isDragging ? 1.05 : 1 }}
         transition={{ duration: 0.2 }}
-        className="rounded-full"
+        className={clsx(
+          'rounded-full transition-shadow',
+          isDragging && 'ring-2 ring-indigo-400'
+        )}
       >
         <PopoverTrigger asChild>
           <Chip
