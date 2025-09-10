@@ -1,67 +1,45 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { FormatChip } from '../types';
 import StyleChipDropdown from './StyleChipDropdown';
 import { Button } from './ui/Button';
-import { Palette, ChevronDown } from 'lucide-react';
+import { Chip } from './ui/Chip';
+import { Palette, PlusCircle } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from './ui/DropdownMenu';
 
 interface StyleChipProps {
   onSelect: (chip: FormatChip) => void;
 }
 
 const StyleChip: React.FC<StyleChipProps> = ({ onSelect }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const handleSelect = (chip: FormatChip) => {
     onSelect(chip);
     setIsOpen(false);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-import { Chip } from './ui/Chip';
-import { PlusCircle } from 'lucide-react';
-
-// ... (imports remain the same)
-
-const StyleChip: React.FC<StyleChipProps> = ({ onSelect }) => {
-  // ... (hooks remain the same)
-
   return (
-    <div className="relative inline-block text-left" ref={dropdownRef}>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <div className="flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 p-1 rounded-full">
         <Chip>
           <Palette className="w-4 h-4" />
           <span>Style</span>
         </Chip>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setIsOpen(!isOpen)}
-          className="h-6 w-6"
-          aria-haspopup="true"
-          aria-expanded={isOpen}
-        >
-          <PlusCircle className="w-4 h-4" />
-          <span className="sr-only">Add Style Chip</span>
-        </Button>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon" className="h-6 w-6">
+            <PlusCircle className="w-4 h-4" />
+            <span className="sr-only">Add Style Chip</span>
+          </Button>
+        </DropdownMenuTrigger>
       </div>
-
-      {isOpen && (
+      <DropdownMenuContent>
         <StyleChipDropdown onSelect={handleSelect} />
-      )}
-    </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
