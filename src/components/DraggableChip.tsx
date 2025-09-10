@@ -114,7 +114,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
             onRemove={() => removeChip(index)}
             className="shadow-md cursor-pointer"
           >
-            <div ref={drag} className="cursor-move pr-1">
+            <div ref={drag} className="cursor-move pr-1" aria-label={`Drag ${chipType} chip`}>
               <GripVertical className="h-4 w-4" />
             </div>
             <span className="font-semibold">{chipType}:</span>

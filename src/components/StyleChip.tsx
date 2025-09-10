@@ -30,27 +30,31 @@ const StyleChip: React.FC<StyleChipProps> = ({ onSelect }) => {
     };
   }, []);
 
+import { Chip } from './ui/Chip';
+import { PlusCircle } from 'lucide-react';
+
+// ... (imports remain the same)
+
+const StyleChip: React.FC<StyleChipProps> = ({ onSelect }) => {
+  // ... (hooks remain the same)
+
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
-      <div className="inline-flex rounded-full">
+      <div className="flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 p-1 rounded-full">
+        <Chip>
+          <Palette className="w-4 h-4" />
+          <span>Style</span>
+        </Chip>
         <Button
-          variant="outline"
-          size="sm"
+          variant="ghost"
+          size="icon"
           onClick={() => setIsOpen(!isOpen)}
-          className="rounded-r-none pl-3 pr-2"
-        >
-          <Palette className="w-4 h-4 mr-2" />
-          Style
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setIsOpen(!isOpen)}
-          className="rounded-l-none px-2"
+          className="h-6 w-6"
           aria-haspopup="true"
           aria-expanded={isOpen}
         >
-          <ChevronDown className="w-4 h-4" />
+          <PlusCircle className="w-4 h-4" />
+          <span className="sr-only">Add Style Chip</span>
         </Button>
       </div>
 

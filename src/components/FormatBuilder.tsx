@@ -5,16 +5,7 @@ import DraggableChip from './DraggableChip';
 import { PRESET_FORMATS, ELEMENT_CHIP_GROUPS, STYLE_CHIPS } from '../constants';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/Card';
 import { Button } from './ui/Button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from './ui/DropdownMenu';
 import { clsx } from 'clsx';
-import toast from 'react-hot-toast';
 
 interface FormatBuilderProps {
   chips: FormatChip[];
@@ -51,34 +42,11 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
     [chips, setChips]
   );
 
-  const applyPreset = (formatName: string) => {
-    setChips(PRESET_FORMATS[formatName]);
-    toast.success(`Preset "${formatName}" loaded!`);
-  };
-
   return (
     <Card>
       <CardHeader>
-        <div className="flex justify-between items-center">
-          <div>
-            <CardTitle>Current Format</CardTitle>
-            <CardDescription>This is the dropzone for your format tokens.</CardDescription>
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">Presets</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>Select a Preset</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {Object.keys(PRESET_FORMATS).map((presetName) => (
-                <DropdownMenuItem key={presetName} onClick={() => applyPreset(presetName)}>
-                  {presetName}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <CardTitle>Current Format</CardTitle>
+        <CardDescription>This is the dropzone for your format tokens.</CardDescription>
       </CardHeader>
       <CardContent>
         <div

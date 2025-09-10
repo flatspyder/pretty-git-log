@@ -1,12 +1,22 @@
 import { Github } from 'lucide-react';
 import { ThemeToggle } from '../ThemeToggle';
 import { Button } from '../ui/Button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/DropdownMenu';
+import { PRESET_FORMATS } from '../../constants';
 
 interface HeaderProps {
   onCopy: () => void;
+  applyPreset: (name: string) => void;
 }
 
-export function Header({ onCopy }: HeaderProps) {
+export function Header({ onCopy, applyPreset }: HeaderProps) {
   return (
     <header className="w-full container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-4">
       <div className="flex items-center justify-between">
@@ -19,17 +29,34 @@ export function Header({ onCopy }: HeaderProps) {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">Presets</Button>
-          <Button variant="outline" size="sm">Reset</Button>
-          <Button size="sm" onClick={onCopy}>Copy Command</Button>
+          <div className="hidden lg:flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm">Presets</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Select a Preset</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {Object.keys(PRESET_FORMATS).map((presetName) => (
+                  <DropdownMenuItem key={presetName} onClick={() => applyPreset(presetName)}>
+                    {presetName}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Button variant="outline" size="sm">Reset</Button>
+            <Button size="sm" onClick={onCopy}>Copy Command</Button>
+          </div>
           <ThemeToggle />
           <Button asChild variant="ghost" size="icon">
             <a
               href="https://github.com/your-repo/git-format"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="View on GitHub"
             >
               <Github className="w-5 h-5 text-slate-500 dark:text-slate-400" />
+              <span className="sr-only">View on GitHub</span>
             </a>
           </Button>
         </div>

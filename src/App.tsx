@@ -5,11 +5,12 @@ import TextareaAutosize from 'react-textarea-autosize';
 import LogDisplay from './components/LogDisplay';
 import FormatBuilder from './components/FormatBuilder';
 import SelectComponents from './components/SelectComponents';
-import { SYNTHETIC_LOG_DATA } from './constants';
+import { PRESET_FORMATS, SYNTHETIC_LOG_DATA } from './constants';
 import { formatGitLog } from './services/gitFormatter';
 import { chipsToFormatString } from './services/chipFormatter';
 import { FormatChip } from './types';
 import { Header } from './components/layout/Header';
+import { MobileActionBar } from './components/layout/MobileActionBar';
 import {
   Card,
   CardContent,
@@ -59,12 +60,17 @@ const App: React.FC = () => {
     toast.success('Copied to clipboard!');
   };
 
+  const applyPreset = (formatName: string) => {
+    setChips(PRESET_FORMATS[formatName]);
+    toast.success(`Preset "${formatName}" loaded!`);
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="min-h-screen flex flex-col">
         <Toaster position="bottom-right" />
-        <Header onCopy={handleCopy} />
-        <main className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 flex-grow">
+        <Header onCopy={handleCopy} applyPreset={applyPreset} />
+        <main className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 flex-grow pb-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* --- Builder Column --- */}
             <div className="lg:col-span-7 flex flex-col gap-8">
@@ -134,6 +140,7 @@ const App: React.FC = () => {
           <p>Common placeholders: %h, %H, %s, %an, %ar, %d, %n, %C(yellow), %C(reset)</p>
           <p>&copy; {new Date().getFullYear()} - Built for demonstration.</p>
         </footer>
+        <MobileActionBar onCopy={handleCopy} applyPreset={applyPreset} />
       </div>
     </DndProvider>
   );
