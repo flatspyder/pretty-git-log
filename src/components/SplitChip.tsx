@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormatChip } from '../types';
 import { Button } from './ui/Button';
-import { User, GitCommit, Calendar, PlusCircle, FileText } from 'lucide-react';
+import { User, UserCheck, GitCommit, Hash, PlusCircle, MoreHorizontal, FileText } from 'lucide-react';
 import { Chip } from './ui/Chip';
 import {
   DropdownMenu,
@@ -20,9 +20,10 @@ interface SplitChipProps {
 
 const ICONS: { [key: string]: React.ElementType } = {
   Author: User,
-  Commit: GitCommit,
-  Date: Calendar,
-  'Subject & Body': FileText,
+  Committer: UserCheck,
+ 'Subject & Body': FileText,
+  Hash: Hash,
+  Misc: MoreHorizontal,
 };
 
 const SplitChip: React.FC<SplitChipProps> = ({ title, chips, onSelect }) => {

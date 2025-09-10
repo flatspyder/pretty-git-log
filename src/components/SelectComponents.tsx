@@ -3,7 +3,7 @@ import { FormatChip } from '../types';
 import SplitChip from './SplitChip';
 import StyleChip from './StyleChip';
 import TextChip from './TextChip';
-import { ELEMENT_CHIP_GROUPS, STYLE_CHIPS } from '../constants';
+import { ELEMENT_CHIP_GROUPS } from '../constants';
 
 interface SelectComponentsProps {
   onSelect: (chip: FormatChip) => void;
@@ -15,17 +15,15 @@ const SelectComponents: React.FC<SelectComponentsProps> = ({ onSelect }) => {
       {ELEMENT_CHIP_GROUPS.map(group => (
         <SplitChip
           key={group.title}
-              title={group.title}
-              chips={group.chips}
-              onSelect={onSelect}
-            />
-          ))}
-          <StyleChip
-            onSelect={onSelect}
-          />
-          <TextChip onSelect={onSelect} />
-        </div>
-      </div>
+          title={group.title}
+          chips={group.chips}
+          onSelect={onSelect}
+        />
+      ))}
+      <StyleChip
+        onSelect={onSelect}
+      />
+      <TextChip onSelect={onSelect} />
     </div>
   );
 };

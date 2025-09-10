@@ -43,4 +43,5 @@ const StyleChip: React.FC<StyleChipProps> = ({ onSelect }) => {
   );
 };
 
+
 export default StyleChip;
