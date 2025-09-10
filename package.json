@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@types/react-dnd": "^2.0.36",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.543.0",
     "react": "^19.1.1",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
@@ -19,10 +22,10 @@
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0",
-    "tailwindcss": "^3.4.4",
+    "autoprefixer": "^10.4.19",
     "postcss": "^8.4.31",
-    "autoprefixer": "^10.4.19"
+    "tailwindcss": "^3.4.4",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
   }
 }

@@ -9,6 +9,15 @@ import { SYNTHETIC_LOG_DATA } from './constants';
 import { formatGitLog } from './services/gitFormatter';
 import { chipsToFormatString } from './services/chipFormatter';
 import { FormatChip } from './types';
+import { Header } from './components/layout/Header';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from './components/ui/Card';
+
 
 const App: React.FC = () => {
   const [chips, setChips] = useState<FormatChip[]>([]);
@@ -41,47 +50,65 @@ const App: React.FC = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen bg-background text-primary font-sans p-4 sm:p-8 flex flex-col items-center">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold text-accent tracking-tight">
-            Git Log Pretty Format Simulator
-          </h1>
-          <p className="mt-4 text-lg text-secondary max-w-2xl mx-auto">
-            Craft your perfect Git Log <code>--pretty=format:&lt;string&gt;</code>.
-            <br />Click to add components, drag to re-order and see the result instantly.
-          </p>
-        </header>
-
-        <main className="w-full max-w-4xl">
-          <SelectComponents onSelect={addChip} />
-          <FormatBuilder chips={chips} setChips={setChips} updateChip={updateChip} />
-          <div className="w-full max-w-4xl mb-8">
-            <h2 className="text-xl font-bold text-accent mb-4">3. Formatted String</h2>
-            <div className="flex flex-col relative">
-              <TextareaAutosize
-                id="format-output"
-                value={formatString}
-                readOnly
-                className="w-full p-3 bg-surface border border-border rounded-lg text-light font-mono text-sm pr-24"
-                spellCheck="false"
-                minRows={1}
-              />
-              <button
-                onClick={() => navigator.clipboard.writeText(formatString)}
-                className="absolute top-2 right-2 bg-accent-dark hover:bg-accent-darker text-white font-bold py-1 px-3 rounded text-sm"
-              >
-                Copy
-              </button>
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 flex-grow">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* --- Builder Column --- */}
+            <div className="lg:col-span-7 flex flex-col gap-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Tokens Palette</CardTitle>
+                  <CardDescription>
+                    Click or drag tokens to the dropzone to build your format.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <SelectComponents onSelect={addChip} />
+                </CardContent>
+              </Card>
+              <FormatBuilder chips={chips} setChips={setChips} updateChip={updateChip} />
             </div>
-          </div>
 
-          <div className="w-full max-w-4xl">
-            <h2 className="text-xl font-bold text-accent mb-4">4. Example Output</h2>
-            <LogDisplay lines={formattedLines} />
+            {/* --- Preview Column --- */}
+            <div className="lg:col-span-5 flex flex-col gap-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Command String</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-col relative">
+                    <TextareaAutosize
+                      id="format-output"
+                      value={formatString}
+                      readOnly
+                      className="w-full p-3 bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-black dark:text-white font-mono text-sm pr-24"
+                      spellCheck="false"
+                      minRows={1}
+                    />
+                    <button
+                      onClick={() => navigator.clipboard.writeText(formatString)}
+                      className="absolute top-2 right-2 bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-1 px-3 rounded text-sm"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Live Preview</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <LogDisplay lines={formattedLines} />
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </main>
 
-        <footer className="mt-12 text-center text-muted text-sm">
+        <footer className="text-center text-slate-500 dark:text-slate-400 text-sm py-4">
           <p>Common placeholders: %h, %H, %s, %an, %ar, %d, %n, %C(yellow), %C(reset)</p>
           <p>&copy; {new Date().getFullYear()} - Built for demonstration.</p>
         </footer>

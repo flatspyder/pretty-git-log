@@ -1,27 +1,28 @@
+const colors = require('tailwindcss/colors');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './src/index.html', // remains for the root html file
-    './src/**/*.{ts,tsx}', // scans only inside the src folder
+    './src/index.html',
+    './src/**/*.{ts,tsx}',
   ],
+  darkMode: 'class', // Enable dark mode via class
   theme: {
     extend: {
       colors: {
-        background: 'var(--color-bg)',
-        surface: 'var(--color-surface)',
-        'surface-muted': 'var(--color-surface-muted)',
-        'surface-hover': 'var(--color-surface-hover)',
-        border: 'var(--color-border)',
-        primary: 'var(--color-text)',
-        secondary: 'var(--color-text-secondary)',
-        muted: 'var(--color-text-muted)',
-        light: 'var(--color-text-light)',
-        accent: 'var(--color-accent)',
-        'accent-dark': 'var(--color-accent-dark)',
-        'accent-darker': 'var(--color-accent-darker)',
-        danger: 'var(--color-danger)',
-        white: 'var(--color-white)',
-        black: 'var(--color-black)',
+        // Base neutrals from the design guide
+        slate: colors.slate,
+        zinc: colors.zinc,
+        // Accent colors from the design guide
+        indigo: colors.indigo,
+        violet: colors.violet,
+        fuchsia: colors.fuchsia,
+      },
+      fontFamily: {
+        // Set Inter as the default sans-serif font
+        sans: ['Inter', 'sans-serif', 'system-ui'],
+        // Set JetBrains Mono as the default monospace font
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
     },
   },
