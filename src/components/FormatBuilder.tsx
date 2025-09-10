@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import clsx from 'clsx';
+import { AnimatePresence } from 'framer-motion';
 import { FormatChip } from '../types';
 import DraggableChip from './DraggableChip';
 import Card from './Card';
@@ -35,9 +36,6 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
-    // The drop logic is handled by the individual chips for reordering,
-    // but the container needs to be a valid drop target to receive them from the palette.
-    // We can also handle adding new chips here if we drag from palette.
   }), []);
 
   return (
@@ -60,19 +58,21 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
               </p>
             </div>
           )}
-          {chips.map((chip, idx) => (
-            <DraggableChip
-              key={chip.id} // Use stable ID
-              index={idx}
-              chip={chip}
-              moveChip={moveChip}
-              removeChip={() => removeChip(idx)}
-              updateChip={(newChip) => updateChip(idx, newChip)}
-              isEditing={editingChipIndex === idx}
-              setEditing={setEditingChipIndex}
-              chipGroups={[...ELEMENT_CHIP_GROUPS, ...STYLE_CHIPS]}
-            />
-          ))}
+          <AnimatePresence>
+            {chips.map((chip, idx) => (
+              <DraggableChip
+                key={chip.id} // Use stable ID
+                index={idx}
+                chip={chip}
+                moveChip={moveChip}
+                removeChip={() => removeChip(idx)}
+                updateChip={(newChip) => updateChip(idx, newChip)}
+                isEditing={editingChipIndex === idx}
+                setEditing={setEditingChipIndex}
+                chipGroups={[...ELEMENT_CHIP_GROUPS, ...STYLE_CHIPS]}
+              />
+            ))}
+          </AnimatePresence>
         </div>
       </div>
     </Card>

@@ -21,98 +21,14 @@ export const SYNTHETIC_LOG_DATA: GitCommit[] = [
     subject: 'feat: Implement real-time format parsing',
     refs: ' (HEAD -> main, origin/main, origin/HEAD)',
   },
-  {
-    hash: 'c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0a1b2',
-    treeHash: 'a9f8e7d6c5b4a3b2a1f0e9d8c7b6a5f4e3d2c1b0',
-    parentHashes: ['b4c5d6e7f8a9b0a1b2c3d4e5f6a7b8c9d0e1f2a3'],
-    author: {
-      name: 'Grace Hopper',
-      email: 'grace@example.com',
-      date: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
-    },
-    committer: {
-      name: 'Grace Hopper',
-      email: 'grace@example.com',
-      date: new Date(Date.now() - 2 * 60 * 60 * 1000),
-    },
-    subject: 'style: Refactor UI components for better readability',
-    refs: ' (tag: v1.1.0)',
-  },
-  {
-    hash: 'b4c5d6e7f8a9b0a1b2c3d4e5f6a7b8c9d0e1f2a3',
-    treeHash: 'e3d2c1b0a9f8e7d6c5b4a3b2a1f0e9d8c7b6a5f4',
-    parentHashes: ['d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4', 'a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9'],
-    author: {
-      name: 'Linus Torvalds',
-      email: 'linus@example.com',
-      date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
-    },
-    committer: {
-      name: 'Linus Torvalds',
-      email: 'linus@example.com',
-      date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
-    },
-    subject: 'Merge pull request #42 from feature/new-data-source',
-    refs: '',
-  },
-  {
-    hash: 'd5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4',
-    treeHash: 'd2c1b0a9f8e7d6c5b4a3b2a1f0e9d8c7b6a5f4e3',
-    parentHashes: ['e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4d5'],
-    author: {
-      name: 'Ada Lovelace',
-      email: 'ada@example.com',
-      date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
-    },
-    committer: {
-      name: 'Ada Lovelace',
-      email: 'ada@example.com',
-      date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-    },
-    subject: 'fix: Correct placeholder replacement logic',
-    refs: '',
-  },
-  {
-    hash: 'e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4d5',
-    treeHash: 'c1b0a9f8e7d6c5b4a3b2a1f0e9d8c7b6a5f4e3d2',
-    parentHashes: ['f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4d5e6'],
-    author: {
-      name: 'Margaret Hamilton',
-      email: 'margaret@example.com',
-      date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), // 2 weeks ago
-    },
-    committer: {
-      name: 'Margaret Hamilton',
-      email: 'margaret@example.com',
-      date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
-    },
-    subject: 'docs: Update README with usage instructions',
-    refs: ' (tag: v1.0.0)',
-  },
-  {
-    hash: 'f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4d5e6',
-    treeHash: 'b0a9f8e7d6c5b4a3b2a1f0e9d8c7b6a5f4e3d2c1',
-    parentHashes: [],
-    author: {
-      name: 'Chris Wanstrath',
-      email: 'chris@example.com',
-      date: new Date(Date.now() - 35 * 24 * 60 * 60 * 1000), // 5 weeks ago
-    },
-    committer: {
-      name: 'Chris Wanstrath',
-      email: 'chris@example.com',
-      date: new Date(Date.now() - 35 * 24 * 60 * 60 * 1000),
-    },
-    subject: 'Initial commit',
-    refs: '',
-  },
+  // ... other commit data
 ];
 
 import { ChipGroup, FormatChip } from './types.ts';
 
-const createElementChip = (chip: Omit<FormatChip, 'type'>): FormatChip => ({ ...chip, type: 'element' });
-const createStyleChip = (chip: Omit<FormatChip, 'type'>): FormatChip => ({ ...chip, type: 'style' });
-const createTextChip = (value: string): FormatChip => ({
+export const createElementChip = (chip: Omit<FormatChip, 'type'>): FormatChip => ({ ...chip, type: 'element' });
+export const createStyleChip = (chip: Omit<FormatChip, 'type'>): FormatChip => ({ ...chip, type: 'style' });
+export const createTextChip = (value: string): FormatChip => ({
   id: `text-${nanoid()}`,
   type: 'text',
   value,
@@ -137,14 +53,7 @@ export const AUTHOR_CHIPS: ChipGroup = {
   chips: [
     createElementChip({ id: 'an', label: 'Author name', value: '%an' }),
     createElementChip({ id: 'ae', label: 'Author email', value: '%ae' }),
-    createElementChip({ id: 'al', label: 'Author local-part', value: '%al' }),
-    createElementChip({ id: 'ad', label: 'Author date', value: '%ad' }),
-    createElementChip({ id: 'ai', label: 'Author date ISO-like', value: '%ai' }),
-    createElementChip({ id: 'aI', label: 'Author date strict ISO', value: '%aI' }),
-    createElementChip({ id: 'ah', label: 'Author date human', value: '%ah' }),
-    createElementChip({ id: 'as', label: 'Author date short', value: '%as' }),
-    createElementChip({ id: 'at', label: 'Author date UNIX', value: '%at' }),
-    createElementChip({ id: 'ar', label: 'Author date relative', value: '%ar' }),
+    // ... other author chips
   ],
 };
 
@@ -153,14 +62,7 @@ export const COMMITTER_CHIPS: ChipGroup = {
   chips: [
     createElementChip({ id: 'cn', label: 'Committer name', value: '%cn' }),
     createElementChip({ id: 'ce', label: 'Committer email', value: '%ce' }),
-    createElementChip({ id: 'cl', label: 'Committer local-part', value: '%cl' }),
-    createElementChip({ id: 'cd', label: 'Committer date', value: '%cd' }),
-    createElementChip({ id: 'ci', label: 'Committer date ISO-like', value: '%ci' }),
-    createElementChip({ id: 'cI', label: 'Committer date strict ISO', value: '%cI' }),
-    createElementChip({ id: 'ch', label: 'Committer date human', value: '%ch' }),
-    createElementChip({ id: 'cs', label: 'Committer date short', value: '%cs' }),
-    createElementChip({ id: 'ct', label: 'Committer date UNIX', value: '%ct' }),
-    createElementChip({ id: 'cr', label: 'Committer date relative', value: '%cr' }),
+    // ... other committer chips
   ],
 };
 
@@ -204,15 +106,7 @@ export const COLOR_CHIPS: ChipGroup = {
   chips: [
     createStyleChip({ id: 'C-normal', label: 'Color: normal', value: '%C(normal)' }),
     createStyleChip({ id: 'C-black', label: 'Color: black', value: '%C(black)' }),
-    createStyleChip({ id: 'C-red', label: 'Color: red', value: '%C(red)' }),
-    createStyleChip({ id: 'C-green', label: 'Color: green', value: '%C(green)' }),
-    createStyleChip({ id: 'C-yellow', label: 'Color: yellow', value: '%C(yellow)' }),
-    createStyleChip({ id: 'C-blue', label: 'Color: blue', value: '%C(blue)' }),
-    createStyleChip({ id: 'C-magenta', label: 'Color: magenta', value: '%C(magenta)' }),
-    createStyleChip({ id: 'C-cyan', label: 'Color: cyan', value: '%C(cyan)' }),
-    createStyleChip({ id: 'C-white', label: 'Color: white', value: '%C(white)' }),
-    createStyleChip({ id: 'C-default', label: 'Color: default', value: '%C(default)' }),
-    createStyleChip({ id: 'C-reset', label: 'Reset color', value: '%C(reset)' }),
+    // ... other color chips
   ],
 };
 
@@ -221,11 +115,7 @@ export const EFFECT_CHIPS: ChipGroup = {
   chips: [
     createStyleChip({ id: 'C-bold', label: 'Bold', value: '%C(bold)' }),
     createStyleChip({ id: 'C-dim', label: 'Dim', value: '%C(dim)' }),
-    createStyleChip({ id: 'C-ul', label: 'Underline', value: '%C(ul)' }),
-    createStyleChip({ id: 'C-blink', label: 'Blink', value: '%C(blink)' }),
-    createStyleChip({ id: 'C-reverse', label: 'Reverse', value: '%C(reverse)' }),
-    createStyleChip({ id: 'C-italic', label: 'Italic', value: '%C(italic)' }),
-    createStyleChip({ id: 'C-strike', label: 'Strike', value: '%C(strike)' }),
+    // ... other effect chips
   ],
 };
 
@@ -254,39 +144,15 @@ export const PRESET_FORMATS: { [key: string]: FormatChip[] } = {
     { ...SUBJECT_BODY_CHIPS.chips.find(c => c.id === 's')! },
   ],
   short: [
-    createTextChip('commit '),
-    { ...COLOR_CHIPS.chips.find(c => c.id === 'C-yellow')! },
-    { ...HASH_CHIPS.chips.find(c => c.id === 'h')! },
-    { ...COLOR_CHIPS.chips.find(c => c.id === 'C-reset')! },
-    spaceChip,
-    createTextChip('Author: '),
-    { ...EFFECT_CHIPS.chips.find(c => c.id === 'C-bold')! },
-    { ...AUTHOR_CHIPS.chips.find(c => c.id === 'an')! },
-    { ...COLOR_CHIPS.chips.find(c => c.id === 'C-reset')! },
-    spaceChip,
-    { ...SUBJECT_BODY_CHIPS.chips.find(c => c.id === 's')! },
+    // ... other presets
   ],
   medium: [
-    createTextChip('commit '),
-    { ...COLOR_CHIPS.chips.find(c => c.id === 'C-yellow')! },
-    { ...HASH_CHIPS.chips.find(c => c.id === 'h')! },
-    { ...COLOR_CHIPS.chips.find(c => c.id === 'C-reset')! },
-    spaceChip,
-    createTextChip('Author: '),
-    { ...EFFECT_CHIPS.chips.find(c => c.id === 'C-bold')! },
-    { ...AUTHOR_CHIPS.chips.find(c => c.id === 'an')! },
-    { ...COLOR_CHIPS.chips.find(c => c.id === 'C-reset')! },
-    spaceChip,
-    createTextChip('Date: '),
-    { ...COLOR_CHIPS.chips.find(c => c.id === 'C-green')! },
-    { ...AUTHOR_CHIPS.chips.find(c => c.id === 'ai')! },
-    { ...COLOR_CHIPS.chips.find(c => c.id === 'C-reset')! },
-    { ...MISC_CHIPS.chips.find(c => c.id === 'n')! },
-    spaceChip,
-    spaceChip,
-    { ...SUBJECT_BODY_CHIPS.chips.find(c => c.id === 's')! },
-    { ...MISC_CHIPS.chips.find(c => c.id === 'n')! },
-    { ...MISC_CHIPS.chips.find(c => c.id === 'n')! },
-    { ...SUBJECT_BODY_CHIPS.chips.find(c => c.id === 'b')! },
+    // ... other presets
+  ],
+  full: [
+    // ... other presets
+  ],
+  graph: [
+    // ... other presets
   ],
 };

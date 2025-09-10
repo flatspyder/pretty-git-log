@@ -2,7 +2,7 @@ import React from 'react';
 import { FormatChip } from '../types';
 import Card from './Card';
 import SectionHeading from './SectionHeading';
-import { ELEMENT_CHIP_GROUPS, STYLE_CHIPS, TEXT_CHIP } from '../constants';
+import { ELEMENT_CHIP_GROUPS, STYLE_CHIPS, createTextChip } from '../constants'; // Changed import
 import { PlusCircle } from 'lucide-react';
 
 interface SelectComponentsProps {
@@ -32,16 +32,16 @@ const SelectComponents: React.FC<SelectComponentsProps> = ({ onSelect }) => {
             <PaletteChip
               key={group.title}
               label={group.title}
-              onSelect={() => onSelect(group.chips[0])} // Select the first chip of the group as default
+              onSelect={() => onSelect(group.chips[0])}
             />
           ))}
           <PaletteChip
             label="Color"
-            onSelect={() => onSelect(STYLE_CHIPS[0])} // Select the first style chip
+            onSelect={() => onSelect(STYLE_CHIPS[0].chips[0])} // Corrected to select a chip from the group
           />
           <PaletteChip
             label="Text"
-            onSelect={() => onSelect(TEXT_CHIP)}
+            onSelect={() => onSelect(createTextChip(' '))} // Changed to call createTextChip
           />
         </div>
       </div>

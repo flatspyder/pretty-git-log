@@ -5,7 +5,6 @@ interface TerminalPreviewProps {
   lines: string[];
 }
 
-// Copied and adapted from old LogDisplay component
 const COLOR_MAP: { [key: string]: string } = {
   normal: '', reset: '', default: '',
   black: 'text-zinc-500',
@@ -16,7 +15,7 @@ const COLOR_MAP: { [key: string]: string } = {
   magenta: 'text-pink-400',
   cyan: 'text-cyan-400',
   white: 'text-zinc-100',
-  auto: 'text-yellow-400 font-bold', // For refs
+  auto: 'text-yellow-400 font-bold',
 };
 
 const STYLE_MAP: { [key:string]: string } = {
@@ -30,7 +29,6 @@ const STYLE_MAP: { [key:string]: string } = {
 };
 
 const parseLineToJsx = (line: string): JSX.Element[] => {
-    // This regex is simplified and might not cover all edge cases of the original
     const parts = line.split(/(%C\(.+?\)|\n)/g).filter(Boolean);
     let currentClasses: Set<string> = new Set();
     const elements: JSX.Element[] = [];
@@ -59,7 +57,6 @@ const parseLineToJsx = (line: string): JSX.Element[] => {
 const TerminalPreview: React.FC<TerminalPreviewProps> = ({ lines }) => {
   return (
     <Card className="p-0 bg-zinc-950 shadow-lg">
-      {/* Terminal Header */}
       <div className="flex items-center px-4 py-2 border-b border-white/10">
         <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 rounded-full bg-red-500/70"></div>
@@ -68,8 +65,6 @@ const TerminalPreview: React.FC<TerminalPreviewProps> = ({ lines }) => {
         </div>
         <p className="flex-1 text-center text-xs font-medium text-zinc-400">bash</p>
       </div>
-
-      {/* Terminal Body */}
       <pre className="p-4 text-sm font-mono overflow-x-auto bg-zinc-950/50 rounded-b-xl">
         <code>
           {lines.map((line, index) => (

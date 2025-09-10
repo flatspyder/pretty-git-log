@@ -7,13 +7,11 @@ import {
   GitCommit, GitBranch, Hash, User, Calendar, Palette, Type, Plus, X
 } from 'lucide-react';
 
-// Editor components will be refactored later
 import StyleChipDropdown from './StyleChipDropdown';
 import SizingEditor from './SizingEditor';
 
 const ITEM_TYPE = 'chip';
 
-// ... (getIconForChip function remains the same)
 const getIconForChip = (chip: FormatChip) => {
   const commonProps = { size: 14 };
   if (chip.type === 'style') return <Palette {...commonProps} />;
@@ -25,7 +23,6 @@ const getIconForChip = (chip: FormatChip) => {
   if (chip.id.includes('body') || chip.id.includes('subject')) return <GitCommit {...commonProps} />;
   return <Plus {...commonProps} />;
 };
-
 
 interface DraggableChipProps {
   chip: FormatChip;
