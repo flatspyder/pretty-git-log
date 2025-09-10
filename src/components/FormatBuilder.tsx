@@ -5,7 +5,16 @@ import DraggableChip from './DraggableChip';
 import { PRESET_FORMATS, ELEMENT_CHIP_GROUPS, STYLE_CHIPS } from '../constants';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/Card';
 import { Button } from './ui/Button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from './ui/DropdownMenu';
 import { clsx } from 'clsx';
+import toast from 'react-hot-toast';
 
 interface FormatBuilderProps {
   chips: FormatChip[];
@@ -44,6 +53,7 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
 
   const applyPreset = (formatName: string) => {
     setChips(PRESET_FORMATS[formatName]);
+    toast.success(`Preset "${formatName}" loaded!`);
   };
 
   return (
@@ -54,12 +64,20 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
             <CardTitle>Current Format</CardTitle>
             <CardDescription>This is the dropzone for your format tokens.</CardDescription>
           </div>
-          <div className="flex items-center gap-2 text-sm">
-            <span className="text-slate-500 dark:text-slate-400">Presets:</span>
-            <Button variant="link" size="sm" onClick={() => applyPreset('oneline')}>oneline</Button>
-            <Button variant="link" size="sm" onClick={() => applyPreset('short')}>short</Button>
-            <Button variant="link" size="sm" onClick={() => applyPreset('medium')}>medium</Button>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">Presets</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Select a Preset</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {Object.keys(PRESET_FORMATS).map((presetName) => (
+                <DropdownMenuItem key={presetName} onClick={() => applyPreset(presetName)}>
+                  {presetName}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </CardHeader>
       <CardContent>

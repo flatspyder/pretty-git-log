@@ -19,11 +19,14 @@ import {
 } from './components/ui/Card';
 import { Button } from './components/ui/Button';
 import { motion } from 'framer-motion';
+import { Switch } from './components/ui/Switch';
+import { Label } from './components/ui/Label';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const App: React.FC = () => {
   const [chips, setChips] = useState<FormatChip[]>([]);
-  const [isCopied, setIsCopied] = useState(false);
+  const [wrapLines, setWrapLines] = useState(false);
 
   const formatString = useMemo(() => chipsToFormatString(chips), [chips]);
 
@@ -53,14 +56,14 @@ const App: React.FC = () => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(formatString);
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
+    toast.success('Copied to clipboard!');
   };
 
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="min-h-screen flex flex-col">
-        <Header onCopy={handleCopy} isCopied={isCopied} />
+        <Toaster position="bottom-right" />
+        <Header onCopy={handleCopy} />
         <main className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 flex-grow">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* --- Builder Column --- */}
@@ -99,17 +102,9 @@ const App: React.FC = () => {
                       onClick={handleCopy}
                       variant="default"
                       size="sm"
-                      className="absolute top-2 right-2 w-20"
+                      className="absolute top-2 right-2"
                     >
-                      <motion.span
-                        key={isCopied ? 'copied' : 'copy'}
-                        initial={{ y: -20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: 20, opacity: 0 }}
-                        transition={{ duration: 0.15 }}
-                      >
-                        {isCopied ? 'Copied!' : 'Copy'}
-                      </motion.span>
+                      Copy
                     </Button>
                   </div>
                 </CardContent>
@@ -117,10 +112,18 @@ const App: React.FC = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Live Preview</CardTitle>
+                  <div className="flex justify-between items-center">
+                    <CardTitle>Live Preview</CardTitle>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center space-x-2">
+                        <Switch id="wrap-lines" checked={wrapLines} onCheckedChange={setWrapLines} />
+                        <Label htmlFor="wrap-lines">Wrap Lines</Label>
+                      </div>
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardContent>
-                  <LogDisplay lines={formattedLines} />
+                  <LogDisplay lines={formattedLines} wrapLines={wrapLines} />
                 </CardContent>
               </Card>
             </div>

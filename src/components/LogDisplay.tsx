@@ -1,8 +1,10 @@
 
 import React from 'react';
+import { clsx } from 'clsx';
 
 interface LogDisplayProps {
   lines: string[];
+  wrapLines: boolean;
 }
 
 // Maps Git's color names to corresponding Tailwind CSS classes.
@@ -86,16 +88,18 @@ const parseLineToJsx = (line: string): JSX.Element[] => {
   return elements;
 };
 
-const LogDisplay: React.FC<LogDisplayProps> = ({ lines }) => {
+const LogDisplay: React.FC<LogDisplayProps> = ({ lines, wrapLines }) => {
   return (
-    <div className="bg-surface border border-border rounded-lg shadow-lg mt-6 w-full max-w-4xl mx-auto">
-      <div className="bg-surface-muted/50 px-4 py-2 rounded-t-lg text-xs text-secondary font-sans">
-        Formatted Git Log Output
-      </div>
-      <pre className="p-4 text-sm font-mono overflow-x-auto">
+    <div className="bg-zinc-950 text-zinc-100 p-4 font-mono text-sm rounded-lg overflow-auto">
+      <pre
+        className={clsx({
+          'whitespace-pre': !wrapLines,
+          'whitespace-pre-wrap break-words': wrapLines,
+        })}
+      >
         <code>
           {lines.map((line, index) => (
-            <div key={index} className="whitespace-pre-wrap break-words">
+            <div key={index}>
               {parseLineToJsx(line)}
             </div>
           ))}
