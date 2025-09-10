@@ -2,9 +2,10 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
 import { FormatChip, ChipGroup } from '../types';
-import { colorMap } from '../services/colorUtils';
 import StyleChipDropdown from './StyleChipDropdown';
 import SizingEditor from './SizingEditor';
+import { Chip } from './ui/Chip';
+import { GripVertical } from 'lucide-react';
 
 const ITEM_TYPE = 'chip';
 
@@ -36,9 +37,16 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
   chipGroups,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const dragRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState(chip.value);
+
+  const [{ isDragging }, drag, preview] = useDrag({
+    type: ITEM_TYPE,
+    item: { id: chip.id, index },
+    collect: (monitor: any) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
 
   const [, drop] = useDrop<DragItem, void, unknown>({
     accept: ITEM_TYPE,
@@ -58,15 +66,6 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
     },
   });
 
-  const [{ isDragging }, drag] = useDrag({
-    type: ITEM_TYPE,
-    item: { id: chip.id, index },
-    collect: (monitor: any) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
-  drag(dragRef);
   drop(ref);
 
   useEffect(() => {
@@ -86,18 +85,6 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isEditing, setEditing]);
-
-  const opacity = isDragging ? 0 : 1;
-
-  const getColorClassName = () => {
-    if (chip.type !== 'style') return 'bg-surface-hover';
-    const colorMatch = chip.value.match(/%C\(([^)]+)\)/);
-    if (colorMatch && colorMatch[1] !== 'reset' && colorMatch[1] !== 'normal' && colorMatch[1] !== 'default') {
-      const color = colorMatch[1];
-      return colorMap[color] || 'bg-surface-hover';
-    }
-    return 'bg-surface-hover';
-  };
 
   const findChipGroup = () => {
     if (chip.type === 'text' || chip.id === 'space') return null;
@@ -151,19 +138,22 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
     return { type, variant };
   };
 
-  const { type, variant } = getChipParts();
+  const { type: chipType, variant } = getChipParts();
 
   return (
-    <div className="relative" ref={ref} data-testid={`chip-${chip.id}`}>
-      <div
-        style={{ opacity }}
-          className="flex items-center bg-surface text-light rounded text-sm overflow-hidden border border-border"
+    <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }} data-testid={`chip-${chip.id}`}>
+      <Chip
+        ref={preview}
+        variant="active"
+        onRemove={() => removeChip(index)}
+        className="shadow-md"
       >
-        <div ref={dragRef} className="px-2 py-1 cursor-move bg-surface-muted">
-          {type}
+        <div ref={drag} className="cursor-move pr-1">
+          <GripVertical className="h-4 w-4" />
         </div>
+        <span className="font-semibold">{chipType}:</span>
         <div
-          className={`px-2 py-1 border-l border-r border-border ${getColorClassName()}`}
+          className="rounded-md px-1"
           onClick={() => (chipGroup || chip.type === 'text') && setEditing(index)}
         >
           {isEditing && chip.type === 'text' ? (
@@ -173,18 +163,15 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
               onChange={handleInputChange}
               onBlur={handleInputBlur}
               onKeyDown={handleInputKeyDown}
-              className="bg-transparent text-light outline-none"
+              className="bg-transparent text-white outline-none w-16"
               autoFocus
               data-testid="text-chip-input"
             />
           ) : (
-            variant.trim() ? variant : <>&nbsp;</>
+            <span className="font-mono">{variant.trim() ? variant : `""`}</span>
           )}
         </div>
-        <button onClick={() => removeChip(index)} className="px-2 py-1 text-danger hover:bg-surface-muted">
-          &times;
-        </button>
-      </div>
+      </Chip>
       {isEditing && (chip.id === 'C-truncate' || chip.id === 'C-padding') ? (
         <div ref={dropdownRef} className="absolute left-0 mt-2 z-10">
           <SizingEditor chip={chip} onUpdate={(newChip) => updateChip(index, newChip)} />
@@ -196,14 +183,14 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
       ) : isEditing && chipGroup && chip.type === 'element' ? (
         <div
           ref={dropdownRef}
-          className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-surface-muted ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+          className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-zinc-800 ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
         >
           <div className="py-1">
             {chipGroup.chips.map(groupChip => (
               <a
                 href="#"
                 key={groupChip.id}
-                className="text-light block px-4 py-2 text-sm hover:bg-surface-hover"
+                className="text-slate-200 block px-4 py-2 text-sm hover:bg-zinc-700"
                 onClick={(e) => {
                   e.preventDefault();
                   handleChipSelect(groupChip);

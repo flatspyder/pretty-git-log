@@ -1,5 +1,6 @@
 import { Github } from 'lucide-react';
 import { ThemeToggle } from '../ThemeToggle';
+import { Button } from '../ui/Button';
 
 export function Header() {
   return (
@@ -14,24 +15,19 @@ export function Header() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button className="px-3 py-2 text-sm font-semibold rounded-md border border-slate-200/70 dark:border-white/10 hover:bg-slate-50/60 dark:hover:bg-white/5 transition-colors">
-            Presets
-          </button>
-          <button className="px-3 py-2 text-sm font-semibold rounded-md border border-slate-200/70 dark:border-white/10 hover:bg-slate-50/60 dark:hover:bg-white/5 transition-colors">
-            Reset
-          </button>
-          <button className="px-4 py-2 text-sm font-semibold text-white rounded-md bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 hover:shadow-md transition-shadow">
-            Copy Command
-          </button>
+          <Button variant="outline" size="sm">Presets</Button>
+          <Button variant="outline" size="sm">Reset</Button>
+          <Button size="sm">Copy Command</Button>
           <ThemeToggle />
-          <a
-            href="https://github.com/your-repo/git-format"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
-          >
-            <Github className="w-5 h-5 text-slate-500 dark:text-slate-400" />
-          </a>
+          <Button asChild variant="ghost" size="icon">
+            <a
+              href="https://github.com/your-repo/git-format"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github className="w-5 h-5 text-slate-500 dark:text-slate-400" />
+            </a>
+          </Button>
         </div>
       </div>
     </header>

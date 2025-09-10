@@ -1,6 +1,8 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
 import { FormatChip } from '../types';
+import { Chip } from './ui/Chip';
+import { TextCursorInput } from 'lucide-react';
 
 interface TextChipProps {
   onSelect: (chip: FormatChip) => void;
@@ -8,17 +10,14 @@ interface TextChipProps {
 
 const TextChip: React.FC<TextChipProps> = ({ onSelect }) => {
   const handleClick = () => {
-    onSelect({ id: `text-${nanoid()}`, type: 'text', label: 'Text', value: '[ ' });
+    onSelect({ id: `text-${nanoid()}`, type: 'text', label: 'Text', value: ' ' });
   };
 
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      className="px-3 py-1 rounded-md border border-surface-hover bg-surface-muted text-sm font-medium text-light hover:bg-surface-hover"
-    >
+    <Chip as="button" onClick={handleClick} className="cursor-pointer">
+      <TextCursorInput className="w-4 h-4 mr-1" />
       Text
-    </button>
+    </Chip>
   );
 };
 

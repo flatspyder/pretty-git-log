@@ -17,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from './components/ui/Card';
+import { Button } from './components/ui/Button';
 
 
 const App: React.FC = () => {
@@ -86,12 +87,14 @@ const App: React.FC = () => {
                       spellCheck="false"
                       minRows={1}
                     />
-                    <button
+                    <Button
                       onClick={() => navigator.clipboard.writeText(formatString)}
-                      className="absolute top-2 right-2 bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-1 px-3 rounded text-sm"
+                      variant="default"
+                      size="sm"
+                      className="absolute top-2 right-2"
                     >
                       Copy
-                    </button>
+                    </Button>
                   </div>
                 </CardContent>
               </Card>

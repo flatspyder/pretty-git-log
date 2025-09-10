@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FormatChip } from '../types';
+import { Button } from './ui/Button';
+import { User, GitCommit, Calendar, ChevronDown } from 'lucide-react';
 
 interface SplitChipProps {
   title: string;
@@ -7,9 +9,16 @@ interface SplitChipProps {
   onSelect: (chip: FormatChip) => void;
 }
 
+const ICONS: { [key: string]: React.ElementType } = {
+  Author: User,
+  Commit: GitCommit,
+  Date: Calendar,
+};
+
 const SplitChip: React.FC<SplitChipProps> = ({ title, chips, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const Icon = ICONS[title] || GitCommit;
 
   const handleSelect = (chip: FormatChip) => {
     onSelect(chip);
@@ -31,40 +40,31 @@ const SplitChip: React.FC<SplitChipProps> = ({ title, chips, onSelect }) => {
 
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
-      <div className="flex rounded-md shadow-sm">
-        <button
-          type="button"
+      <div className="inline-flex rounded-full">
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => setIsOpen(!isOpen)}
-            className="relative inline-flex items-center px-3 py-1 rounded-l-md border border-surface-hover bg-surface-muted text-sm font-medium text-light hover:bg-surface-hover focus:z-10 focus:outline-none focus:ring-1 focus:ring-muted"
+          className="rounded-r-none pl-3 pr-2"
         >
+          <Icon className="w-4 h-4 mr-2" />
           {title}
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => setIsOpen(!isOpen)}
-            className="relative inline-flex items-center px-2 py-1 rounded-r-md border border-l-0 border-surface-hover bg-surface-muted text-sm font-medium text-light hover:bg-surface-hover focus:z-10 focus:outline-none focus:ring-1 focus:ring-muted"
+          className="rounded-l-none px-2"
           aria-haspopup="true"
           aria-expanded={isOpen}
         >
-          <svg
-            className="h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
+          <ChevronDown className="w-4 h-4" />
+        </Button>
       </div>
 
       {isOpen && (
         <div
-            className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-surface-muted ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+          className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-zinc-800 ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
@@ -74,7 +74,7 @@ const SplitChip: React.FC<SplitChipProps> = ({ title, chips, onSelect }) => {
               <a
                 href="#"
                 key={chip.id}
-                  className="text-light block px-4 py-2 text-sm hover:bg-surface-hover"
+                className="text-slate-700 dark:text-slate-200 block px-4 py-2 text-sm hover:bg-slate-100 dark:hover:bg-zinc-700"
                 role="menuitem"
                 onClick={(e) => {
                   e.preventDefault();

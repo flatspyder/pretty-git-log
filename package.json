@@ -10,6 +10,7 @@
     "test": "rm -rf dist && tsc tests/gitFormatter.test.ts tests/chipFormatter.test.ts src/services/gitFormatter.ts src/services/chipFormatter.ts src/types.ts --outDir dist --module es2022 --target ES2022 --esModuleInterop --moduleResolution bundler --skipLibCheck && node dist/tests/gitFormatter.test.js && node dist/tests/chipFormatter.test.js"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
     "@types/react-dnd": "^2.0.36",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
