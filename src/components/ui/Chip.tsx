@@ -10,7 +10,7 @@ const chipVariants = cva(
     variants: {
       variant: {
         default: 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800/80 dark:text-slate-200 dark:hover:bg-zinc-700',
-        active: 'text-white border-transparent bg-gradient-to-r from-indigo-500 to-violet-500 shadow',
+        active: 'text-white/90 border-transparent bg-gradient-to-r from-indigo-500 to-violet-500 shadow',
       },
     },
     defaultVariants: {

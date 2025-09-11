@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { FormatChip, ChipGroup } from '../types';
+import { FormatChip } from '../types';
 import DraggableChip from './DraggableChip';
-import { PRESET_FORMATS, ELEMENT_CHIP_GROUPS, STYLE_CHIPS } from '../constants';
+import { ELEMENT_CHIP_GROUPS, STYLE_CHIPS } from '../constants';
 import { Card } from './ui/Card';
 import { clsx } from 'clsx';
 import SectionHeading from './SectionHeading';
@@ -83,7 +83,7 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({
               />
             ))}
           </AnimatePresence>
-        </div>
+        </motion.div>
     </Card>
     </div>
   );
