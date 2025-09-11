@@ -1,0 +1,61 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Define CSS variables for light and dark themes.
+  These are then used in tailwind.config.cjs.
+*/
+
+@layer base {
+  :root {
+    /* Base colors - Light Mode */
+    --color-bg: 248 250 252; /* slate-50 */
+    --color-surface: 255 255 255; /* white */
+    --color-border: 226 232 240; /* slate-200 */
+    --color-text-primary: 30 41 59; /* slate-800 */
+    --color-text-secondary: 71 85 105; /* slate-600 */
+    --color-text-muted: 148 163 184; /* slate-400 */
+
+    /* Accent Gradient - Light Mode */
+    --color-accent-start: 99 102 241; /* indigo-500 */
+    --color-accent-end: 168 85 247; /* violet-500 */
+
+    /* Other semantic colors */
+    --color-danger: 239 68 68; /* red-500 */
+  }
+
+  .dark {
+    /* Base colors - Dark Mode */
+    --color-bg: 9 9 11; /* zinc-950 */
+    --color-surface: 24 24 27; /* zinc-900 */
+    --color-border: 63 63 70; /* zinc-700 */
+    --color-text-primary: 244 244 245; /* zinc-100 */
+    --color-text-secondary: 161 161 170; /* zinc-400 */
+    --color-text-muted: 113 113 122; /* zinc-500 */
+
+    /* Accent Gradient - Dark Mode */
+    --color-accent-start: 129 140 248; /* indigo-400 */
+    --color-accent-end: 217 70 239; /* fuchsia-500 */
+
+    /* Other semantic colors */
+    --color-danger: 185 28 28; /* red-700 */
+  }
+
+  body {
+    background-color: rgb(var(--color-bg));
+    color: rgb(var(--color-text-secondary));
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Custom utility for gradient text */
+  .text-gradient-accent {
+    background-image: linear-gradient(to right, rgb(var(--color-accent-start)), rgb(var(--color-accent-end)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}

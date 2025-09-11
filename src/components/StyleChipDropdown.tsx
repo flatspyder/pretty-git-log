@@ -14,14 +14,13 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect }) => {
 
   return (
     <div
-      className="origin-top-left absolute left-0 mt-2 w-96 rounded-md shadow-lg bg-surface-muted ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
       role="menu"
       aria-orientation="vertical"
       aria-labelledby="menu-button"
     >
-      <div className="py-1" role="none">
+      <div className="py-1 " role="none">
         <div className="px-4 py-2 text-sm text-light font-bold">Colors</div>
-        <div className="grid grid-cols-4 gap-2 px-4 py-2">
+        <div className="grid grid-cols-8 grid-rows-1 gap-2 px-4 py-2">
           {COLOR_CHIPS.chips
             .filter(chip => {
               const colorName = chip.label.split(': ')[1];
@@ -31,7 +30,7 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect }) => {
             <button
               key={chip.id}
               onClick={() => handleSelect(chip)}
-              className={`w-10 h-10 rounded-md border border-surface-hover ${colorSwatch[chip.label.split(': ')[1].toLowerCase()]}`}
+              className={`w-8 h-8 rounded-md border border-surface-hover ${colorSwatch[chip.label.split(': ')[1].toLowerCase()]}`}
             >
               &nbsp;
             </button>

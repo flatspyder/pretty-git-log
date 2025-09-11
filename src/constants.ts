@@ -279,7 +279,7 @@ export const PRESET_FORMATS: { [key: string]: FormatChip[] } = {
     spaceChip,
     createTextChip('Date: '),
     { ...COLOR_CHIPS.chips.find(c => c.id === 'C-green')! },
-    { ...AUTHOR_CHIPS.chips.find(c => c.id === 'ai')! },
+    { ...AUTHOR_CHIPS.chips.find(c => c.id === 'ar')! },
     { ...COLOR_CHIPS.chips.find(c => c.id === 'C-reset')! },
     { ...MISC_CHIPS.chips.find(c => c.id === 'n')! },
     spaceChip,

@@ -23,11 +23,15 @@ import { motion } from 'framer-motion';
 import { Switch } from './components/ui/Switch';
 import { Label } from './components/ui/Label';
 import toast, { Toaster } from 'react-hot-toast';
+import SectionHeading from './components/SectionHeading';
+import clsx from 'clsx';
+import { Copy, WrapText } from 'lucide-react';
 
 
 const App: React.FC = () => {
   const [chips, setChips] = useState<FormatChip[]>([]);
   const [wrapLines, setWrapLines] = useState(false);
+  const [wrap, setWrap] = useState(false);
 
   const formatString = useMemo(() => chipsToFormatString(chips), [chips]);
 
@@ -74,64 +78,61 @@ const App: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* --- Builder Column --- */}
             <div className="lg:col-span-7 flex flex-col gap-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Tokens Palette</CardTitle>
-                  <CardDescription>
-                    Click or drag tokens to the dropzone to build your format.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
+              <div>
+                <SectionHeading className="mb-4">Tokens Palette</SectionHeading>
+                <Card className="p-4 sm:p-6">
                   <SelectComponents onSelect={addChip} />
-                </CardContent>
-              </Card>
+                </Card>
+              </div>
+              
               <FormatBuilder chips={chips} setChips={setChips} updateChip={updateChip} />
             </div>
 
             {/* --- Preview Column --- */}
             <div className="lg:col-span-5 flex flex-col gap-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Command String</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-col relative">
-                    <TextareaAutosize
-                      id="format-output"
-                      value={formatString}
-                      readOnly
-                      className="w-full p-3 bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-black dark:text-white font-mono text-sm pr-24"
-                      spellCheck="false"
-                      minRows={1}
-                    />
-                    <Button
-                      onClick={handleCopy}
-                      variant="default"
-                      size="sm"
-                      className="absolute top-2 right-2"
-                    >
-                      Copy
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <div className="flex justify-between items-center">
-                    <CardTitle>Live Preview</CardTitle>
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center space-x-2">
-                        <Switch id="wrap-lines" checked={wrapLines} onCheckedChange={setWrapLines} />
-                        <Label htmlFor="wrap-lines">Wrap Lines</Label>
-                      </div>
+              <div>
+                <SectionHeading className="mb-4">Command</SectionHeading>
+                <Card className="p-0">
+                  <div className="flex items-center justify-between px-4 py-2 border-b border-slate-200/80 dark:border-white/10">
+                    <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                      Generated Command
+                    </h3>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setWrap(!wrap)}
+                        className={clsx(
+                          'p-1.5 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800',
+                          wrap && 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-500'
+                        )}
+                        title="Toggle line wrap"
+                      >
+                        <WrapText size={16} />
+                      </button>
+                      <button
+                        onClick={handleCopy}
+                        className="p-1.5 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800"
+                        title="Copy command"
+                      >
+                        <Copy size={16} />
+                      </button>
                     </div>
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <LogDisplay lines={formattedLines} wrapLines={wrapLines} />
-                </CardContent>
-              </Card>
+                  <div className="p-4 bg-white/50 dark:bg-black/20">
+                    <pre
+                      className={clsx(
+                        'font-mono text-sm text-slate-700 dark:text-slate-300',
+                        wrap ? 'whitespace-pre-wrap break-all' : 'overflow-x-auto'
+                      )}
+                    >
+                      <code>{formatString}</code>
+                    </pre>
+                  </div>
+                </Card>
+              </div>
+              <div>
+                <SectionHeading className="mb-4">Preview</SectionHeading>
+                <LogDisplay lines={formattedLines} wrapLines={wrapLines} />
+              </div>
             </div>
           </div>
         </main>

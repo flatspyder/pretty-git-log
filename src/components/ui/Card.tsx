@@ -8,8 +8,10 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={clsx(
-      'rounded-2xl border border-white/10 dark:border-white/5 bg-white/70 dark:bg-zinc-900/60 backdrop-blur shadow-sm',
-      'supports-[backdrop-filter]:bg-white/40 dark:supports-[backdrop-filter]:bg-zinc-900/60',
+      'rounded-2xl border overflow-hidden bg-white/60 dark:bg-zinc-900/60',
+      'border-slate-200/80 dark:border-white/10',
+      'backdrop-blur-xl supports-[backdrop-filter]:bg-white/40 dark:supports-[backdrop-filter]:bg-zinc-900/40',
+      'shadow-sm',
       className
     )}
     {...props}

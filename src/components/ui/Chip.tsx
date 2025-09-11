@@ -5,7 +5,7 @@ import { X } from 'lucide-react';
 import { Slot } from '@radix-ui/react-slot';
 
 const chipVariants = cva(
-  'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+  'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400 dark:focus-visible:ring-offset-zinc-900',
   {
     variants: {
       variant: {
@@ -29,18 +29,20 @@ export interface ChipProps
 const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
   ({ className, variant, asChild = false, onRemove, children, ...props }, ref) => {
     const Comp = asChild ? Slot : 'div';
+
     return (
       <Comp className={clsx(chipVariants({ variant }), className)} ref={ref} {...props}>
         {children}
+        {onRemove && (<div className="w-px h-4 bg-slate-200 dark:bg-zinc-700"></div>)}
         {onRemove && (
           <button
             onClick={(e) => {
               e.stopPropagation(); // prevent chip click events
               onRemove();
             }}
-            className="-mr-1 h-4 w-4 rounded-full flex items-center justify-center text-current hover:bg-black/10 dark:hover:bg-white/10"
+            className="-mr-1 rounded-full p-0.5 text-slate-400 hover:bg-slate-200/50 hover:text-slate-600 dark:hover:bg-zinc-700/50 dark:hover:text-slate-300"
           >
-            <X className="h-3 w-3" />
+            <X size={14} />
           </button>
         )}
       </Comp>

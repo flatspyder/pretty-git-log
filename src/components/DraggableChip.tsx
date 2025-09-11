@@ -111,9 +111,9 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
         <PopoverTrigger asChild>
           <Chip
             ref={preview}
-            variant="active"
+            variant="default"
             onRemove={() => removeChip(index)}
-            className="shadow-md cursor-pointer"
+            className="cursor-pointer"
           >
             <div ref={drag} className="cursor-move pr-1" aria-label={`Drag ${chipType} chip`}>
               <GripVertical className="h-4 w-4" />

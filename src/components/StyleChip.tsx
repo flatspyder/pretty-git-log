@@ -24,18 +24,13 @@ const StyleChip: React.FC<StyleChipProps> = ({ onSelect }) => {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <div className="flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 p-1 rounded-full">
+      <PopoverTrigger asChild>
         <Chip>
-          <Palette className="w-4 h-4" />
+          <Palette size={14} className="text-slate-400" />
           <span>Style</span>
+          <span className="sr-only">Add style chip</span>
         </Chip>
-        <PopoverTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-6 w-6">
-            <PlusCircle className="w-4 h-4" />
-            <span className="sr-only">Add Style Chip</span>
-          </Button>
-        </PopoverTrigger>
-      </div>
+      </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <StyleChipDropdown onSelect={handleSelect} />
       </PopoverContent>

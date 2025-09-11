@@ -3,9 +3,10 @@ import { useDrop } from 'react-dnd';
 import { FormatChip } from '../types';
 import DraggableChip from './DraggableChip';
 import { PRESET_FORMATS, ELEMENT_CHIP_GROUPS, STYLE_CHIPS } from '../constants';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/Card';
-import { Button } from './ui/Button';
+import { Card } from './ui/Card';
 import { clsx } from 'clsx';
+import SectionHeading from './SectionHeading';
+import { AnimatePresence } from 'framer-motion';
 
 interface FormatBuilderProps {
   chips: FormatChip[];
@@ -43,21 +44,27 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
   );
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Current Format</CardTitle>
-        <CardDescription>This is the dropzone for your format tokens.</CardDescription>
-      </CardHeader>
-      <CardContent>
+    <div>
+      <SectionHeading className="mb-4">Current Format</SectionHeading>
+      <Card className="p-4 sm:p-6">
         <div
           ref={drop}
           className={clsx(
-            'flex flex-wrap gap-2 rounded-xl border-2 border-dashed border-slate-300/60 dark:border-white/10 p-4 min-h-32 transition-all',
-            { 'ring-2 ring-indigo-400/70 ring-offset-2 ring-offset-white dark:ring-offset-zinc-900': isOver }
+            'flex flex-wrap gap-2 p-4 rounded-xl border-2 border-dashed min-h-24 transition-all',
+            isOver
+              ? 'border-indigo-400/80 bg-indigo-50/20 dark:bg-indigo-500/10'
+              : 'border-slate-300/80 dark:border-zinc-700/60'
           )}
         >
-          {chips.length > 0 ? (
-            chips.map((chip, idx) => (
+          {chips.length === 0 && (
+            <div className="flex-1 flex items-center justify-center">
+              <p className="text-slate-400 dark:text-slate-500">
+                Drag tokens from the palette above to build your format.
+              </p>
+            </div>
+          )}
+          <AnimatePresence>
+            {chips.map((chip, idx) => (
               <DraggableChip
                 key={chip.id + idx}
                 index={idx}
@@ -69,17 +76,11 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
                 setEditing={setEditingChipIndex}
                 chipGroups={[...ELEMENT_CHIP_GROUPS, ...STYLE_CHIPS]}
               />
-            ))
-          ) : (
-            <div className="w-full flex items-center justify-center">
-              <p className="text-slate-400 dark:text-slate-500">
-                Drag tokens here to build your format string.
-              </p>
-            </div>
-          )}
+            ))}
+          </AnimatePresence>
         </div>
-      </CardContent>
     </Card>
+    </div>
   );
 };
 

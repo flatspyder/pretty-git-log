@@ -20,10 +20,8 @@ const SelectComponents: React.FC<SelectComponentsProps> = ({ onSelect }) => {
           onSelect={onSelect}
         />
       ))}
-      <StyleChip
-        onSelect={onSelect}
-      />
       <TextChip onSelect={onSelect} />
+      <StyleChip onSelect={onSelect} />
     </div>
   );
 };

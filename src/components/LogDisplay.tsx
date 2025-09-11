@@ -1,6 +1,8 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { clsx } from 'clsx';
+import { Card } from './ui/Card';
+import { WrapText } from 'lucide-react';
 
 interface LogDisplayProps {
   lines: string[];
@@ -89,23 +91,45 @@ const parseLineToJsx = (line: string): JSX.Element[] => {
 };
 
 const LogDisplay: React.FC<LogDisplayProps> = ({ lines, wrapLines }) => {
+  const [isWrapped, setWrapLines] = useState(wrapLines);
+
   return (
-    <div className="bg-zinc-950 text-zinc-100 p-4 font-mono text-sm rounded-lg overflow-auto">
+    <Card className="p-0 bg-zinc-950 shadow-lg">
+      <div className="flex items-center px-4 py-2 border-b border-white/10">
+        <div className="flex items-center gap-1.5">
+            <div className="w-3 h-3 rounded-full bg-red-500/70"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div className="w-3 h-3 rounded-full bg-green-500/70"></div>
+        </div>
+        <p className="flex-1 text-center text-xs font-medium text-zinc-400">bash</p>
+        <button
+            onClick={() => setWrapLines(!isWrapped)}
+            className={clsx(
+              'p-1.5 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800',
+              isWrapped && 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-500'
+            )}
+            title="Toggle line wrap"
+          >
+            <WrapText size={16} />
+          </button>
+      </div>
+    <div className="bg-zinc-950 text-zinc-100 p-4 font-mono text-sm overflow-auto">
       <pre
         className={clsx({
-          'whitespace-pre': !wrapLines,
-          'whitespace-pre-wrap break-words': wrapLines,
+          'whitespace-pre': !isWrapped,
+          'whitespace-pre-wrap break-words': isWrapped,
         })}
       >
         <code>
           {lines.map((line, index) => (
-            <div key={index}>
+            <div key={index} className="leading-relaxed">
               {parseLineToJsx(line)}
             </div>
           ))}
         </code>
       </pre>
     </div>
+    </Card>
   );
 };
 
