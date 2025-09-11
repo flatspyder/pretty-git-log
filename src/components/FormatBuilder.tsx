@@ -6,25 +6,30 @@ import { PRESET_FORMATS, ELEMENT_CHIP_GROUPS, STYLE_CHIPS } from '../constants';
 import { Card } from './ui/Card';
 import { clsx } from 'clsx';
 import SectionHeading from './SectionHeading';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface FormatBuilderProps {
   chips: FormatChip[];
   setChips: React.Dispatch<React.SetStateAction<FormatChip[]>>;
   updateChip: (index: number, newChip: FormatChip) => void;
+  onExitComplete?: () => void;
 }
 
-const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateChip }) => {
+const FormatBuilder: React.FC<FormatBuilderProps> = ({
+  chips,
+  setChips,
+  updateChip,
+  onExitComplete,
+}) => {
   const [editingChipIndex, setEditingChipIndex] = useState<number | null>(null);
 
   const [{ isOver }, drop] = useDrop(() => ({
-    accept: 'chip', // This should match the type from DraggableChip
+    accept: 'chip',
     drop: () => ({ name: 'FormatBuilder' }),
-    collect: (monitor) => ({
+    collect: monitor => ({
       isOver: monitor.isOver(),
     }),
   }));
-
 
   const removeChip = (index: number) => {
     setChips(prev => prev.filter((_, i) => i !== index));
@@ -47,10 +52,12 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
     <div>
       <SectionHeading className="mb-4">Current Format</SectionHeading>
       <Card className="p-4 sm:p-6">
-        <div
+        <motion.div
           ref={drop}
+          layout
+          transition={{ duration: 0.5, type: 'spring' }}
           className={clsx(
-            'flex flex-wrap gap-3 p-4 rounded-xl border-2 border-dashed min-h-24 transition-all',
+            'flex flex-wrap gap-3 p-4 rounded-xl border-2 border-dashed min-h-24',
             isOver
               ? 'border-indigo-400/80 bg-indigo-50/20 dark:bg-indigo-500/10'
               : 'border-slate-300/80 dark:border-zinc-700/60'
@@ -63,7 +70,7 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
               </p>
             </div>
           )}
-          <AnimatePresence>
+          <AnimatePresence onExitComplete={onExitComplete}>
             {chips.map((chip, idx) => (
               <DraggableChip
                 key={chip.instanceId}
