@@ -156,7 +156,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
             ref={preview}
             variant="default"
             onRemove={() => removeChip(index)}
-            className="cursor-pointer"
+            className="cursor-pointer text-xs"
           >
             <div ref={drag} className="cursor-move pr-1.5" aria-label={`Drag ${chip.label} chip`}>
               <GripVertical className="h-4 w-4 text-slate-400" />
