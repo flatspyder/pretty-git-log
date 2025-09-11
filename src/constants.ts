@@ -108,11 +108,11 @@ export const SYNTHETIC_LOG_DATA: GitCommit[] = [
   },
 ];
 
-import { ChipGroup, FormatChip } from './types.ts';
+import { ChipGroup, ChipDefinition } from './types.ts';
 
-const createElementChip = (chip: Omit<FormatChip, 'type'>): FormatChip => ({ ...chip, type: 'element' });
-const createStyleChip = (chip: Omit<FormatChip, 'type'>): FormatChip => ({ ...chip, type: 'style' });
-const createTextChip = (value: string): FormatChip => ({
+const createElementChip = (chip: Omit<ChipDefinition, 'type'>): ChipDefinition => ({ ...chip, type: 'element' });
+const createStyleChip = (chip: Omit<ChipDefinition, 'type'>): ChipDefinition => ({ ...chip, type: 'style' });
+const createTextChip = (value: string): ChipDefinition => ({
   id: `text-${nanoid()}`,
   type: 'text',
   value,
@@ -243,9 +243,9 @@ export const STYLE_CHIPS: ChipGroup[] = [
   SIZING_CHIPS,
 ];
 
-const spaceChip: FormatChip = createTextChip(' ');
+const spaceChip: ChipDefinition = createTextChip(' ');
 
-export const PRESET_FORMATS: { [key: string]: FormatChip[] } = {
+export const PRESET_FORMATS: { [key: string]: ChipDefinition[] } = {
   oneline: [
     { ...COLOR_CHIPS.chips.find(c => c.id === 'C-yellow')! },
     { ...HASH_CHIPS.chips.find(c => c.id === 'h')! },

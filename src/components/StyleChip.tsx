@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormatChip } from '../types';
+import { ChipDefinition } from '../types';
 import StyleChipDropdown from './StyleChipDropdown';
 import { Button } from './ui/Button';
 import { Chip } from './ui/Chip';
@@ -11,13 +11,13 @@ import {
 } from './ui/Popover';
 
 interface StyleChipProps {
-  onSelect: (chip: FormatChip) => void;
+  onSelect: (chip: ChipDefinition) => void;
 }
 
 const StyleChip: React.FC<StyleChipProps> = ({ onSelect }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const handleSelect = (chip: FormatChip) => {
+  const handleSelect = (chip: ChipDefinition) => {
     onSelect(chip);
     setIsOpen(false);
   };

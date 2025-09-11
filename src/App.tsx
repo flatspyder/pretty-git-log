@@ -8,7 +8,8 @@ import SelectComponents from './components/SelectComponents';
 import { PRESET_FORMATS, SYNTHETIC_LOG_DATA } from './constants';
 import { formatGitLog } from './services/gitFormatter';
 import { chipsToFormatString } from './services/chipFormatter';
-import { FormatChip } from './types';
+import { ChipDefinition, FormatChip } from './types';
+import { nanoid } from 'nanoid';
 import { Header } from './components/layout/Header';
 import { MobileActionBar } from './components/layout/MobileActionBar';
 import {
@@ -47,8 +48,8 @@ const App: React.FC = () => {
     }
   }, [formatString]);
 
-  const addChip = useCallback((chip: FormatChip) => {
-    setChips(prev => [...prev, chip]);
+  const addChip = useCallback((chip: ChipDefinition) => {
+    setChips(prev => [...prev, { ...chip, instanceId: nanoid() }]);
   }, []);
 
   const updateChip = useCallback((index: number, newChip: FormatChip) => {
@@ -65,7 +66,11 @@ const App: React.FC = () => {
   };
 
   const applyPreset = (formatName: string) => {
-    setChips(PRESET_FORMATS[formatName]);
+    const presetChips = PRESET_FORMATS[formatName].map(chip => ({
+      ...chip,
+      instanceId: nanoid(),
+    }));
+    setChips(presetChips);
     toast.success(`Preset "${formatName}" loaded!`);
   };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormatChip } from '../types';
+import { ChipDefinition } from '../types';
 import { colorMap, colorSwatch } from '../services/colorUtils';
 import { COLOR_CHIPS, EFFECT_CHIPS, SIZING_CHIPS } from '../constants';
 import { Button } from './ui/Button';
@@ -24,11 +24,11 @@ const EFFECT_ICONS: { [key: string]: React.ElementType } = {
 };
 
 interface StyleChipDropdownProps {
-  onSelect: (chip: FormatChip) => void;
+  onSelect: (chip: ChipDefinition) => void;
 }
 
 const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect }) => {
-  const handleSelect = (chip: FormatChip) => {
+  const handleSelect = (chip: ChipDefinition) => {
     onSelect(chip);
   };
 

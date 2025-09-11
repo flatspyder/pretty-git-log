@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormatChip } from '../types';
+import { ChipDefinition } from '../types';
 import { Button } from './ui/Button';
 import { User, UserCheck, GitCommit, Hash, PlusCircle, MoreHorizontal, FileText } from 'lucide-react';
 import { Chip } from './ui/Chip';
@@ -14,8 +14,8 @@ import {
 
 interface SplitChipProps {
   title: string;
-  chips: FormatChip[];
-  onSelect: (chip: FormatChip) => void;
+  chips: ChipDefinition[];
+  onSelect: (chip: ChipDefinition) => void;
 }
 
 const ICONS: { [key: string]: React.ElementType } = {
@@ -29,7 +29,7 @@ const ICONS: { [key: string]: React.ElementType } = {
 const SplitChip: React.FC<SplitChipProps> = ({ title, chips, onSelect }) => {
   const Icon = ICONS[title] || GitCommit;
 
-  const handleSelect = (chip: FormatChip) => {
+  const handleSelect = (chip: ChipDefinition) => {
     onSelect(chip);
   };
 

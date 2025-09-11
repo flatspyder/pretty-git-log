@@ -3,7 +3,7 @@ import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
-import { FormatChip, ChipGroup } from '../types';
+import { FormatChip, ChipGroup, ChipDefinition } from '../types';
 import { Chip } from './ui/Chip';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/Popover';
 import ChipEditor from './ChipEditor';

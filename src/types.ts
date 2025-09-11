@@ -19,14 +19,18 @@ export interface GitCommit {
   encoding?: string;
 }
 
-export interface FormatChip {
+export interface ChipDefinition {
   id: string;
   type: 'element' | 'style' | 'text';
-  label?: string;
+  label: string;
   value: string;
+}
+
+export interface FormatChip extends ChipDefinition {
+  instanceId: string;
 }
 
 export interface ChipGroup {
   title: string;
-  chips: FormatChip[];
+  chips: ChipDefinition[];
 }

@@ -1,12 +1,12 @@
 import React from 'react';
-import { FormatChip } from '../types';
+import { ChipDefinition } from '../types';
 import SplitChip from './SplitChip';
 import StyleChip from './StyleChip';
 import TextChip from './TextChip';
 import { ELEMENT_CHIP_GROUPS } from '../constants';
 
 interface SelectComponentsProps {
-  onSelect: (chip: FormatChip) => void;
+  onSelect: (chip: ChipDefinition) => void;
 }
 
 const SelectComponents: React.FC<SelectComponentsProps> = ({ onSelect }) => {

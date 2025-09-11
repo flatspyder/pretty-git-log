@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormatChip, ChipGroup } from '../types';
+import { FormatChip, ChipGroup, ChipDefinition } from '../types';
 import StyleChipDropdown from './StyleChipDropdown';
 import SizingEditor from './SizingEditor';
 import { Button } from './ui/Button';
@@ -20,8 +20,8 @@ const ChipEditor: React.FC<ChipEditorProps> = ({ chip, chipGroups, updateChip, c
     closeEditor();
   };
 
-  const handleChipSelect = (newChip: FormatChip) => {
-    updateChip(newChip);
+  const handleChipSelect = (newChip: ChipDefinition) => {
+    updateChip({ ...newChip, instanceId: chip.instanceId });
     closeEditor();
   };
 

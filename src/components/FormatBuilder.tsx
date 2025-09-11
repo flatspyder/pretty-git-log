@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { FormatChip } from '../types';
+import { FormatChip, ChipGroup } from '../types';
 import DraggableChip from './DraggableChip';
 import { PRESET_FORMATS, ELEMENT_CHIP_GROUPS, STYLE_CHIPS } from '../constants';
 import { Card } from './ui/Card';
@@ -66,7 +66,7 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
           <AnimatePresence>
             {chips.map((chip, idx) => (
               <DraggableChip
-                key={chip.id + idx}
+                key={chip.instanceId}
                 index={idx}
                 chip={chip}
                 moveChip={moveChip}

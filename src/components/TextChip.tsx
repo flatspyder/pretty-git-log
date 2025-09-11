@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
-import { FormatChip } from '../types';
+import { ChipDefinition } from '../types';
 import { Chip } from './ui/Chip';
 import { TextCursorInput } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/Popover';
@@ -8,7 +8,7 @@ import { Input } from './ui/Input';
 import { Button } from './ui/Button';
 
 interface TextChipProps {
-  onSelect: (chip: FormatChip) => void;
+  onSelect: (chip: ChipDefinition) => void;
 }
 
 const TextChip: React.FC<TextChipProps> = ({ onSelect }) => {
