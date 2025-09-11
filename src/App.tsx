@@ -31,7 +31,6 @@ import { Copy, WrapText } from 'lucide-react';
 
 const App: React.FC = () => {
   const [chips, setChips] = useState<FormatChip[]>([]);
-  const [nextChips, setNextChips] = useState<FormatChip[] | null>(null);
   const [wrapLines, setWrapLines] = useState(false);
   const [wrap, setWrap] = useState(false);
 
@@ -71,20 +70,8 @@ const App: React.FC = () => {
       ...chip,
       instanceId: nanoid(),
     }));
-    if (chips.length > 0) {
-      setNextChips(presetChips);
-      setChips([]);
-    } else {
-      setChips(presetChips);
-    }
+    setChips(presetChips);
     toast.success(`Preset "${formatName}" loaded!`);
-  };
-
-  const handleExitComplete = () => {
-    if (nextChips) {
-      setChips(nextChips);
-      setNextChips(null);
-    }
   };
 
   return (
@@ -103,12 +90,7 @@ const App: React.FC = () => {
                 </Card>
               </div>
               
-              <FormatBuilder
-                chips={chips}
-                setChips={setChips}
-                updateChip={updateChip}
-                onExitComplete={handleExitComplete}
-              />
+              <FormatBuilder chips={chips} setChips={setChips} updateChip={updateChip} />
             </div>
 
             {/* --- Preview Column --- */}

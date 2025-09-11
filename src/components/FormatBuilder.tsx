@@ -12,14 +12,12 @@ interface FormatBuilderProps {
   chips: FormatChip[];
   setChips: React.Dispatch<React.SetStateAction<FormatChip[]>>;
   updateChip: (index: number, newChip: FormatChip) => void;
-  onExitComplete?: () => void;
 }
 
 const FormatBuilder: React.FC<FormatBuilderProps> = ({
   chips,
   setChips,
   updateChip,
-  onExitComplete,
 }) => {
   const [editingChipIndex, setEditingChipIndex] = useState<number | null>(null);
 
@@ -70,7 +68,7 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({
               </p>
             </div>
           )}
-          <AnimatePresence onExitComplete={onExitComplete}>
+          <AnimatePresence>
             {chips.map((chip, idx) => (
               <DraggableChip
                 key={chip.instanceId}
