@@ -147,9 +147,16 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
       <motion.div
         ref={ref}
         data-testid={`chip-${chip.id}`}
-        animate={{ scale: isDragging ? 1.05 : 1 }}
-        transition={{ duration: 0.2 }}
-        className={clsx('transition-shadow', isDragging && 'ring-2 ring-indigo-400 rounded-full')}
+        layout
+        initial={{ opacity: 0, y: 10, scale: 0.8 }}
+        animate={{ opacity: 1, y: 0, scale: isDragging ? 1.05 : 1 }}
+        exit={{ opacity: 0, y: -10, scale: 0.8 }}
+        transition={{
+          opacity: { duration: 0.2 },
+          layout: { type: 'spring', stiffness: 600, damping: 35 },
+          scale: { duration: 0.2 },
+        }}
+        className={clsx(isDragging ? 'ring-2 ring-indigo-400 rounded-full' : 'ring-0')}
       >
         <PopoverTrigger asChild>
           <Chip

@@ -8,14 +8,14 @@ import {
   Underline,
   Italic,
   Strikethrough,
-  Baseline,
+  Minus,
   Radio,
   FlipHorizontal,
 } from 'lucide-react';
 
 const EFFECT_ICONS: { [key: string]: React.ElementType } = {
   Bold: Bold,
-  Dim: Baseline,
+  Dim: Minus,
   Underline: Underline,
   Blink: Radio,
   Reverse: FlipHorizontal,

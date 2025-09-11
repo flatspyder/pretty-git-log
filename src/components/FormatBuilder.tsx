@@ -50,7 +50,7 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({ chips, setChips, updateCh
         <div
           ref={drop}
           className={clsx(
-            'flex flex-wrap gap-2 p-4 rounded-xl border-2 border-dashed min-h-24 transition-all',
+            'flex flex-wrap gap-3 p-4 rounded-xl border-2 border-dashed min-h-24 transition-all',
             isOver
               ? 'border-indigo-400/80 bg-indigo-50/20 dark:bg-indigo-500/10'
               : 'border-slate-300/80 dark:border-zinc-700/60'
