@@ -7,7 +7,26 @@ import { FormatChip, ChipGroup } from '../types';
 import { Chip } from './ui/Chip';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/Popover';
 import ChipEditor from './ChipEditor';
-import { GripVertical } from 'lucide-react';
+import {
+  GripVertical,
+  User,
+  UserCheck,
+  GitCommit,
+  Hash,
+  MoreHorizontal,
+  FileText,
+  Palette,
+  TextCursorInput,
+} from 'lucide-react';
+
+const ICONS: { [key: string]: React.ElementType } = {
+  Author: User,
+  Committer: UserCheck,
+  'Subject & Body': FileText,
+  Hash: Hash,
+  Refs: GitCommit,
+  Misc: MoreHorizontal,
+};
 
 const ITEM_TYPE = 'chip';
 
@@ -65,32 +84,59 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
 
   drop(ref);
 
-  const getChipParts = () => {
+  const getChipIcon = () => {
+    if (chip.type === 'style') return Palette;
+    if (chip.type === 'text' || chip.id.startsWith('literal-') || chip.id === 'space') {
+      return TextCursorInput;
+    }
+    const chipGroup = chipGroups.find(group => group.chips.some(c => c.id === chip.id));
+    if (chipGroup && ICONS[chipGroup.title]) {
+      return ICONS[chipGroup.title];
+    }
+    return GitCommit; // fallback icon
+  };
+
+  const Icon = getChipIcon();
+
+  const getChipDisplay = () => {
     if (chip.id === 'C-truncate' || chip.id === 'C-padding') {
       const match = chip.value.match(/\((\d+)\)/);
       const value = match ? match[1] : '';
-      return { type: chip.label, variant: value };
+      return (
+        <>
+          <Icon size={14} className="mr-1.5 text-slate-500" />
+          <span>{chip.label}:</span>
+          <span className="ml-1.5 font-mono">{value}</span>
+        </>
+      );
     }
-    if (chip.type === 'text') {
-      return { type: 'Text', variant: chip.value };
-    }
-    if (chip.id.startsWith('literal-')) {
-      return { type: 'Literal', variant: chip.label };
-    }
-    if (chip.id === 'space') {
-      return { type: 'Space', variant: '' };
-    }
-    if (chip.label && chip.label.includes(': ')) {
-      const parts = chip.label.split(': ');
-      return { type: parts[0], variant: parts[1] || '' };
-    }
-    const parts = chip.label ? chip.label.split(' ') : [];
-    const type = parts[0] || '';
-    const variant = parts.slice(1).join(' ');
-    return { type, variant };
-  };
 
-  const { type: chipType, variant } = getChipParts();
+    if (chip.type === 'text' || chip.id.startsWith('literal-')) {
+      return (
+        <>
+          <Icon size={14} className="mr-1.5 text-slate-500" />
+          <span className="font-mono">"{chip.value}"</span>
+        </>
+      );
+    }
+
+    if (chip.id === 'space') {
+      return (
+        <>
+          <Icon size={14} className="mr-1.5 text-slate-500" />
+          <span className="italic text-slate-500">Space</span>
+        </>
+      );
+    }
+
+    // Default for element and style chips
+    return (
+      <>
+        <Icon size={14} className="mr-1.5 text-slate-500" />
+        <span>{chip.label}</span>
+      </>
+    );
+  };
 
   const handleUpdate = (newChip: FormatChip) => {
     updateChip(index, newChip);
@@ -103,10 +149,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
         data-testid={`chip-${chip.id}`}
         animate={{ scale: isDragging ? 1.05 : 1 }}
         transition={{ duration: 0.2 }}
-        className={clsx(
-          'rounded-full transition-shadow',
-          isDragging && 'ring-2 ring-indigo-400'
-        )}
+        className={clsx('transition-shadow', isDragging && 'ring-2 ring-indigo-400 rounded-full')}
       >
         <PopoverTrigger asChild>
           <Chip
@@ -115,15 +158,18 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
             onRemove={() => removeChip(index)}
             className="cursor-pointer"
           >
-            <div ref={drag} className="cursor-move pr-1" aria-label={`Drag ${chipType} chip`}>
-              <GripVertical className="h-4 w-4" />
+            <div ref={drag} className="cursor-move pr-1.5" aria-label={`Drag ${chip.label} chip`}>
+              <GripVertical className="h-4 w-4 text-slate-400" />
             </div>
-            <span className="font-semibold">{chipType}:</span>
-            <span className="font-mono">{variant.trim() ? variant : `""`}</span>
+            {getChipDisplay()}
           </Chip>
         </PopoverTrigger>
       </motion.div>
-      <PopoverContent>
+      <PopoverContent className={
+        (chip.id === 'C-truncate' || chip.id === 'C-padding' || chip.type === 'style')
+          ? 'w-auto p-0'
+          : 'w-auto'
+      }>
         <ChipEditor
           chip={chip}
           chipGroups={chipGroups}

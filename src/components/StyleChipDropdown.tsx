@@ -2,6 +2,26 @@ import React from 'react';
 import { FormatChip } from '../types';
 import { colorMap, colorSwatch } from '../services/colorUtils';
 import { COLOR_CHIPS, EFFECT_CHIPS, SIZING_CHIPS } from '../constants';
+import { Button } from './ui/Button';
+import {
+  Bold,
+  Underline,
+  Italic,
+  Strikethrough,
+  Baseline,
+  Radio,
+  FlipHorizontal,
+} from 'lucide-react';
+
+const EFFECT_ICONS: { [key: string]: React.ElementType } = {
+  Bold: Bold,
+  Dim: Baseline,
+  Underline: Underline,
+  Blink: Radio,
+  Reverse: FlipHorizontal,
+  Italic: Italic,
+  Strike: Strikethrough,
+};
 
 interface StyleChipDropdownProps {
   onSelect: (chip: FormatChip) => void;
@@ -13,14 +33,10 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect }) => {
   };
 
   return (
-    <div
-      role="menu"
-      aria-orientation="vertical"
-      aria-labelledby="menu-button"
-    >
-      <div className="py-1 " role="none">
-        <div className="px-4 py-2 text-sm text-light font-bold">Colors</div>
-        <div className="grid grid-cols-8 grid-rows-1 gap-2 px-4 py-2">
+    <div>
+      <div className="py-1">
+        <div className="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400">Colors</div>
+        <div className="grid grid-cols-8 gap-2 px-3 pb-2">
           {COLOR_CHIPS.chips
             .filter(chip => {
               const colorName = chip.label.split(': ')[1];
@@ -30,44 +46,40 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect }) => {
             <button
               key={chip.id}
               onClick={() => handleSelect(chip)}
-              className={`w-8 h-8 rounded-md border border-surface-hover ${colorSwatch[chip.label.split(': ')[1].toLowerCase()]}`}
-            >
-              &nbsp;
-            </button>
+              className={`w-6 h-6 rounded-md border border-slate-200 dark:border-zinc-700 transition-transform hover:scale-110 ${colorSwatch[chip.label.split(': ')[1].toLowerCase()]}`}
+              title={chip.label}
+            />
           ))}
         </div>
-        <div className="px-4 py-2 text-sm text-light font-bold">Effects</div>
-        <div className="grid grid-cols-4 gap-2 px-4 py-2">
-          {EFFECT_CHIPS.chips.map(chip => (
-            <a
-              href="#"
-              key={chip.id}
-              className="text-light block px-4 py-2 text-sm hover:bg-surface-hover text-center"
-              role="menuitem"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSelect(chip);
-              }}
-            >
-              {chip.label}
-            </a>
-          ))}
+        <div className="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400">Effects</div>
+        <div className="grid grid-cols-7 gap-1 p-2">
+          {EFFECT_CHIPS.chips.map(chip => {
+            const Icon = EFFECT_ICONS[chip.label];
+            return Icon ? (
+              <Button
+                key={chip.id}
+                variant="ghost"
+                size="icon"
+                onClick={() => handleSelect(chip)}
+                title={chip.label}
+              >
+                <Icon className="h-4 w-4" />
+              </Button>
+            ) : null;
+          })}
         </div>
-        <div className="px-4 py-2 text-sm text-light font-bold">Sizing</div>
-        <div className="grid grid-cols-2 gap-2 px-4 py-2">
+        <div className="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400">Sizing</div>
+        <div className="grid grid-cols-2 gap-2 px-3 pb-2">
           {SIZING_CHIPS.chips.map(chip => (
-            <a
-              href="#"
+            <Button
               key={chip.id}
-              className="text-light block px-4 py-2 text-sm hover:bg-surface-hover text-center"
-              role="menuitem"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSelect(chip);
-              }}
+              variant="outline"
+              size="sm"
+              className="h-auto"
+              onClick={() => handleSelect(chip)}
             >
               {chip.label}
-            </a>
+            </Button>
           ))}
         </div>
       </div>

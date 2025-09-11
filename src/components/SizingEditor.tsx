@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FormatChip } from '../types';
+import { Button } from './ui/Button';
+import { Minus, Plus } from 'lucide-react';
 
 interface SizingEditorProps {
   chip: FormatChip;
@@ -7,7 +9,7 @@ interface SizingEditorProps {
 }
 
 const SizingEditor: React.FC<SizingEditorProps> = ({ chip, onUpdate }) => {
-  const [value, setValue] = useState(20);
+  const [value, setValue] = useState(8);
 
   useEffect(() => {
     const match = chip.value.match(/\((\d+)\)/);
@@ -17,26 +19,24 @@ const SizingEditor: React.FC<SizingEditorProps> = ({ chip, onUpdate }) => {
   }, [chip.value]);
 
   const handleUpdate = (newValue: number) => {
+    if (newValue < 1) return;
     const newChipValue = chip.value.replace(/\(\d+\)/, `(${newValue})`);
     onUpdate({ ...chip, value: newChipValue });
     setValue(newValue);
   };
 
-  const increment = () => {
-    handleUpdate(value + 1);
-  };
-
-  const decrement = () => {
-    if (value > 1) {
-      handleUpdate(value - 1);
-    }
-  };
+  const increment = () => handleUpdate(value + 1);
+  const decrement = () => handleUpdate(value - 1);
 
   return (
-    <div className="flex items-center" data-testid="sizing-editor">
-      <button onClick={decrement} className="px-2 py-1 bg-surface-hover rounded-l-md">-</button>
-      <div className="px-2 py-1 bg-surface">{value}</div>
-      <button onClick={increment} className="px-2 py-1 bg-surface-hover rounded-r-md">+</button>
+    <div className="flex items-center p-1" data-testid="sizing-editor">
+      <Button variant="ghost" size="icon" onClick={decrement}>
+        <Minus className="h-4 w-4" />
+      </Button>
+      <div className="px-3 text-sm font-mono tabular-nums">{value}</div>
+      <Button variant="ghost" size="icon" onClick={increment}>
+        <Plus className="h-4 w-4" />
+      </Button>
     </div>
   );
 };
