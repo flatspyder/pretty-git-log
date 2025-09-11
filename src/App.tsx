@@ -27,10 +27,13 @@ import toast, { Toaster } from 'react-hot-toast';
 import SectionHeading from './components/SectionHeading';
 import clsx from 'clsx';
 import { Copy, WrapText } from 'lucide-react';
+import SparkleIcon from './components/ui/SparkleIcon';
 
 
 const App: React.FC = () => {
   const [chips, setChips] = useState<FormatChip[]>([]);
+  const [selectedChipInstanceId, setSelectedChipInstanceId] = useState<string | null>(null);
+  const [selectedPaletteChipId, setSelectedPaletteChipId] = useState<string | null>(null);
   const [wrapLines, setWrapLines] = useState(false);
   const [wrap, setWrap] = useState(false);
 
@@ -49,7 +52,10 @@ const App: React.FC = () => {
   }, [formatString]);
 
   const addChip = useCallback((chip: ChipDefinition) => {
-    setChips(prev => [...prev, { ...chip, instanceId: nanoid() }]);
+    const newChip = { ...chip, instanceId: nanoid() };
+    setChips(prev => [...prev, newChip]);
+    setSelectedChipInstanceId(newChip.instanceId);
+    setSelectedPaletteChipId(null);
   }, []);
 
   const updateChip = useCallback((index: number, newChip: FormatChip) => {
@@ -74,11 +80,16 @@ const App: React.FC = () => {
     toast.success(`Preset "${formatName}" loaded!`);
   };
 
+  const handleReset = () => {
+    setChips([]);
+    toast.success('Format reset!');
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="min-h-screen flex flex-col">
         <Toaster position="bottom-right" />
-        <Header onCopy={handleCopy} applyPreset={applyPreset} />
+        <Header onCopy={handleCopy} applyPreset={applyPreset} onReset={handleReset} />
         <main className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 flex-grow pb-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* --- Builder Column --- */}
@@ -86,11 +97,21 @@ const App: React.FC = () => {
               <div>
                 <SectionHeading className="mb-4">Tokens Palette</SectionHeading>
                 <Card className="p-4 sm:p-6">
-                  <SelectComponents onSelect={addChip} />
+                  <SelectComponents
+                    onSelect={addChip}
+                    selectedPaletteChipId={selectedPaletteChipId}
+                    onSelectPaletteChip={setSelectedPaletteChipId}
+                  />
                 </Card>
               </div>
               
-              <FormatBuilder chips={chips} setChips={setChips} updateChip={updateChip} />
+              <FormatBuilder
+                chips={chips}
+                setChips={setChips}
+                updateChip={updateChip}
+                selectedChipInstanceId={selectedChipInstanceId}
+                onSelectChip={setSelectedChipInstanceId}
+              />
             </div>
 
             {/* --- Preview Column --- */}
@@ -142,9 +163,11 @@ const App: React.FC = () => {
           </div>
         </main>
 
-        <footer className="text-center text-slate-500 dark:text-slate-400 text-sm py-4">
-          <p>Common placeholders: %h, %H, %s, %an, %ar, %d, %n, %C(yellow), %C(reset)</p>
-          <p>&copy; {new Date().getFullYear()} - Built for demonstration.</p>
+        <footer className="text-center text-slate-500 dark:text-slate-400 text-sm py-4 pb-20 lg:pb-4">
+          <p className="flex items-center justify-center gap-2">
+            An experiment in building with AI{' '}
+            <SparkleIcon className="text-indigo-400" />
+          </p>
         </footer>
         <MobileActionBar onCopy={handleCopy} applyPreset={applyPreset} />
       </div>

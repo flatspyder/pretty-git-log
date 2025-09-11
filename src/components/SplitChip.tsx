@@ -16,35 +16,53 @@ interface SplitChipProps {
   title: string;
   chips: ChipDefinition[];
   onSelect: (chip: ChipDefinition) => void;
+  selectedChipId: string | null;
+  onSelectChip: (id: string | null) => void;
 }
 
 const ICONS: { [key: string]: React.ElementType } = {
   Author: User,
   Committer: UserCheck,
- 'Subject & Body': FileText,
+  'Subject & Body': FileText,
   Hash: Hash,
   Misc: MoreHorizontal,
 };
 
-const SplitChip: React.FC<SplitChipProps> = ({ title, chips, onSelect }) => {
+const SplitChip: React.FC<SplitChipProps> = ({
+  title,
+  chips,
+  onSelect,
+  selectedChipId,
+  onSelectChip,
+}) => {
   const Icon = ICONS[title] || GitCommit;
+  const isSelected = chips.some(c => c.id === selectedChipId);
 
   const handleSelect = (chip: ChipDefinition) => {
+    onSelectChip(chip.id);
     onSelect(chip);
   };
 
   return (
-    <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Chip>
-            <Icon size={14} className="text-slate-400" />
-            <span>{title}</span>
-            <span className="sr-only">Add {title} chip</span>
-          </Chip>
-        </DropdownMenuTrigger>
+    <DropdownMenu onOpenChange={(open) => !open && onSelectChip(null)}>
+      <DropdownMenuTrigger asChild>
+        <Chip
+          variant={isSelected ? 'active' : 'default'}
+          onClick={() => onSelectChip(chips[0].id)}
+          className="cursor-pointer"
+        >
+          <Icon size={14} className={isSelected ? 'text-white' : 'text-slate-400'} />
+          <span>{title}</span>
+          <span className="sr-only">Add {title} chip</span>
+        </Chip>
+      </DropdownMenuTrigger>
       <DropdownMenuContent>
         {chips.map(chip => (
-          <DropdownMenuItem key={chip.id} onClick={() => handleSelect(chip)}>
+          <DropdownMenuItem
+            key={chip.id}
+            onClick={() => handleSelect(chip)}
+            onMouseEnter={() => onSelectChip(chip.id)}
+          >
             {chip.label}
           </DropdownMenuItem>
         ))}

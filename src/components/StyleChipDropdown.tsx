@@ -25,15 +25,16 @@ const EFFECT_ICONS: { [key: string]: React.ElementType } = {
 
 interface StyleChipDropdownProps {
   onSelect: (chip: ChipDefinition) => void;
+  onHover: (id: string | null) => void;
 }
 
-const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect }) => {
+const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect, onHover }) => {
   const handleSelect = (chip: ChipDefinition) => {
     onSelect(chip);
   };
 
   return (
-    <div>
+    <div onMouseLeave={() => onHover(null)}>
       <div className="py-1">
         <div className="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400">Colors</div>
         <div className="grid grid-cols-8 gap-2 px-3 pb-2">
@@ -46,6 +47,7 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect }) => {
             <button
               key={chip.id}
               onClick={() => handleSelect(chip)}
+              onMouseEnter={() => onHover(chip.id)}
               className={`w-6 h-6 rounded-md border border-slate-200 dark:border-zinc-700 transition-transform hover:scale-110 ${colorSwatch[chip.label.split(': ')[1].toLowerCase()]}`}
               title={chip.label}
             />
@@ -61,6 +63,7 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect }) => {
                 variant="ghost"
                 size="icon"
                 onClick={() => handleSelect(chip)}
+                onMouseEnter={() => onHover(chip.id)}
                 title={chip.label}
               >
                 <Icon className="h-4 w-4" />
@@ -77,6 +80,7 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect }) => {
               size="sm"
               className="h-auto"
               onClick={() => handleSelect(chip)}
+              onMouseEnter={() => onHover(chip.id)}
             >
               {chip.label}
             </Button>

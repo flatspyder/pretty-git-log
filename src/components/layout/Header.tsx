@@ -6,9 +6,10 @@ import PresetsMenu from '../PresetsMenu';
 interface HeaderProps {
   onCopy: () => void;
   applyPreset: (name: string) => void;
+  onReset: () => void;
 }
 
-export function Header({ onCopy, applyPreset }: HeaderProps) {
+export function Header({ onCopy, applyPreset, onReset }: HeaderProps) {
   const [isPresetsOpen, setIsPresetsOpen] = useState(false);
   const presetsRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +48,7 @@ export function Header({ onCopy, applyPreset }: HeaderProps) {
               </button>
               {isPresetsOpen && <PresetsMenu onSelect={applyPreset} onClose={() => setIsPresetsOpen(false)} />}
             </div>
-            <button className="hidden sm:inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800 focus-visible:ring-2 focus-visible:ring-indigo-400">
+            <button onClick={onReset} className="hidden sm:inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800 focus-visible:ring-2 focus-visible:ring-indigo-400">
               <RefreshCw size={16} />
               <span className="hidden lg:inline">Reset</span>
             </button>

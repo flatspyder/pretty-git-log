@@ -12,12 +12,16 @@ interface FormatBuilderProps {
   chips: FormatChip[];
   setChips: React.Dispatch<React.SetStateAction<FormatChip[]>>;
   updateChip: (index: number, newChip: FormatChip) => void;
+  selectedChipInstanceId: string | null;
+  onSelectChip: (instanceId: string | null) => void;
 }
 
 const FormatBuilder: React.FC<FormatBuilderProps> = ({
   chips,
   setChips,
   updateChip,
+  selectedChipInstanceId,
+  onSelectChip,
 }) => {
   const [editingChipIndex, setEditingChipIndex] = useState<number | null>(null);
 
@@ -80,6 +84,8 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({
                 isEditing={editingChipIndex === idx}
                 setEditing={setEditingChipIndex}
                 chipGroups={[...ELEMENT_CHIP_GROUPS, ...STYLE_CHIPS]}
+                isSelected={chip.instanceId === selectedChipInstanceId}
+                onSelect={onSelectChip}
               />
             ))}
           </AnimatePresence>
