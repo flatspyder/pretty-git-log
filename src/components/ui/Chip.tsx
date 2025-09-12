@@ -33,14 +33,24 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
     return (
       <Comp className={clsx(chipVariants({ variant }), className)} ref={ref} {...props}>
         {children}
-        {onRemove && (<div className="w-px h-4 bg-slate-200 dark:bg-zinc-700"></div>)}
+        {onRemove && (
+          <div
+            className={clsx(
+              'w-px h-4',
+              variant === 'active' ? 'bg-white/50' : 'bg-slate-200 dark:bg-zinc-700'
+            )}
+          ></div>
+        )}
         {onRemove && (
           <button
             onClick={(e) => {
               e.stopPropagation(); // prevent chip click events
               onRemove();
             }}
-            className="-mr-1 rounded-full p-0.5 text-slate-400 hover:bg-slate-200/50 hover:text-slate-600 dark:hover:bg-zinc-700/50 dark:hover:text-slate-300"
+            className={clsx(
+              '-mr-1 rounded-full p-0.5 hover:bg-slate-200/50 hover:text-slate-600 dark:hover:bg-zinc-700/50 dark:hover:text-slate-300',
+              variant === 'active' ? 'text-white/50' : 'text-slate-400'
+            )}
           >
             <X size={14} />
           </button>

@@ -1,22 +1,18 @@
 import React from 'react';
 import { ChipDefinition } from '../types';
-import { Button } from './ui/Button';
-import { User, UserCheck, GitCommit, Hash, PlusCircle, MoreHorizontal, FileText } from 'lucide-react';
+import { User, UserCheck, GitCommit, Hash, MoreHorizontal, FileText } from 'lucide-react';
 import { Chip } from './ui/Chip';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from './ui/DropdownMenu';
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from './ui/Popover';
+import { Button } from './ui/Button';
 
 interface SplitChipProps {
   title: string;
   chips: ChipDefinition[];
   onSelect: (chip: ChipDefinition) => void;
-  selectedChipId: string | null;
   onSelectChip: (id: string | null) => void;
 }
 
@@ -32,42 +28,49 @@ const SplitChip: React.FC<SplitChipProps> = ({
   title,
   chips,
   onSelect,
-  selectedChipId,
   onSelectChip,
 }) => {
   const Icon = ICONS[title] || GitCommit;
-  const isSelected = chips.some(c => c.id === selectedChipId);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const handleSelect = (chip: ChipDefinition) => {
-    onSelectChip(chip.id);
     onSelect(chip);
+    setIsOpen(false);
   };
 
   return (
-    <DropdownMenu onOpenChange={(open) => !open && onSelectChip(null)}>
-      <DropdownMenuTrigger asChild>
+    <Popover open={isOpen} onOpenChange={(open) => {
+      setIsOpen(open);
+      if (!open) onSelectChip(null);
+    }}>
+      <PopoverTrigger asChild>
         <Chip
-          variant={isSelected ? 'active' : 'default'}
+          variant={isOpen ? 'active' : 'default'}
           onClick={() => onSelectChip(chips[0].id)}
           className="cursor-pointer"
         >
-          <Icon size={14} className={isSelected ? 'text-white' : 'text-slate-400'} />
+          <Icon size={14} className={isOpen ? 'text-white' : 'text-slate-400'} />
           <span>{title}</span>
           <span className="sr-only">Add {title} chip</span>
         </Chip>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        {chips.map(chip => (
-          <DropdownMenuItem
-            key={chip.id}
-            onClick={() => handleSelect(chip)}
-            onMouseEnter={() => onSelectChip(chip.id)}
-          >
-            {chip.label}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0">
+        <div className="flex flex-col gap-1 p-1" onMouseLeave={() => onSelectChip(null)}>
+          {chips.map(chip => (
+            <Button
+              key={chip.id}
+              variant="ghost"
+              size="sm"
+              className="justify-start"
+              onClick={() => handleSelect(chip)}
+              onMouseEnter={() => onSelectChip(chip.id)}
+            >
+              {chip.label}
+            </Button>
+          ))}
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 };
 

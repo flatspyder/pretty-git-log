@@ -108,7 +108,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
       const value = match ? match[1] : '';
       return (
         <>
-          <Icon size={14} className={clsx("mr-1.5", isSelected ? "text-white/80" : "text-slate-500")} />
+          <Icon size={14} className={clsx("mr-1.5", isOpen ? "text-white/80" : "text-slate-500")} />
           <span>{chip.label}:</span>
           <span className="ml-1.5 font-mono">{value}</span>
         </>
@@ -118,7 +118,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
     if (chip.type === 'text' || chip.id.startsWith('literal-')) {
       return (
         <>
-          <Icon size={14} className={clsx("mr-1.5", isSelected ? "text-white/80" : "text-slate-500")} />
+          <Icon size={14} className={clsx("mr-1.5", isOpen ? "text-white/80" : "text-slate-500")} />
           <span className="font-mono">"{chip.value}"</span>
         </>
       );
@@ -127,7 +127,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
     if (chip.id === 'space') {
       return (
         <>
-          <Icon size={14} className={clsx("mr-1.5", isSelected ? "text-white/80" : "text-slate-500")} />
+          <Icon size={14} className={clsx("mr-1.5", isOpen ? "text-white/80" : "text-slate-500")} />
           <span className="italic text-slate-500">Space</span>
         </>
       );
@@ -136,7 +136,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
     // Default for element and style chips
     return (
       <>
-        <Icon size={14} className={clsx("mr-1.5", isSelected ? "text-white/80" : "text-slate-500")} />
+        <Icon size={14} className={clsx("mr-1.5", isOpen ? "text-white/80" : "text-slate-500")} />
         <span>{chip.label}</span>
       </>
     );
@@ -165,7 +165,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
         <PopoverTrigger asChild>
           <Chip
             ref={preview}
-            variant={isSelected ? 'active' : 'default'}
+            variant={isOpen ? 'active' : 'default'}
             onRemove={() => removeChip(index)}
             className="cursor-pointer text-xs"
             onClick={() => onSelect(chip.instanceId)}

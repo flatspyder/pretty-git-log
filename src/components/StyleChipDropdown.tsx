@@ -34,7 +34,7 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect, onHover
   };
 
   return (
-    <div onMouseLeave={() => onHover(null)}>
+    <div >
       <div className="py-1">
         <div className="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400">Colors</div>
         <div className="grid grid-cols-8 gap-2 px-3 pb-2">

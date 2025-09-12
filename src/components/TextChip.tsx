@@ -9,18 +9,15 @@ import { Button } from './ui/Button';
 
 interface TextChipProps {
   onSelect: (chip: ChipDefinition) => void;
-  selectedChipId: string | null;
   onSelectChip: (id: string | null) => void;
 }
 
 const TextChip: React.FC<TextChipProps> = ({
   onSelect,
-  selectedChipId,
   onSelectChip,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [textValue, setTextValue] = useState('');
-  const isSelected = selectedChipId === 'text-chip';
 
   const handleAdd = () => {
     if (!textValue) return;
@@ -39,13 +36,13 @@ const TextChip: React.FC<TextChipProps> = ({
     >
       <PopoverTrigger asChild>
         <Chip
-          variant={isSelected ? 'active' : 'default'}
+          variant={isOpen ? 'active' : 'default'}
           onClick={() => onSelectChip('text-chip')}
           className="cursor-pointer"
         >
           <TextCursorInput
             size={14}
-            className={isSelected ? 'text-white' : 'text-slate-400'}
+            className={isOpen ? 'text-white' : 'text-slate-400'}
           />
           Text
           <span className="sr-only">Add Text Chip</span>
@@ -64,7 +61,7 @@ const TextChip: React.FC<TextChipProps> = ({
             placeholder="e.g. 'commit: '"
             autoFocus
           />
-          <Button onClick={handleAdd} size="sm">
+          <Button onClick={handleAdd} size="sm" variant="secondary">
             Add Chip
           </Button>
         </div>
