@@ -26,14 +26,9 @@ const EFFECT_ICONS: { [key: string]: React.ElementType } = {
 interface StyleChipDropdownProps {
   onSelect: (chip: ChipDefinition) => void;
   onHover: (id: string | null) => void;
-  selectedChipId: string | null;
 }
 
-const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({
-  onSelect,
-  onHover,
-  selectedChipId,
-}) => {
+const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect, onHover }) => {
   const handleSelect = (chip: ChipDefinition) => {
     onSelect(chip);
   };
@@ -53,10 +48,7 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({
               key={chip.id}
               onClick={() => handleSelect(chip)}
               onMouseEnter={() => onHover(chip.id)}
-              className={clsx(
-                `w-6 h-6 rounded-md border border-slate-200 dark:border-zinc-700 transition-transform hover:scale-110 ${colorSwatch[chip.label.split(': ')[1].toLowerCase()]}`,
-                selectedChipId === chip.id && 'ring-2 ring-offset-2 ring-indigo-400 dark:ring-offset-zinc-900'
-              )}
+              className={`w-6 h-6 rounded-md border border-slate-200 dark:border-zinc-700 transition-transform hover:scale-110 ${colorSwatch[chip.label.split(': ')[1].toLowerCase()]}`}
               title={chip.label}
             />
           ))}
@@ -68,15 +60,11 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({
             return Icon ? (
               <Button
                 key={chip.id}
-                variant={selectedChipId === chip.id ? 'default' : 'ghost'}
+                variant="ghost"
                 size="icon"
                 onClick={() => handleSelect(chip)}
                 onMouseEnter={() => onHover(chip.id)}
                 title={chip.label}
-                className={clsx(
-                  selectedChipId === chip.id &&
-                    'bg-gradient-to-r from-indigo-500 to-violet-500 text-white'
-                )}
               >
                 <Icon className="h-4 w-4" />
               </Button>
@@ -88,13 +76,9 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({
           {SIZING_CHIPS.chips.map(chip => (
             <Button
               key={chip.id}
-              variant={selectedChipId === chip.id ? 'default' : 'outline'}
+              variant="outline"
               size="sm"
-              className={clsx(
-                "h-auto",
-                selectedChipId === chip.id &&
-                  'bg-gradient-to-r from-indigo-500 to-violet-500 text-white'
-              )}
+              className="h-auto"
               onClick={() => handleSelect(chip)}
               onMouseEnter={() => onHover(chip.id)}
             >

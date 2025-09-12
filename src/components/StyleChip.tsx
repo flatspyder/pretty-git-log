@@ -28,24 +28,26 @@ const StyleChip: React.FC<StyleChipProps> = ({
     setIsOpen(false);
   };
 
+  const isSelected = selectedChipId?.startsWith('C-');
+
   return (
     <Popover open={isOpen} onOpenChange={(open) => {
       setIsOpen(open)
       if (!open) onSelectChip(null)
     }}>
       <PopoverTrigger asChild>
-        <Chip className="cursor-pointer">
-          <Palette size={14} className="text-slate-400" />
+        <Chip
+          variant={isSelected ? 'active' : 'default'}
+          onClick={() => onSelectChip('C-color-red')}
+          className="cursor-pointer"
+        >
+          <Palette size={14} className={isSelected ? 'text-white' : 'text-slate-400'} />
           <span>Style</span>
           <span className="sr-only">Add style chip</span>
         </Chip>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <StyleChipDropdown
-          onSelect={handleSelect}
-          onHover={onSelectChip}
-          selectedChipId={selectedChipId}
-        />
+        <StyleChipDropdown onSelect={handleSelect} onHover={onSelectChip} />
       </PopoverContent>
     </Popover>
   );

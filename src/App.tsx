@@ -90,17 +90,8 @@ const App: React.FC = () => {
       <div className="min-h-screen flex flex-col">
         <Toaster position="bottom-right" />
         <Header onCopy={handleCopy} applyPreset={applyPreset} onReset={handleReset} />
-        <main
-          className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 flex-grow pb-20"
-          onClick={() => {
-            setSelectedChipInstanceId(null);
-            setSelectedPaletteChipId(null);
-          }}
-        >
-          <div
-            className="grid grid-cols-1 lg:grid-cols-12 gap-8"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <main className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8 flex-grow pb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* --- Builder Column --- */}
             <div className="lg:col-span-7 flex flex-col gap-8">
               <div>

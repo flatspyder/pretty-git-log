@@ -20,6 +20,7 @@ const TextChip: React.FC<TextChipProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [textValue, setTextValue] = useState('');
+  const isSelected = selectedChipId === 'text-chip';
 
   const handleAdd = () => {
     if (!textValue) return;
@@ -37,8 +38,15 @@ const TextChip: React.FC<TextChipProps> = ({
       }}
     >
       <PopoverTrigger asChild>
-        <Chip className="cursor-pointer">
-          <TextCursorInput size={14} className="text-slate-400" />
+        <Chip
+          variant={isSelected ? 'active' : 'default'}
+          onClick={() => onSelectChip('text-chip')}
+          className="cursor-pointer"
+        >
+          <TextCursorInput
+            size={14}
+            className={isSelected ? 'text-white' : 'text-slate-400'}
+          />
           Text
           <span className="sr-only">Add Text Chip</span>
         </Chip>
