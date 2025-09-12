@@ -8,7 +8,7 @@ interface SectionHeadingProps {
 
 const SectionHeading: React.FC<SectionHeadingProps> = ({ children, className }) => {
   return (
-    <h2 className={clsx('text-xs uppercase tracking-widest font-semibold text-slate-500 dark:text-slate-400', className)}>
+    <h2 className={clsx('text-xs uppercase tracking-widest font-semibold text-text-muted', className)}>
       {children}
     </h2>
   );

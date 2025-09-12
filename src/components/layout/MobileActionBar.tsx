@@ -14,10 +14,10 @@ interface MobileActionBarProps {
 
 export function MobileActionBar({ onCopy, applyPreset }: MobileActionBarProps) {
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-lg border-t border-slate-200 dark:border-zinc-800 p-2 flex justify-center items-center gap-2">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/80 backdrop-blur-lg border-t border-border p-2 flex justify-center items-center gap-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800 focus-visible:ring-2 focus-visible:ring-indigo-400">
+          <button className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-text-secondary hover:bg-surface-hover focus-visible:ring-2 focus-visible:ring-indigo-400">
             <Book size={16} />
             <span className="inline">Presets</span>
           </button>

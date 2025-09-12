@@ -9,11 +9,11 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 text-white shadow hover:shadow-md active:scale-[.99]',
-        destructive: 'bg-red-500 text-white hover:bg-red-600',
-        outline: 'border border-slate-200/70 dark:border-white/10 hover:bg-slate-50/60 dark:hover:bg-white/5',
-        secondary: 'bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-zinc-800 dark:text-slate-50 dark:hover:bg-zinc-700',
-        ghost: 'hover:bg-slate-100 dark:hover:bg-zinc-800',
-        link: 'text-indigo-500 underline-offset-4 hover:underline dark:text-indigo-400',
+        destructive: 'bg-danger text-white hover:bg-danger/90',
+        outline: 'border border-border/70 dark:border-white/10 hover:bg-surface-hover/60 dark:hover:bg-white/5',
+        secondary: 'bg-surface-hover text-text-primary hover:bg-border dark:bg-surface-hover dark:text-text-primary dark:hover:bg-border',
+        ghost: 'hover:bg-surface-hover',
+        link: 'text-accent-start underline-offset-4 hover:underline',
       },
       size: {
         default: 'h-10 px-4 py-2',

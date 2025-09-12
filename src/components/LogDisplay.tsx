@@ -14,15 +14,15 @@ const COLOR_MAP: { [key: string]: string } = {
   normal: '',
   reset: '',
   default: '',
-  black: 'text-muted',
-  red: 'text-red-500',
-  green: 'text-green-500',
-  yellow: 'text-yellow-400',
-  blue: 'text-blue-400',
-  magenta: 'text-pink-500',
-  cyan: 'text-accent',
-  white: 'text-light',
-  auto: 'text-accent font-bold', // %C(auto) is used for refs, we'll make it cyan.
+  black: 'text-text-muted',
+  red: 'text-danger',
+  green: 'text-success',
+  yellow: 'text-warning',
+  blue: 'text-info',
+  magenta: 'text-magenta',
+  cyan: 'text-accent-start', // Using accent-start for cyan
+  white: 'text-text-primary',
+  auto: 'text-accent-start font-bold', // %C(auto) is used for refs, we'll make it cyan.
 };
 
 const STYLE_MAP: { [key: string]: string } = {
@@ -94,26 +94,27 @@ const LogDisplay: React.FC<LogDisplayProps> = ({ lines, wrapLines }) => {
   const [isWrapped, setWrapLines] = useState(wrapLines);
 
   return (
-    <Card className="p-0 bg-zinc-950 shadow-lg">
+    <Card className="p-0 bg-terminal shadow-lg">
       <div className="flex items-center px-4 py-2 border-b border-white/10">
         <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-red-500/70"></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-500/70"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500/70"></div>
+            <div className="w-3 h-3 rounded-full bg-danger/70"></div>
+            <div className="w-3 h-3 rounded-full bg-warning/70"></div>
+            <div className="w-3 h-3 rounded-full bg-success/70"></div>
         </div>
-        <p className="flex-1 text-center text-xs font-medium text-zinc-400">bash</p>
+        <p className="flex-1 text-center text-xs font-medium text-text-secondary">bash</p>
         <button
             onClick={() => setWrapLines(!isWrapped)}
             className={clsx(
-              'p-1.5 rounded-md text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800',
+              'p-1.5 rounded-md text-text-muted hover:bg-surface-hover',
               isWrapped && 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-500'
             )}
             title="Toggle line wrap"
+            aria-label="Toggle line wrap"
           >
             <WrapText size={16} />
           </button>
       </div>
-    <div className="bg-zinc-950 text-zinc-100 p-4 font-mono text-sm overflow-auto">
+    <div className="bg-terminal text-text-primary p-4 font-mono text-sm overflow-auto">
       <pre
         className={clsx({
           'whitespace-pre': !isWrapped,

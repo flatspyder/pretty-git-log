@@ -5,11 +5,11 @@ import { X } from 'lucide-react';
 import { Slot } from '@radix-ui/react-slot';
 
 const chipVariants = cva(
-  'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400 dark:focus-visible:ring-offset-zinc-900',
+  'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400 dark:focus-visible:ring-offset-background',
   {
     variants: {
       variant: {
-        default: 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-800/80 dark:text-slate-200 dark:hover:bg-zinc-700',
+        default: 'border-border bg-surface text-text-secondary hover:bg-surface-hover',
         active: 'text-white/90 border-transparent bg-gradient-to-r from-indigo-500 to-violet-500 shadow',
       },
     },
@@ -34,26 +34,27 @@ const Chip = React.forwardRef<HTMLDivElement, ChipProps>(
       <Comp className={clsx(chipVariants({ variant }), className)} ref={ref} {...props}>
         {children}
         {onRemove && (
-          <div
-            className={clsx(
-              'w-px h-4',
-              variant === 'active' ? 'bg-white/50' : 'bg-slate-200 dark:bg-zinc-700'
-            )}
-          ></div>
-        )}
-        {onRemove && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation(); // prevent chip click events
-              onRemove();
-            }}
-            className={clsx(
-              '-mr-1 rounded-full p-0.5 hover:bg-slate-200/50 hover:text-slate-600 dark:hover:bg-zinc-700/50 dark:hover:text-slate-300',
-              variant === 'active' ? 'text-white/50' : 'text-slate-400'
-            )}
-          >
-            <X size={14} />
-          </button>
+          <>
+            <div
+              className={clsx(
+                'w-px h-4',
+                variant === 'active' ? 'bg-white/50' : 'bg-border'
+              )}
+            />
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onRemove();
+              }}
+              className={clsx(
+                '-mr-1 rounded-full p-0.5 hover:bg-surface-hover/50 hover:text-text-secondary',
+                variant === 'active' ? 'text-white/50' : 'text-text-muted'
+              )}
+              aria-label="Remove chip"
+            >
+              <X size={14} />
+            </button>
+          </>
         )}
       </Comp>
     );

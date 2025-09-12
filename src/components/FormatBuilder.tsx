@@ -60,12 +60,12 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({
             'flex flex-wrap gap-3 p-4 rounded-xl border-2 border-dashed min-h-24',
             isOver
               ? 'border-indigo-400/80 bg-indigo-50/20 dark:bg-indigo-500/10'
-              : 'border-slate-300/80 dark:border-zinc-700/60'
+              : 'border-border/80 dark:border-border/60'
           )}
         >
           {chips.length === 0 && (
             <div className="flex-1 flex items-center justify-center">
-              <p className="text-slate-400 dark:text-slate-500">
+              <p className="text-text-muted">
                 Drag tokens from the palette above to build your format.
               </p>
             </div>

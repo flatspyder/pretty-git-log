@@ -69,7 +69,7 @@ const ChipEditor: React.FC<ChipEditorProps> = ({ chip, chipGroups, updateChip, c
     );
   }
 
-  return <p className="text-sm text-slate-500">This chip has no editable properties.</p>;
+  return <p className="text-sm text-text-muted">This chip has no editable properties.</p>;
 };
 
 export default ChipEditor;

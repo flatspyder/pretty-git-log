@@ -19,6 +19,7 @@
     --color-text-primary: 30 41 59; /* slate-800 */
     --color-text-secondary: 71 85 105; /* slate-600 */
     --color-text-muted: 148 163 184; /* slate-400 */
+    --color-surface-hover: 241 245 249; /* slate-100 */
 
     /* Accent Gradient - Light Mode */
     --color-accent-start: 99 102 241; /* indigo-500 */
@@ -26,6 +27,11 @@
 
     /* Other semantic colors */
     --color-danger: 239 68 68; /* red-500 */
+    --color-success: 34 197 94; /* green-500 */
+    --color-warning: 250 204 21; /* yellow-400 */
+    --color-info: 96 165 250; /* blue-400 */
+    --color-magenta: 236 72 153; /* pink-500 */
+    --color-terminal: 9 9 11; /* zinc-950 */
   }
 
   .dark {
@@ -36,6 +42,7 @@
     --color-text-primary: 244 244 245; /* zinc-100 */
     --color-text-secondary: 161 161 170; /* zinc-400 */
     --color-text-muted: 113 113 122; /* zinc-500 */
+    --color-surface-hover: 39 39 42; /* zinc-800 */
 
     /* Accent Gradient - Dark Mode */
     --color-accent-start: 129 140 248; /* indigo-400 */
@@ -43,6 +50,11 @@
 
     /* Other semantic colors */
     --color-danger: 185 28 28; /* red-700 */
+    --color-success: 74 222 128; /* green-400 */
+    --color-warning: 253 224 71; /* yellow-300 */
+    --color-info: 147 197 253; /* blue-300 */
+    --color-magenta: 244 114 182; /* pink-400 */
+    --color-terminal: 9 9 11; /* zinc-950 */
   }
 
   body {

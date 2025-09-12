@@ -8,9 +8,9 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={clsx(
-      'rounded-2xl border overflow-hidden bg-white/60 dark:bg-zinc-900/60',
-      'border-slate-200/80 dark:border-white/10',
-      'backdrop-blur-xl supports-[backdrop-filter]:bg-white/40 dark:supports-[backdrop-filter]:bg-zinc-900/40',
+      'rounded-2xl border overflow-hidden bg-surface/60',
+      'border-border/80 dark:border-white/10',
+      'backdrop-blur-xl supports-[backdrop-filter]:bg-white/40 dark:supports-[backdrop-filter]:bg-surface/40',
       'shadow-sm',
       className
     )}
@@ -49,7 +49,7 @@ const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={clsx('text-sm text-slate-600 dark:text-slate-400', className)}
+    className={clsx('text-sm text-text-secondary', className)}
     {...props}
   />
 ));
