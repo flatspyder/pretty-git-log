@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/index.html', './src/**/*.{ts,tsx}'],
@@ -5,6 +7,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // New semantic colors
         background: 'rgb(var(--color-bg) / <alpha-value>)',
         surface: 'rgb(var(--color-surface) / <alpha-value>)',
         'surface-hover': 'rgb(var(--color-surface-hover) / <alpha-value>)',
@@ -24,6 +27,20 @@ module.exports = {
           start: 'rgb(var(--color-accent-start) / <alpha-value>)',
           end: 'rgb(var(--color-accent-end) / <alpha-value>)',
         },
+        // Full color palette for swatches and other specific cases
+        gray: colors.gray,
+        red: colors.red,
+        green: colors.green,
+        yellow: colors.yellow,
+        blue: colors.blue,
+        purple: colors.purple,
+        cyan: colors.cyan,
+        white: colors.white,
+        slate: colors.slate,
+        zinc: colors.zinc,
+        indigo: colors.indigo,
+        violet: colors.violet,
+        fuchsia: colors.fuchsia,
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif', 'system-ui'],
