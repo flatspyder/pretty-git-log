@@ -36,32 +36,30 @@ const SplitChip: React.FC<SplitChipProps> = ({
   onSelectChip,
 }) => {
   const Icon = ICONS[title] || GitCommit;
-  const isSelected = chips.some(c => c.id === selectedChipId);
 
   const handleSelect = (chip: ChipDefinition) => {
-    onSelectChip(chip.id);
     onSelect(chip);
   };
 
   return (
     <DropdownMenu onOpenChange={(open) => !open && onSelectChip(null)}>
       <DropdownMenuTrigger asChild>
-        <Chip
-          variant={isSelected ? 'active' : 'default'}
-          onClick={() => onSelectChip(chips[0].id)}
-          className="cursor-pointer"
-        >
-          <Icon size={14} className={isSelected ? 'text-white' : 'text-slate-400'} />
+        <Chip className="cursor-pointer">
+          <Icon size={14} className="text-slate-400" />
           <span>{title}</span>
           <span className="sr-only">Add {title} chip</span>
         </Chip>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent onMouseLeave={() => onSelectChip(null)}>
         {chips.map(chip => (
           <DropdownMenuItem
             key={chip.id}
             onClick={() => handleSelect(chip)}
             onMouseEnter={() => onSelectChip(chip.id)}
+            className={clsx(
+              selectedChipId === chip.id &&
+                'bg-gradient-to-r from-indigo-500 to-violet-500 text-white'
+            )}
           >
             {chip.label}
           </DropdownMenuItem>
