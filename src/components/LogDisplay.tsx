@@ -1,93 +1,84 @@
-
 import React, { useState } from 'react';
 import { clsx } from 'clsx';
 import { Card } from './ui/Card';
 import { WrapText } from 'lucide-react';
+import { LogPart, LogSizing } from '../types';
 
 interface LogDisplayProps {
-  lines: string[];
+  lines: LogPart[][];
   wrapLines: boolean;
 }
 
-// Maps Git's color names to corresponding Tailwind CSS classes.
-const COLOR_MAP: { [key: string]: string } = {
-  normal: '',
-  reset: '',
-  default: '',
+const NAMED_COLOR_TO_CLASS: { [key: string]: string } = {
   black: 'text-text-muted',
   red: 'text-danger',
   green: 'text-success',
   yellow: 'text-warning',
   blue: 'text-info',
   magenta: 'text-magenta',
-  cyan: 'text-accent-start', // Using accent-start for cyan
+  cyan: 'text-accent-start',
   white: 'text-text-primary',
-  auto: 'text-accent-start font-bold', // %C(auto) is used for refs, we'll make it cyan.
 };
 
-const STYLE_MAP: { [key: string]: string } = {
-  bold: 'font-bold',
-  dim: 'opacity-50',
-  ul: 'underline',
-  italic: 'italic',
-  strike: 'line-through',
-  blink: 'animate-pulse',
-  reverse: 'bg-light text-surface',
-};
+function applySizing(text: string, sizing: Partial<LogSizing>): string {
+  if (!sizing.width) {
+    return text;
+  }
 
-/**
- * Parses a single formatted log line containing color codes (`%C(...)`)
- * and returns an array of JSX elements with appropriate styling.
- * @param line - The raw formatted string for a single commit.
- * @returns An array of React fragments and spans for rendering.
- */
-const parseLineToJsx = (line: string): JSX.Element[] => {
-  const parts = line.split(/(%C\(.*?\)|\%<\|.*?\(.*?\)|\%>\|.*?\(.*?\))/g).filter(Boolean);
-  
-  let currentClasses: Set<string> = new Set();
-  const elements: JSX.Element[] = [];
-  let sizing: { width: number; type: 'truncate' | 'pad_left' | 'pad_right' } | null = null;
+  let sizedText = text;
 
-  parts.forEach((part, index) => {
-    if (part.startsWith('%C(') && part.endsWith(')')) {
-      const key = part.substring(3, part.length - 1);
-      if (key === 'reset') {
-        currentClasses.clear();
-      } else if (COLOR_MAP[key]) {
-        // Remove other color classes before adding a new one
-        Object.values(COLOR_MAP).forEach(c => {
-          if (c) c.split(' ').forEach(cl => currentClasses.delete(cl));
+  // Truncation
+  if (sizing.truncate === 'right' && sizedText.length > sizing.width) {
+    sizedText = sizedText.substring(0, sizing.width);
+  }
+  // Note: ltrunc and mtrunc are not implemented as they are less common.
+
+  // Padding
+  if (sizing.padding === 'left') {
+    sizedText = sizedText.padStart(sizing.width);
+  } else if (sizing.padding === 'right') {
+    sizedText = sizedText.padEnd(sizing.width);
+  } else if (sizing.padding === 'both') {
+    const padding = Math.max(0, sizing.width - sizedText.length);
+    const leftPad = Math.floor(padding / 2);
+    const rightPad = padding - leftPad;
+    sizedText = ' '.repeat(leftPad) + sizedText + ' '.repeat(rightPad);
+  }
+
+  return sizedText;
+}
+
+const LogLine: React.FC<{ parts: LogPart[] }> = ({ parts }) => {
+  return (
+    <>
+      {parts.map((part, index) => {
+        const { style, text } = part;
+        const classes = clsx({
+          'font-bold': style.bold,
+          'opacity-50': style.dim,
+          'underline': style.ul,
+          'italic': style.italic,
+          'line-through': style.strike,
+          'animate-pulse': style.blink,
+          'bg-light text-surface': style.reverse,
+          [NAMED_COLOR_TO_CLASS[style.color!]]: style.color && NAMED_COLOR_TO_CLASS[style.color],
         });
-        COLOR_MAP[key].split(' ').forEach(c => currentClasses.add(c));
-      } else if (STYLE_MAP[key]) {
-        currentClasses.add(STYLE_MAP[key]);
-      }
-    } else if (part.startsWith('%<|(') || part.startsWith('%>|(')) {
-      const match = part.match(/([<>])\|.*?\((\d+)\)/);
-      if (match) {
-        const type = match[1] === '<' ? 'truncate' : 'pad_left';
-        const width = parseInt(match[2], 10);
-        sizing = { width, type };
-      }
-    } else {
-      let text = part;
-      if (sizing) {
-        if (sizing.type === 'truncate') {
-          text = text.slice(0, sizing.width);
-        } else if (sizing.type === 'pad_left') {
-          text = text.padStart(sizing.width);
-        }
-        sizing = null;
-      }
-      elements.push(
-        <span key={index} className={Array.from(currentClasses).join(' ')}>
-          {text}
-        </span>
-      );
-    }
-  });
 
-  return elements;
+        const inlineStyle: React.CSSProperties = {};
+        if (style.color && style.color.startsWith('#')) {
+          inlineStyle.color = style.color;
+        }
+
+        const displayText = style.sizing ? applySizing(text, style.sizing) : text;
+
+        return (
+          <span key={index} className={classes} style={inlineStyle}>
+            {displayText}
+          </span>
+        );
+      })}
+    </>
+  );
 };
 
 const LogDisplay: React.FC<LogDisplayProps> = ({ lines, wrapLines }) => {
@@ -124,7 +115,7 @@ const LogDisplay: React.FC<LogDisplayProps> = ({ lines, wrapLines }) => {
         <code>
           {lines.map((line, index) => (
             <div key={index} className="leading-relaxed">
-              {parseLineToJsx(line)}
+              <LogLine parts={line} />
             </div>
           ))}
         </code>

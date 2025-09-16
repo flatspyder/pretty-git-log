@@ -6,9 +6,9 @@ import LogDisplay from './components/LogDisplay';
 import FormatBuilder from './components/FormatBuilder';
 import SelectComponents from './components/SelectComponents';
 import { PRESET_FORMATS, SYNTHETIC_LOG_DATA } from './constants';
-import { formatGitLog } from './services/gitFormatter';
+import { parseLogFormat } from './services/logParser';
 import { chipsToFormatString } from './services/chipFormatter';
-import { ChipDefinition, FormatChip } from './types';
+import { ChipDefinition, FormatChip, LogPart } from './types';
 import { nanoid } from 'nanoid';
 import { Header } from './components/layout/Header';
 import { MobileActionBar } from './components/layout/MobileActionBar';
@@ -39,15 +39,18 @@ const App: React.FC = () => {
 
   const formatString = useMemo(() => chipsToFormatString(chips), [chips]);
 
-  const formattedLines = useMemo(() => {
+  const formattedLines: LogPart[][] = useMemo(() => {
     if (!formatString.trim()) {
-      return SYNTHETIC_LOG_DATA.map(commit => commit.hash + ' ' + commit.subject);
+      return SYNTHETIC_LOG_DATA.map(commit => ([
+        { text: commit.hash.substring(0, 7), style: { color: 'yellow' } },
+        { text: ' ' + commit.subject, style: {} },
+      ]));
     }
     try {
-      return formatGitLog(formatString, SYNTHETIC_LOG_DATA);
+      return SYNTHETIC_LOG_DATA.map(commit => parseLogFormat(formatString, commit));
     } catch (error) {
       console.error("Formatting error:", error);
-      return ["Error in format string. Check console for details."];
+      return [[{ text: "Error in format string. Check console for details.", style: { color: 'red' } }]];
     }
   }, [formatString]);
 

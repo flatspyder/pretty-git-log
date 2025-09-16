@@ -34,3 +34,27 @@ export interface ChipGroup {
   title: string;
   chips: ChipDefinition[];
 }
+
+export interface LogSizing {
+  width: number;
+  padding: 'left' | 'right' | 'both' | 'none';
+  truncate: 'left' | 'middle' | 'right' | 'none';
+}
+
+export interface LogStyle {
+  color?: string;
+  bgColor?: string;
+  bold?: boolean;
+  dim?: boolean;
+  ul?: boolean;
+  italic?: boolean;
+  strike?: boolean;
+  blink?: boolean;
+  reverse?: boolean;
+  sizing?: Partial<LogSizing>;
+}
+
+export interface LogPart {
+  text: string;
+  style: LogStyle;
+}

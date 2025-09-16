@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "rm -rf dist && tsc tests/gitFormatter.test.ts tests/chipFormatter.test.ts src/services/gitFormatter.ts src/services/chipFormatter.ts src/types.ts --outDir dist --module es2022 --target ES2022 --esModuleInterop --moduleResolution bundler --skipLibCheck && node dist/tests/gitFormatter.test.js && node dist/tests/chipFormatter.test.js"
+    "test": "rm -rf dist && tsc tests/chipFormatter.test.ts tests/logParser.test.ts src/services/chipFormatter.ts src/services/logParser.ts src/types.ts src/lib/dateUtils.ts --outDir dist --module es2022 --target ES2022 --esModuleInterop --moduleResolution bundler --skipLibCheck && node dist/tests/chipFormatter.test.js && node dist/tests/logParser.test.js"
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.1.16",
