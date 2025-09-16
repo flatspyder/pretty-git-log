@@ -3,6 +3,7 @@ import { ChipDefinition } from '../types';
 import { colorMap, colorSwatch } from '../services/colorUtils';
 import { COLOR_CHIPS, EFFECT_CHIPS, SIZING_CHIPS } from '../constants';
 import { Button } from './ui/Button';
+import SizingChipControl from './SizingChipControl';
 import {
   Bold,
   Underline,
@@ -72,18 +73,13 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect, onHover
           })}
         </div>
         <div className="px-3 py-2 text-xs font-semibold text-text-muted">Sizing</div>
-        <div className="grid grid-cols-2 gap-2 px-3 pb-2">
+        <div className="flex flex-col gap-2 px-3 pb-2">
           {SIZING_CHIPS.chips.map(chip => (
-            <Button
+            <SizingChipControl
               key={chip.id}
-              variant="outline"
-              size="sm"
-              className="h-auto"
-              onClick={() => handleSelect(chip)}
-              onMouseEnter={() => onHover(chip.id)}
-            >
-              {chip.label}
-            </Button>
+              chipDef={chip}
+              onSelect={handleSelect}
+            />
           ))}
         </div>
       </div>

@@ -54,10 +54,10 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({
       <Card className="p-4 sm:p-6">
         <motion.div
           ref={drop}
-          layout
+          layout="position"
           transition={{ duration: 0.5, type: 'spring' }}
           className={clsx(
-            'flex flex-wrap content-start gap-3 p-4 rounded-xl border-2 border-dashed h-48',
+            'flex flex-wrap content-start gap-3 p-4 rounded-xl border-2 border-dashed min-h-24',
             isOver
               ? 'border-indigo-400/80 bg-indigo-50/20 dark:bg-indigo-500/10'
               : 'border-border/80 dark:border-border/60'

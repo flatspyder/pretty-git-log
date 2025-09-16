@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FormatChip, LogSizing } from '../types';
 import { Button } from './ui/Button';
-import { Minus, Plus, ArrowLeftRight, ArrowRightLeft, Scissors } from 'lucide-react';
-import { clsx } from 'clsx';
-import { Switch } from './ui/Switch';
+import { Minus, Plus } from 'lucide-react';
 import { Label } from './ui/Label';
+import { Switch } from './ui/Switch';
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from './ui/ToggleGroup';
 
 interface SizingEditorProps {
   chip: FormatChip;
@@ -19,8 +22,9 @@ const SizingEditor: React.FC<SizingEditorProps> = ({ chip, onUpdate }) => {
   });
 
   useEffect(() => {
+    // Initialize state from the chip's sizing object
     if (chip.sizing) {
-      setSizing(chip.sizing);
+      setSizing(prev => ({ ...prev, ...chip.sizing }));
     }
   }, [chip.sizing]);
 
@@ -30,16 +34,17 @@ const SizingEditor: React.FC<SizingEditorProps> = ({ chip, onUpdate }) => {
     const width = newSizing.width || 10;
     const isTruncate = newSizing.truncate === 'right';
 
+    // The format string depends on the combination of padding and truncation
     if (newSizing.padding === 'left') {
       value = `%>(${width})`;
-    } else if (newSizing.padding === 'right') {
-      value = ` %<(${width}${isTruncate ? ',trunc' : ''})`;
+    } else if (newSizing.padding === 'right' || isTruncate) {
+      // Both right-padding and truncation use the %< placeholder
+      value = `%<(${width}${isTruncate ? ',trunc' : ''})`;
     } else if (newSizing.padding === 'both') {
-        value = ` %><(${width}${isTruncate ? ',trunc' : ''})`;
-    } else if (isTruncate) {
-        value = ` %<(${width},trunc)`;
+      value = `%><(${width})`;
     }
 
+    // Update the parent component
     onUpdate({ ...chip, value, sizing: newSizing });
     setSizing(newSizing);
   };
@@ -50,13 +55,16 @@ const SizingEditor: React.FC<SizingEditorProps> = ({ chip, onUpdate }) => {
   };
 
   const setPadding = (newPadding: 'left' | 'right' | 'both' | 'none') => {
-    handleUpdate({ ...sizing, padding: newPadding, truncate: 'none' }); // Padding and truncate are mutually exclusive in this UI
+    // If turning off padding, set to 'none'. Otherwise, set the new value.
+    const paddingValue = sizing.padding === newPadding ? 'none' : newPadding;
+    handleUpdate({ ...sizing, padding: paddingValue });
   };
 
   const setTruncate = (isTruncated: boolean) => {
-    handleUpdate({ ...sizing, truncate: isTruncated ? 'right' : 'none', padding: isTruncated ? 'right' : sizing.padding || 'none' });
+    const truncateValue = isTruncated ? 'right' : 'none';
+    const paddingValue = isTruncated ? 'right' : sizing.padding;
+    handleUpdate({ ...sizing, truncate: truncateValue, padding: paddingValue });
   };
-
 
   return (
     <div className="flex flex-col gap-4 p-2" data-testid="sizing-editor">
@@ -74,17 +82,19 @@ const SizingEditor: React.FC<SizingEditorProps> = ({ chip, onUpdate }) => {
       </div>
       <div className="flex items-center justify-between">
         <Label>Padding</Label>
-        <div className="flex items-center border rounded-md">
-          <Button variant="ghost" size="icon" className={clsx(sizing.padding === 'left' && 'bg-surface-hover')} onClick={() => setPadding('left')}>
-            <ArrowRightLeft className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="icon" className={clsx(sizing.padding === 'right' && 'bg-surface-hover')} onClick={() => setPadding('right')}>
-            <ArrowLeftRight className="h-4 w-4" />
-          </Button>
-        </div>
+        <ToggleGroup
+            type="single"
+            value={sizing.padding}
+            onValueChange={value => setPadding(value as any)}
+            className="gap-1"
+        >
+            <ToggleGroupItem value="left" aria-label="Pad left">L</ToggleGroupItem>
+            <ToggleGroupItem value="right" aria-label="Pad right">R</ToggleGroupItem>
+            <ToggleGroupItem value="both" aria-label="Pad both">C</ToggleGroupItem>
+        </ToggleGroup>
       </div>
-       <div className="flex items-center justify-between">
-        <Label htmlFor="truncate-switch">Truncate</Label>
+      <div className="flex items-center justify-between">
+        <Label htmlFor="truncate-switch">Truncate Text</Label>
         <Switch
             id="truncate-switch"
             checked={sizing.truncate === 'right'}
