@@ -57,7 +57,7 @@ const FormatBuilder: React.FC<FormatBuilderProps> = ({
           layout
           transition={{ duration: 0.5, type: 'spring' }}
           className={clsx(
-            'flex flex-wrap gap-3 p-4 rounded-xl border-2 border-dashed min-h-24',
+            'flex flex-wrap content-start gap-3 p-4 rounded-xl border-2 border-dashed h-48',
             isOver
               ? 'border-indigo-400/80 bg-indigo-50/20 dark:bg-indigo-500/10'
               : 'border-border/80 dark:border-border/60'

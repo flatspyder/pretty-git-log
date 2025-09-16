@@ -232,8 +232,24 @@ export const EFFECT_CHIPS: ChipGroup = {
 export const SIZING_CHIPS: ChipGroup = {
   title: 'Sizing',
   chips: [
-    createStyleChip({ id: 'C-truncate', label: 'Truncate', value: '%<|(8)' }),
-    createStyleChip({ id: 'C-padding', label: 'Padding', value: '%>|(8)' }),
+    createStyleChip({
+      id: 'sizing-pad-right',
+      label: 'Pad Right',
+      value: '%<(10)',
+      sizing: { width: 10, padding: 'right', truncate: 'none' },
+    }),
+    createStyleChip({
+      id: 'sizing-pad-left',
+      label: 'Pad Left',
+      value: '%>(10)',
+      sizing: { width: 10, padding: 'left', truncate: 'none' },
+    }),
+    createStyleChip({
+      id: 'sizing-truncate',
+      label: 'Truncate',
+      value: '%<(10,trunc)',
+      sizing: { width: 10, padding: 'right', truncate: 'right' },
+    }),
   ],
 };
 

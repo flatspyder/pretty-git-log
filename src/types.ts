@@ -28,6 +28,7 @@ export interface ChipDefinition {
 
 export interface FormatChip extends ChipDefinition {
   instanceId: string;
+  sizing?: Partial<LogSizing>;
 }
 
 export interface ChipGroup {
