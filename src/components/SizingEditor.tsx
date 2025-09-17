@@ -85,7 +85,7 @@ const SizingEditor: React.FC<SizingEditorProps> = ({ chip, onUpdate }) => {
         <ToggleGroup
             type="single"
             value={sizing.padding}
-            onValueChange={value => setPadding(value as any)}
+            onValueChange={(value: 'left' | 'right' | 'both' | 'none') => setPadding(value)}
             className="gap-1"
         >
             <ToggleGroupItem value="left" aria-label="Pad left">L</ToggleGroupItem>

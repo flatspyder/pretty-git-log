@@ -101,7 +101,7 @@ export function parseLogFormat(format: string, commit: GitCommit): LogPart[] {
           } else if (NAMED_COLORS.includes(key)) {
             currentStyle.color = key;
           } else if (STYLE_KEYS.includes(key)) {
-            (currentStyle as any)[key] = true;
+            (currentStyle as Partial<Record<typeof STYLE_KEYS[number], boolean>>)[key] = true;
           }
           i = closingParen;
           continue;

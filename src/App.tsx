@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import TextareaAutosize from 'react-textarea-autosize';
 import LogDisplay from './components/LogDisplay';
 import FormatBuilder from './components/FormatBuilder';
 import SelectComponents from './components/SelectComponents';
@@ -13,16 +12,8 @@ import { nanoid } from 'nanoid';
 import { Header } from './components/layout/Header';
 import { MobileActionBar } from './components/layout/MobileActionBar';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+  Card
 } from './components/ui/Card';
-import { Button } from './components/ui/Button';
-import { motion } from 'framer-motion';
-import { Switch } from './components/ui/Switch';
-import { Label } from './components/ui/Label';
 import toast, { Toaster } from 'react-hot-toast';
 import SectionHeading from './components/SectionHeading';
 import clsx from 'clsx';
@@ -34,7 +25,7 @@ const App: React.FC = () => {
   const [chips, setChips] = useState<FormatChip[]>([]);
   const [selectedChipInstanceId, setSelectedChipInstanceId] = useState<string | null>(null);
   const [selectedPaletteChipId, setSelectedPaletteChipId] = useState<string | null>(null);
-  const [wrapLines, setWrapLines] = useState(false);
+  const [wrapLines] = useState(false); // setWrapLines was unused
   const [wrap, setWrap] = useState(false);
 
   const formatString = useMemo(() => chipsToFormatString(chips), [chips]);

@@ -3,7 +3,7 @@ import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
-import { FormatChip, ChipGroup, ChipDefinition } from '../types';
+import { FormatChip, ChipGroup } from '../types';
 import { Chip } from './ui/Chip';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/Popover';
 import ChipEditor from './ChipEditor';
@@ -37,7 +37,6 @@ interface DraggableChipProps {
   removeChip: (index: number) => void;
   updateChip: (index: number, newChip: FormatChip) => void;
   chipGroups: ChipGroup[];
-  isSelected: boolean;
   onSelect: (instanceId: string | null) => void;
 }
 
@@ -54,7 +53,6 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
   removeChip,
   updateChip,
   chipGroups,
-  isSelected,
   onSelect,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -63,8 +61,8 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
   const [{ isDragging }, drag, preview] = useDrag({
     type: ITEM_TYPE,
     item: { id: chip.id, index },
-    collect: (monitor: any) => ({
-      isDragging: monitor.isDragging(),
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
     }),
   });
 
@@ -119,7 +117,7 @@ const DraggableChip: React.FC<DraggableChipProps> = ({
       return (
         <>
           <Icon size={14} className={clsx("mr-1.5", isOpen ? "text-white/80" : "text-text-muted")} />
-          <span className="font-mono">"{chip.value}"</span>
+          <span className="font-mono">&quot;{chip.value}&quot;</span>
         </>
       );
     }

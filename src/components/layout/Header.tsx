@@ -34,7 +34,7 @@ export function Header({ onCopy, applyPreset, onReset }: HeaderProps) {
           <p className="mt-1 text-sm text-text-secondary max-w-2xl hidden sm:block">
             Visually craft your {' '}
             <code className="font-mono text-xs bg-surface-hover rounded-sm px-1 py-0.5">
-              --pretty=format="..."
+              --pretty=format=&quot;...&quot;
             </code>{' '}
             string.
           </p>

@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 interface PresetsMenuProps {
-  onSelect: (preset: String) => void;
+  onSelect: (preset: string) => void;
   onClose: () => void;
 }
 

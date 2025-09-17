@@ -5,7 +5,7 @@ import { X } from 'lucide-react';
 import { Slot } from '@radix-ui/react-slot';
 
 const chipVariants = cva(
-  'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400 dark:focus-visible:ring-offset-background',
+  'inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400 dark:focus-visible:ring-offset-background select-none',
   {
     variants: {
       variant: {
