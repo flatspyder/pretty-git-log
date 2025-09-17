@@ -5,6 +5,7 @@ import { COLOR_CHIPS, EFFECT_CHIPS, SIZING_CHIPS } from '../constants';
 import { Button } from './ui/Button';
 import SizingChipControl from './SizingChipControl';
 import {
+  Ban,
   Bold,
   Underline,
   Italic,
@@ -34,12 +35,28 @@ const StyleChipDropdown: React.FC<StyleChipDropdownProps> = ({ onSelect, onHover
     onSelect(chip);
   };
 
+  const resetChip = COLOR_CHIPS.chips.find(c => c.id === 'C-reset');
+  const otherColorChips = COLOR_CHIPS.chips.filter(c => c.id !== 'C-reset');
+
   return (
     <div >
       <div className="py-1">
         <div className="px-3 py-2 text-xs font-semibold text-text-muted">Colors</div>
-        <div className="grid grid-cols-8 gap-2 px-3 pb-2">
-          {COLOR_CHIPS.chips
+        <div className="grid grid-cols-8 gap-2 px-3 pb-2 items-center">
+          {resetChip && (
+             <Button
+                key={resetChip.id}
+                variant="outline"
+                size="icon"
+                onClick={() => handleSelect(resetChip)}
+                onMouseEnter={() => onHover(resetChip.id)}
+                title={resetChip.label}
+                className="w-6 h-6"
+              >
+                <Ban className="h-4 w-4 text-danger" />
+              </Button>
+          )}
+          {otherColorChips
             .filter(chip => {
               const colorName = chip.label.split(': ')[1];
               return colorName && colorMap[colorName.toLowerCase()];

@@ -55,7 +55,12 @@ const App: React.FC = () => {
   }, [formatString]);
 
   const addChip = useCallback((chip: ChipDefinition) => {
-    const newChip = { ...chip, instanceId: nanoid() };
+    const newChip: FormatChip = {
+      ...chip,
+      instanceId: nanoid(),
+      // Deep copy the sizing object to ensure each chip instance has a unique state
+      sizing: chip.sizing ? { ...chip.sizing } : undefined,
+    };
     setChips(prev => [...prev, newChip]);
     setSelectedChipInstanceId(newChip.instanceId);
     setSelectedPaletteChipId(null);
